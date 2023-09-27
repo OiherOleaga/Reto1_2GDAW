@@ -21,7 +21,7 @@ header {
     align-items: center;
     background-color: #007f3b;
     color: #fff;
-    padding: 20px 0;
+    padding: 20px;
 }
 
 main {
@@ -50,7 +50,7 @@ main {
 }
 
 .parada {
-    scale: 2;
+    scale: .7;
     margin-bottom: 12px;
 
 }
@@ -71,8 +71,7 @@ main {
 }
 
 .parada img {
-    width: 50px;
-
+    width: 100%;
 }
 
 .parada img:hover {
@@ -82,18 +81,14 @@ main {
 .parada {
     background: none;
     border: none;
-    padding: .3em;
+    padding: .5em;
     border-radius: 50%;
-
-
 }
 
 .parada:hover {
-
-    border: 1px solid black;
+    border: 2px solid black;
     cursor: pointer;
     animation: jump 1s infinite;
-    transform-origin: center bottom;
     background-color: #4caf4f;
 }
 
@@ -133,7 +128,7 @@ footer {
 
 @keyframes jump {
     50% {
-        transform: translateY(-10px);
+        transform: translateY(-50px);
     }
 }
 
