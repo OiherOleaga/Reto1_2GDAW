@@ -27,28 +27,46 @@ main {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    max-width: 80%;
 }
 
-.tranvia {
-    display: flex;
-    flex-direction: row;
+.vias {
+    background-color: black;
+    border-radius: 1px;
+    height: 5px;
+    width: 100%;
+
 }
 
-.controles {
-    padding: 100px;
-    width: 80%;
-    border: 1px solid black;
+.paradas {
     display: flex;
+    justify-content: space-around;
+}
+
+.parada {
+    scale: 2;
+    margin-bottom: 12px;
+
+}
+
+.animacion {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    border: 2px solid black;
+    box-shadow: 5px 5px 10px gray;
     justify-content: center;
-    align-items: center;
+    margin-left: 5%;
+    margin-right: 5%;
+
 }
 
-.mapa {
-    border: 1px solid black;
-    width: 15%;
-    padding: 100px;
+.parada img {
+    width: 50px;
 }
+
 
 footer {
     background-color: #007f3b;
@@ -60,4 +78,43 @@ footer {
 
 footer {
     background-color: #4CAF50;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: .3em;
+    border-radius: 50%;
+
+
+}
+
+button:hover {
+
+    border: 1px solid black;
+    cursor: pointer;
+    animation: jumpAndSpin 1s infinite;
+    transform-origin: center bottom;
+    background-color: #4caf4f;
+}
+
+@keyframes jumpAndSpin {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+
+    }
+
+    100% {
+        transform: translateY(0);
+
+    }
+}
+
+#tranvia {
+    width: 10%;
+    margin-top: 10px;
 }
