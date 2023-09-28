@@ -6,7 +6,7 @@ let paradaDestino = 1
 //let direcionDerecha = true;
 for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
-        switch(parada.id) {
+        switch (parada.id) {
             case "parada1":
                 paradaDestino = 1
                 break
@@ -25,11 +25,22 @@ for (let parada of divParadas.children) {
         }
         let segundos = Math.abs(paradaDestino - paradaActual)
         let posicion = parada.getBoundingClientRect().left - (imgTranvia.offsetWidth)
-        imgTranvia.style.transition =  `transform ${segundos}s linear` // ease
+        imgTranvia.style.transition = `transform ${segundos}s linear` // ease
         imgTranvia.style.transform = `translate(${posicion}px, 0)`
         paradaActual = paradaDestino;
     })
 }
+function mostrarLista() {
+    lista=document.getElementById("estadisticas");
+    if(lista.style.display==="none"||lista.style.display === ""){
+        lista.style.display = "block";
+    }else lista.style.display = "none";
+}
+document.getElementById("menu").addEventListener("click", mostrarLista)
+
+
+
+
 // primero hace falta la comunicacion con el servidor
 /* 
 botonMarcha.addEventListener("click", () => {

@@ -5,6 +5,38 @@
     box-sizing: border-box;
 }
 
+/*-----------ENCABEZADO-----------*/
+.euskotren {
+    display: flex;
+    align-items: center;
+    background-color: #007f3b;
+    color: #fff;
+    padding: 10px;
+}
+
+.euskotren img {
+    width: 25px;
+}
+
+#menu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding-right: 1em;
+}
+
+#estadisticas {
+    list-style: none;
+    display: none;
+}
+
+a{
+    color: white;
+    text-decoration: none;
+    padding-right: 5px;
+}
+
+/*---------------MAIN Y BODY----------------*/
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
@@ -12,28 +44,6 @@ body {
     flex-direction: column;
     justify-content: center;
     max-height: 100vh;
-}
-
-header .euskotren, nav{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-color: #007f3b;
-    color: #fff;
-}
-
-.euskotren {
-    padding-top: 10px;
-}
-
-#menu{
-    background: none;
-    border: none;
-}
-
-header img {
-    width: 30px;
 }
 
 main {
@@ -138,6 +148,7 @@ main {
     justify-content: space-around;
 }
 
+/*-----------FOOTER------------*/
 footer {
     background-color: #007f3b;
     color: #fff;
@@ -145,6 +156,7 @@ footer {
     padding: 10px 0;
 }
 
+/*-----------ANIMACIONES Y MEDIA------------*/
 @keyframes jump {
     50% {
         transform: translateY(-50px);
@@ -174,7 +186,7 @@ footer {
 }
 
 @media screen and (max-width:880px) {
-    main{
+    main {
         flex-wrap: wrap;
     }
 }
