@@ -155,6 +155,10 @@ footer {
     color: #fff;
     text-align: center;
     padding: 10px 0;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 @keyframes jump {
@@ -185,8 +189,82 @@ footer {
 
 }
 
+.estadisticas {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    width: 80%;
+    height: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.titulo h1 {
+    color: #007f3b;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.graficos {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 90%;
+}
+
+.grafico {
+    width: 45%;
+    background-color: #fff;
+    padding: 1em;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.grafico {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media screen and (max-width:880px) {
     main {
         flex-wrap: wrap;
+    }
+
+    .graficos {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .grafico {
+        width: 80%;
+        height: 50%;
+    }
+}
+
+@media screen and (max-width:880px) {
+    main {
+        flex-wrap: wrap;
+    }
+
+    .graficos {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    .grafico {
+        width: 80%;
+        height: 50%;
     }
 }
