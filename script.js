@@ -1,7 +1,7 @@
 let imgTranvia = document.querySelector("#tranvia")
 let divParadas = document.querySelector(".paradas")
 let botonMarcha = document.querySelector("#marcha")
-let paradaActual = 1 // el que se reciva del servidor
+let paradaActual = 1 // el que se reciba del servidor
 let paradaDestino = 1
 //let direcionDerecha = true;
 for (let parada of divParadas.children) {
