@@ -14,7 +14,7 @@ body {
     max-height: 100vh;
 }
 
-header .euskotren, ul{
+header .euskotren, nav{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -25,18 +25,10 @@ header .euskotren, ul{
 .euskotren{
     padding-top: 10px;
 }
-li{
-    list-style: none;
-    padding: 5px;
-    padding-bottom: 10px;
-}
-a{
-    text-decoration: none;
-    color: white;
-    padding: 5px;
-}
-a:hover{
-    background-color: #00c95e;
+
+#menu{
+    background: none;
+    border: none;
 }
 
 header img{
@@ -177,7 +169,7 @@ footer {
 
 }
 
-@media screen and (max-width:601px) {
+@media screen and (max-width:880px) {
     main{
         flex-wrap: wrap;
     }
