@@ -233,7 +233,7 @@ footer {
     align-items: center;
 }
 
-@media screen and (max-width:880px) {
+@media screen and (max-width:1250px) {
     main {
         flex-wrap: wrap;
     }
