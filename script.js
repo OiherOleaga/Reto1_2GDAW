@@ -30,6 +30,7 @@ for (let parada of divParadas.children) {
         paradaActual = paradaDestino;
     })
 }
+
 function mostrarLista() {
     lista=document.getElementById("estadisticas");
     if(lista.style.display==="none"||lista.style.display === ""){
