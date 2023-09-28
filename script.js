@@ -55,14 +55,14 @@ botonMarcha.addEventListener("click",async () => {
 
 async function postVariable(variable, valor, espera) {
     if (espera) {
-        await fetch(href, {
+        await fetch(href, { 
             method: "post",
-            body: `"Tabla de variables estándar".${variable}=${valor}`
+            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
         })
     } else {
-        fetch(href, {
+        fetch(href, { 
             method: "post",
-            body: `"Tabla de variables estándar".${variable}=${valor}`
+            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
         })
     }
 }
