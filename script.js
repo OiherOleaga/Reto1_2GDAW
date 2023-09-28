@@ -36,8 +36,8 @@ function mostrarLista() {
         lista.style.display = "block";
     }else lista.style.display = "none";
 }
-document.getElementById("menu").addEventListener("click", mostrarLista)
 
+document.getElementById("menu").addEventListener("click", mostrarLista)
 
 
 
