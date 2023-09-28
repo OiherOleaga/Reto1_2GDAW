@@ -14,7 +14,8 @@ body {
     max-height: 100vh;
 }
 
-header .euskotren, ul{
+header .euskotren,
+ul {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -22,24 +23,28 @@ header .euskotren, ul{
     background-color: #007f3b;
     color: #fff;
 }
-.euskotren{
+
+.euskotren {
     padding-top: 10px;
 }
-li{
+
+li {
     list-style: none;
     padding: 5px;
     padding-bottom: 10px;
 }
-a{
+
+a {
     text-decoration: none;
     color: white;
     padding: 5px;
 }
-a:hover{
+
+a:hover {
     background-color: #00c95e;
 }
 
-header img{
+header img {
     width: 30px;
 }
 
@@ -66,6 +71,7 @@ main {
 .paradas {
     display: flex;
     justify-content: space-around;
+
 }
 
 .parada {
@@ -102,6 +108,8 @@ main {
     border: none;
     padding: .5em;
     border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0);
+
 }
 
 .parada:hover {
@@ -133,11 +141,11 @@ main {
 
 }
 
-#marcha:focus{
+#marcha:focus {
     animation: reducir .3s;
 }
 
-.controles .botones{
+.controles .botones {
     display: flex;
     justify-content: space-around;
 }
@@ -177,8 +185,8 @@ footer {
 
 }
 
-@media screen and (max-width:601px) {
-    main{
+@media screen and (max-width:880px) {
+    main {
         flex-wrap: wrap;
     }
 }
