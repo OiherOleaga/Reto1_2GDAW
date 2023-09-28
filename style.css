@@ -22,7 +22,8 @@ header .euskotren, nav{
     background-color: #007f3b;
     color: #fff;
 }
-.euskotren{
+
+.euskotren {
     padding-top: 10px;
 }
 
@@ -31,7 +32,7 @@ header .euskotren, nav{
     border: none;
 }
 
-header img{
+header img {
     width: 30px;
 }
 
@@ -58,6 +59,7 @@ main {
 .paradas {
     display: flex;
     justify-content: space-around;
+
 }
 
 .parada {
@@ -94,6 +96,8 @@ main {
     border: none;
     padding: .5em;
     border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0);
+
 }
 
 .parada:hover {
@@ -125,11 +129,11 @@ main {
 
 }
 
-#marcha:focus{
+#marcha:focus {
     animation: reducir .3s;
 }
 
-.controles .botones{
+.controles .botones {
     display: flex;
     justify-content: space-around;
 }
