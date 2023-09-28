@@ -14,13 +14,29 @@ body {
     max-height: 100vh;
 }
 
-header .euskotren {
+header .euskotren, ul{
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     background-color: #007f3b;
     color: #fff;
-    padding: 20px;
+}
+.euskotren{
+    padding-top: 10px;
+}
+li{
+    list-style: none;
+    padding: 5px;
+    padding-bottom: 10px;
+}
+a{
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+}
+a:hover{
+    background-color: #00c95e;
 }
 
 header img{
@@ -117,6 +133,10 @@ main {
 
 }
 
+#marcha:focus{
+    animation: reducir .3s;
+}
+
 .controles .botones{
     display: flex;
     justify-content: space-around;
@@ -155,4 +175,10 @@ footer {
         padding: .5em;
     }
 
+}
+
+@media screen and (max-width:601px) {
+    main{
+        flex-wrap: wrap;
+    }
 }
