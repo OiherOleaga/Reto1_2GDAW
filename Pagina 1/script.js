@@ -31,13 +31,7 @@ for (let parada of divParadas.children) {
     })
 }
 
-function mostrarLista() {
-    lista=document.getElementById("estadisticas");
-    if(lista.style.display==="none"||lista.style.display === ""){
-        lista.style.display = "block";
-    }else lista.style.display = "none";
-}
-document.getElementById("menu").addEventListener("click", mostrarLista)
+
 
 
 
