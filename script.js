@@ -49,3 +49,33 @@ botonMarcha.addEventListener("click", () => {
     imgTranvia.style.transform = `translate(${posicion}px, 0)`
 })
 */
+let href = window.location.href
+botonMarcha.addEventListener("click",async () => {
+    await postVariable("RESET", 1, true)
+    postVariable("RESET", 0, false)
+    await postVariable("MARTXA", 1, true)
+    postVariable("MARTXA", 0, false)
+    let interval = setInterval(async() => {
+        let ET0 = await (await fetch('ET0.html')).text()
+        if (ET0 === 1) {
+            await postVariable("INICIO", 1, true)
+            postVariable("INICIO", 0, false)
+            clearInterval(interval)  
+        }
+    }, 100)
+})
+
+async function postVariable(variable, valor, espera) {
+    if (espera) {
+        await fetch(href, { 
+            method: "post",
+            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
+        })
+    } else {
+        fetch(href, { 
+            method: "post",
+            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
+        })
+    }
+}
+
