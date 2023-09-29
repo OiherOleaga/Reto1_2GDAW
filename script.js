@@ -49,15 +49,16 @@ document.getElementById("stop").addEventListener("click", pararAnimacion)
 function moverTranviaAuto() {
     tranvia = document.getElementById("tranvia")
     tranvia.style.animation = "mover 15s ease"
+    tranvia = document.querySelector("#tranvia")
+    tranvia.classList.add("mover");
+    tranvia.addEventListener("animationend", () => {
+        tranvia.classList.remove("mover");
+    }, { once: true });
+
 }
 
-function botonMarchaAnimacion() {
-    boton = document.getElementById("marcha")
-    boton.style.animation = "reducir .3s ease"
-}
 
 document.getElementById("menu").addEventListener("click", mostrarLista)
-document.getElementById("marcha").addEventListener("click", botonMarchaAnimacion)
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
 
 
