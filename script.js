@@ -25,7 +25,7 @@ for (let parada of divParadas.children) {
         }
         let segundos = Math.abs(paradaDestino - paradaActual)
         let posicion = parada.getBoundingClientRect().left - (imgTranvia.offsetWidth)
-        imgTranvia.style.transition = `transform ${segundos}s linear` // ease
+        imgTranvia.style.transition = `transform ${segundos}s ease` // ease
         imgTranvia.style.transform = `translate(${posicion}px, 0)`
         paradaActual = paradaDestino;
     })
@@ -40,6 +40,18 @@ function mostrarLista() {
 document.getElementById("menu").addEventListener("click", mostrarLista)
 
 document.getElementById("stop").addEventListener("click", pararAnimacion)
+function moverTranviaAuto() {
+    tranvia = document.getElementById("tranvia")
+    tranvia.style.animation = "mover 5s ease"
+}
+
+function botonMarchaAnimacion() {
+    boton = document.getElementById("marcha")
+    boton.style.animation = "reducir .3s ease"
+}
+
+document.getElementById("menu").addEventListener("click", mostrarLista)
+document.getElementById("marcha").addEventListener("click", botonMarchaAnimacion)
 
 function pararAnimacion() {
     let posi = imgTranvia.getBoundingClientRect().left - (imgTranvia.offsetWidth)
@@ -54,6 +66,7 @@ botonMarcha.addEventListener("click", () => {
     imgTranvia.style.transform = `translate(${posicion}px, 0)`
 })
 */
+
 let href = window.location.href
 botonMarcha.addEventListener("click", async () => {
     await postVariable("RESET", 1, true)
