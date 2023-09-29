@@ -4,7 +4,6 @@ function moverClick() {
     let botonMarcha = document.querySelector("#marcha")
     let paradaActual = 1 // el que se reciba del servidor
     let paradaDestino = 1
-
     for (let parada of divParadas.children) {
         let posicion =
             parada.addEventListener("click", () => {
