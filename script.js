@@ -1,40 +1,43 @@
-let imgTranvia = document.querySelector("#tranvia")
-let divParadas = document.querySelector(".paradas")
-let botonMarcha = document.querySelector("#marcha")
-let paradaActual = 1 // el que se reciba del servidor
-let paradaDestino = 1
+function moverClick() {
+    let imgTranvia = document.querySelector("#tranvia")
+    let divParadas = document.querySelector(".paradas")
+    let botonMarcha = document.querySelector("#marcha")
+    let paradaActual = 1 // el que se reciba del servidor
+    let paradaDestino = 1
 
-for (let parada of divParadas.children) {
-    let posicion =
-        parada.addEventListener("click", () => {
-            switch (parada.id) {
-                case "parada1":
-                    paradaDestino = 1
-                    posicion = 50
-                    break
-                case "parada2":
-                    paradaDestino = 2
-                    posicion = 250
-                    break
-                case "parada3":
-                    paradaDestino = 3
-                    posicion = 450
-                    break
-                case "parada4":
-                    paradaDestino = 4
-                    posicion = 650
-                    break
-                case "parada5":
-                    paradaDestino = 5
-                    posicion = 850
-                    break
-            }
-            let segundos = Math.abs(paradaDestino - paradaActual) / 5
-            imgTranvia.style.transition = `transform ${segundos}s ease` // ease
-            imgTranvia.style.transform = `translateX(${posicion}%)`
-            paradaActual = paradaDestino;
-        })
+    for (let parada of divParadas.children) {
+        let posicion =
+            parada.addEventListener("click", () => {
+                switch (parada.id) {
+                    case "parada1":
+                        paradaDestino = 1
+                        posicion = 50
+                        break
+                    case "parada2":
+                        paradaDestino = 2
+                        posicion = 250
+                        break
+                    case "parada3":
+                        paradaDestino = 3
+                        posicion = 450
+                        break
+                    case "parada4":
+                        paradaDestino = 4
+                        posicion = 650
+                        break
+                    case "parada5":
+                        paradaDestino = 5
+                        posicion = 850
+                        break
+                }
+                let segundos = Math.abs(paradaDestino - paradaActual) / 3
+                imgTranvia.style.transition = `transform ${segundos}s ease` // ease
+                imgTranvia.style.transform = `translateX(${posicion}%)`
+                paradaActual = paradaDestino;
+            })
+    }
 }
+
 function mostrarLista() {
     lista = document.getElementById("estadisticas");
     if (lista.style.display === "none" || lista.style.display === "") {
@@ -42,14 +45,11 @@ function mostrarLista() {
     } else lista.style.display = "none";
 }
 
-document.getElementById("menu").addEventListener("click", mostrarLista)
-
-document.getElementById("stop").addEventListener("click", pararAnimacion)
-
 function moverTranviaAuto() {
     imgTranvia.style.transform = `` // ease
     imgTranvia.style.animation = "mover 15s ease"
     imgTranvia = document.querySelector("#tranvia")
+
     imgTranvia.classList.add("mover");
     imgTranvia.addEventListener("animationend", () => {
         imgTranvia.classList.remove("mover");
@@ -57,17 +57,18 @@ function moverTranviaAuto() {
 
 }
 
-
-document.getElementById("menu").addEventListener("click", mostrarLista)
-document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
-
-
 function pararAnimacion() {
     imgTranvia.style.animationPlayState = "paused";
     let posi = imgTranvia.getBoundingClientRect().left - (imgTranvia.offsetWidth)
     imgTranvia.style.transition = `transform 0s linear` // ease
     imgTranvia.style.transform = `translate(${posi}px, 0)`;
 }
+
+document.getElementById("menu").addEventListener("click", mostrarLista)
+document.getElementById("stop").addEventListener("click", pararAnimacion)
+document.getElementById("menu").addEventListener("click", mostrarLista)
+document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
+window.addEventListener("load", moverClick)
 
 // primero hace falta la comunicacion con el servidor
 /* 
