@@ -140,9 +140,6 @@ main {
 
 }
 
-#marcha:focus {
-    animation: reducir .3s;
-}
 
 .controles .botones {
     display: flex;
@@ -224,6 +221,24 @@ footer {
 
     100% {
         transform: rotateY(0deg);
+    }
+}
+
+@keyframes mover {
+    20%{
+        transform: translateX(42%);
+    }
+    40%{
+        transform: translateX(250%);
+    }
+    60%{
+        transform: translateX(450%);
+    }
+    80%{
+        transform: translateX(650%);
+    }
+    100%{
+        transform: translateX(850%);
     }
 }
 
