@@ -40,9 +40,10 @@ function mostrarLista() {
 document.getElementById("menu").addEventListener("click", mostrarLista)
 
 document.getElementById("stop").addEventListener("click", pararAnimacion)
+
 function moverTranviaAuto() {
     tranvia = document.getElementById("tranvia")
-    tranvia.style.animation = "mover 5s ease"
+    tranvia.style.animation = "mover 10s ease"
 }
 
 function botonMarchaAnimacion() {
@@ -52,6 +53,8 @@ function botonMarchaAnimacion() {
 
 document.getElementById("menu").addEventListener("click", mostrarLista)
 document.getElementById("marcha").addEventListener("click", botonMarchaAnimacion)
+document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
+
 
 function pararAnimacion() {
     let posi = imgTranvia.getBoundingClientRect().left - (imgTranvia.offsetWidth)
