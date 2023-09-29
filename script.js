@@ -47,12 +47,12 @@ document.getElementById("menu").addEventListener("click", mostrarLista)
 document.getElementById("stop").addEventListener("click", pararAnimacion)
 
 function moverTranviaAuto() {
-    tranvia = document.getElementById("tranvia")
-    tranvia.style.animation = "mover 15s ease"
-    tranvia = document.querySelector("#tranvia")
-    tranvia.classList.add("mover");
-    tranvia.addEventListener("animationend", () => {
-        tranvia.classList.remove("mover");
+    imgTranvia.style.transform = `` // ease
+    imgTranvia.style.animation = "mover 15s ease"
+    imgTranvia = document.querySelector("#tranvia")
+    imgTranvia.classList.add("mover");
+    imgTranvia.addEventListener("animationend", () => {
+        imgTranvia.classList.remove("mover");
     }, { once: true });
 
 }
@@ -63,10 +63,10 @@ document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
 
 
 function pararAnimacion() {
+    imgTranvia.style.animationPlayState = "paused";
     let posi = imgTranvia.getBoundingClientRect().left - (imgTranvia.offsetWidth)
     imgTranvia.style.transition = `transform 0s linear` // ease
     imgTranvia.style.transform = `translate(${posi}px, 0)`;
-    imgTranvia.style.animationPlayState = "paused";
 }
 
 // primero hace falta la comunicacion con el servidor
