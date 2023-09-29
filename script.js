@@ -29,7 +29,7 @@ for (let parada of divParadas.children) {
                     posicion = 850
                     break
             }
-            let segundos = Math.abs(paradaDestino - paradaActual) / 5
+            let segundos = Math.abs(paradaDestino - paradaActual) / 3
             imgTranvia.style.transition = `transform ${segundos}s ease` // ease
             imgTranvia.style.transform = `translateX(${posicion}%)`
             paradaActual = paradaDestino;
