@@ -46,13 +46,8 @@ function moverTranviaAuto() {
     tranvia.style.animation = "mover 10s ease"
 }
 
-function botonMarchaAnimacion() {
-    boton = document.getElementById("marcha")
-    boton.style.animation = "reducir .3s ease"
-}
 
 document.getElementById("menu").addEventListener("click", mostrarLista)
-document.getElementById("marcha").addEventListener("click", botonMarchaAnimacion)
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
 
 

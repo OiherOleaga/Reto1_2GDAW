@@ -134,7 +134,7 @@ main {
 
 }
 
-#stop:focus {
+#stop:focus,#marcha:focus {
     border-radius: 50%;
     animation: reducir .3s;
 
