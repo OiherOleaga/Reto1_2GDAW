@@ -5,35 +5,35 @@ let paradaActual = 1 // el que se reciba del servidor
 let paradaDestino = 1
 
 for (let parada of divParadas.children) {
-    let posicion = 
-    parada.addEventListener("click", () => {
-        switch (parada.id) {
-            case "parada1":
-                paradaDestino = 1
-                posicion = 42
-                break
-            case "parada2":
-                paradaDestino = 2
-                posicion = 250
-                break
-            case "parada3":
-                paradaDestino = 3
-                posicion = 450
-                break
-            case "parada4":
-                paradaDestino = 4
-                posicion = 650
-                break
-            case "parada5":
-                paradaDestino = 5
-                posicion = 850
-                break
-        }
-        let segundos = Math.abs(paradaDestino - paradaActual) / 5
-        imgTranvia.style.transition = `transform ${segundos}s ease` // ease
-        imgTranvia.style.transform = `translateX(${posicion}%)`
-        paradaActual = paradaDestino;
-    })
+    let posicion =
+        parada.addEventListener("click", () => {
+            switch (parada.id) {
+                case "parada1":
+                    paradaDestino = 1
+                    posicion = 42
+                    break
+                case "parada2":
+                    paradaDestino = 2
+                    posicion = 250
+                    break
+                case "parada3":
+                    paradaDestino = 3
+                    posicion = 450
+                    break
+                case "parada4":
+                    paradaDestino = 4
+                    posicion = 650
+                    break
+                case "parada5":
+                    paradaDestino = 5
+                    posicion = 850
+                    break
+            }
+            let segundos = Math.abs(paradaDestino - paradaActual) / 5
+            imgTranvia.style.transition = `transform ${segundos}s ease` // ease
+            imgTranvia.style.transform = `translateX(${posicion}%)`
+            paradaActual = paradaDestino;
+        })
 }
 function mostrarLista() {
     lista = document.getElementById("estadisticas");
@@ -47,8 +47,11 @@ document.getElementById("menu").addEventListener("click", mostrarLista)
 document.getElementById("stop").addEventListener("click", pararAnimacion)
 
 function moverTranviaAuto() {
-    tranvia = document.getElementById("tranvia")
-    tranvia.style.animation = "mover 10s ease"
+    tranvia = document.querySelector("#tranvia")
+    tranvia.classList.add("mover");
+    tranvia.addEventListener("animationend", () => {
+        tranvia.classList.remove("mover");
+    }, { once: true });
 }
 
 

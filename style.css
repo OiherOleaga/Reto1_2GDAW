@@ -204,6 +204,9 @@ footer {
 }
 
 /*-----------ANIMACIONES Y MEDIA------------*/
+.mover{
+    animation: mover 10s
+}
 @keyframes jump {
     50% {
         transform: translateY(-50px);
