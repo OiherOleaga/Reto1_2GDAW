@@ -31,16 +31,21 @@ for (let parada of divParadas.children) {
     })
 }
 function mostrarLista() {
-    lista=document.getElementById("estadisticas");
-    if(lista.style.display==="none"||lista.style.display === ""){
+    lista = document.getElementById("estadisticas");
+    if (lista.style.display === "none" || lista.style.display === "") {
         lista.style.display = "block";
-    }else lista.style.display = "none";
+    } else lista.style.display = "none";
 }
 
 document.getElementById("menu").addEventListener("click", mostrarLista)
 
+document.getElementById("stop").addEventListener("click", pararAnimacion)
 
-
+function pararAnimacion() {
+    let posi = imgTranvia.getBoundingClientRect().left - (imgTranvia.offsetWidth)
+    imgTranvia.style.transition = `transform 0s linear` // ease
+    imgTranvia.style.transform = `translate(${posi}px, 0)`;
+}
 
 // primero hace falta la comunicacion con el servidor
 /* 
@@ -50,29 +55,29 @@ botonMarcha.addEventListener("click", () => {
 })
 */
 let href = window.location.href
-botonMarcha.addEventListener("click",async () => {
+botonMarcha.addEventListener("click", async () => {
     await postVariable("RESET", 1, true)
     postVariable("RESET", 0, false)
     await postVariable("MARTXA", 1, true)
     postVariable("MARTXA", 0, false)
-    let interval = setInterval(async() => {
+    let interval = setInterval(async () => {
         let ET0 = await (await fetch('ET0.html')).text()
         if (ET0 === 1) {
             await postVariable("INICIO", 1, true)
             postVariable("INICIO", 0, false)
-            clearInterval(interval)  
+            clearInterval(interval)
         }
     }, 100)
 })
 
 async function postVariable(variable, valor, espera) {
     if (espera) {
-        await fetch(href, { 
+        await fetch(href, {
             method: "post",
             body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
         })
     } else {
-        fetch(href, { 
+        fetch(href, {
             method: "post",
             body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
         })
