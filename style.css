@@ -233,8 +233,7 @@ footer {
 
     10%,
     90% {
-        transform: translateX(42%);
-
+        transform: translateX(50%);
     }
 
     20%,
@@ -255,7 +254,9 @@ footer {
     50% {
         transform: translateX(850%);
     }
+
 }
+
 
 @keyframes reducir {
     50% {
