@@ -63,6 +63,7 @@ function moverTranvia(parada) {
 
 function mover(posicion, segundos, parada) {
     // poner transicion correctar ne modo no automacio de home -> parada1
+    posHome = false
     contParadas[parada - 1]++ 
     contParadasSesion[parada - 1]++
     sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion)) 
@@ -87,7 +88,6 @@ async function moverTranviaAuto() {
 
 function opcinesMoverTranviaAuto() {
     if (posHome) {
-        posHome = false
         mover(50, 1, 1)
      } else if (direcionDerecha) {
          moverTranvia(paradaActual + 1);
