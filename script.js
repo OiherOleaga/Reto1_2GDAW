@@ -60,6 +60,7 @@ function pararAnimacion() {
     let posi = imgTranvia.getBoundingClientRect().left - (imgTranvia.offsetWidth)
     imgTranvia.style.transition = `transform 0s linear` // ease
     imgTranvia.style.transform = `translate(${posi}px, 0)`;
+    imgTranvia.style.animationPlayState = "paused";
 }
 
 // primero hace falta la comunicacion con el servidor
