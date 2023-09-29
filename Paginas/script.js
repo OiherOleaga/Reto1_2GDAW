@@ -1,3 +1,6 @@
+let contParadas = JSON.parse(localStorage.getItem("contParadas")) ?? [0,0,0,0,0]
+let contParadasSesion = JSON.parse(sessionStorage.getItem("contParadas")) ?? [0,0,0,0,0]
+
 var graficaSesion = document.getElementById("sesion").getContext("2d");
         var chart = new Chart(graficaSesion, {
             type: "bar",
@@ -8,7 +11,7 @@ var graficaSesion = document.getElementById("sesion").getContext("2d");
                         label: "Paradas de esta sesión",
                         backgroundColor: "#007f3b",
                         borderColor: "#007f3b",
-                        data: [232, 234, 230, 228, 226],
+                        data: [contParadas[0], contParadas[1], contParadas[2], contParadas[3], contParadas[4]],
                     }
                 ]
             }
@@ -24,7 +27,7 @@ var graficaSesion = document.getElementById("sesion").getContext("2d");
                         label: "Paradas totales",
                         backgroundColor: "#c2d345",
                         borderColor: "#007f3b",
-                        data: [734, 730, 726, 724, 720],
+                        data: [contParadasSesion[0], contParadasSesion[1], contParadasSesion[2], contParadasSesion[3], contParadasSesion[4]],
                     }
                 ]
             },

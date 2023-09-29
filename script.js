@@ -2,7 +2,12 @@ let imgTranvia = document.querySelector("#tranvia")
 let divParadas = document.querySelector(".paradas")
 let botonMarcha = document.querySelector("#marcha")
 let paradaActual = 1 // el que se reciba del servidor
-let paradaDestino = 1
+
+let contParadasSesion = JSON.parse(sessionStorage.getItem("contParadas")) ?? [0,0,0,0,0]
+sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion)) 
+
+let contParadas = JSON.parse(localStorage.getItem("contParadas")) ?? [0,0,0,0,0]
+localStorage.setItem("contParadas", JSON.stringify(contParadas))
 
 for (let parada of divParadas.children) {
     let posicion = 
@@ -11,24 +16,37 @@ for (let parada of divParadas.children) {
             case "parada1":
                 paradaDestino = 1
                 posicion = 42
+                contParadas[0]++
+                contParadasSesion[0]++
                 break
             case "parada2":
                 paradaDestino = 2
                 posicion = 250
+                contParadas[1]++
+                contParadasSesion[1]++
                 break
             case "parada3":
                 paradaDestino = 3
                 posicion = 450
+                contParadas[2]++
+                contParadasSesion[2]++
                 break
             case "parada4":
                 paradaDestino = 4
                 posicion = 650
+                contParadas[3]++
+                contParadasSesion[3]++
                 break
             case "parada5":
                 paradaDestino = 5
                 posicion = 850
+                contParadas[4]++
+                contParadasSesion[4]++
                 break
         }
+
+        sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion)) 
+        localStorage.setItem("contParadas", JSON.stringify(contParadas))
         let segundos = Math.abs(paradaDestino - paradaActual) / 5
         imgTranvia.style.transition = `transform ${segundos}s ease` // ease
         imgTranvia.style.transform = `translateX(${posicion}%)`
