@@ -134,17 +134,32 @@ main {
 
 }
 
-#stop:focus,#marcha:focus {
+#stop:focus,
+#marcha:focus {
     border-radius: 50%;
     animation: reducir .3s;
 
 }
 
-
-.controles .botones {
+.controles {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 }
+
+.botones {
+    display: flex;
+    width: 80%;
+    justify-content: space-around;
+    border: 1;
+    border: 2px solid black;
+    box-shadow: 5px 5px 10px gray;
+    padding: 3em;
+}
+
+
 
 /*-----------ESTADISTICAS------------*/
 .estadisticas {
@@ -204,6 +219,10 @@ footer {
 }
 
 /*-----------ANIMACIONES Y MEDIA------------*/
+.mover {
+    animation: mover 15s ease;
+}
+
 @keyframes jump {
     50% {
         transform: translateY(-50px);
@@ -225,19 +244,29 @@ footer {
 }
 
 @keyframes mover {
-    10% {
-        transform: translateX(42%);
+
+    0%,
+    100% {
+        transform: translateX(0%);
     }
 
-    20% {
+    10%,
+    90% {
+        transform: translateX(50%);
+    }
+
+    20%,
+    80% {
         transform: translateX(250%);
     }
 
-    30% {
+    30%,
+    70% {
         transform: translateX(450%);
     }
 
-    40% {
+    40%,
+    60% {
         transform: translateX(650%);
     }
 
@@ -245,26 +274,8 @@ footer {
         transform: translateX(850%);
     }
 
-    60% {
-        transform: translateX(650%);
-    }
-
-    70% {
-        transform: translateX(450%);
-    }
-
-    80% {
-        transform: translateX(250%);
-    }
-
-    90% {
-        transform: translateX(42%);
-    }
-
-    100% {
-        transform: translateX(0%);
-    }
 }
+
 
 @keyframes reducir {
     50% {
@@ -290,6 +301,10 @@ footer {
         width: 80%;
         height: 50%;
     }
+
+    .botones {
+        margin-bottom: 3em;
+    }
 }
 
 @media screen and (max-width:880px) {
@@ -308,4 +323,68 @@ footer {
         width: 80%;
         height: 50%;
     }
+
+    .botones {
+        margin-bottom: 3em;
+    }
+}
+
+.switch {
+    position: relative;
+    display: flex;
+    width: 60px;
+    height: 34px;
+    margin-bottom: 5em;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
