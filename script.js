@@ -1,39 +1,16 @@
-let imgTranvia = document.querySelector("#tranvia")
-let divParadas = document.querySelector(".paradas")
-let botonMarcha = document.querySelector("#marcha")
-let paradaActual = 1 // el que se reciba del servidor
-let paradaDestino = 1
+let imgTranvia = document.querySelector("#tranvia");
+let divParadas = document.querySelector(".paradas");
+let botonMarcha = document.querySelector("#marcha");
+let paradaActual = 1; // el que se reciba del servidor
+let paradaDestino = 1;
+let posHome = true;
+let direcionDerecha = true;
+let interval = false;
 
 for (let parada of divParadas.children) {
-    let posicion = 
     parada.addEventListener("click", () => {
-        switch (parada.id) {
-            case "parada1":
-                paradaDestino = 1
-                posicion = 42
-                break
-            case "parada2":
-                paradaDestino = 2
-                posicion = 250
-                break
-            case "parada3":
-                paradaDestino = 3
-                posicion = 450
-                break
-            case "parada4":
-                paradaDestino = 4
-                posicion = 650
-                break
-            case "parada5":
-                paradaDestino = 5
-                posicion = 850
-                break
-        }
-        let segundos = Math.abs(paradaDestino - paradaActual) / 5
-        imgTranvia.style.transition = `transform ${segundos}s ease` // ease
-        imgTranvia.style.transform = `translateX(${posicion}%)`
-        paradaActual = paradaDestino;
-    })
+        moverTranvia(parseInt(parada.id[parada.id.length - 1]));
+    });
 }
 function mostrarLista() {
     lista = document.getElementById("estadisticas");
@@ -42,25 +19,76 @@ function mostrarLista() {
     } else lista.style.display = "none";
 }
 
-document.getElementById("menu").addEventListener("click", mostrarLista)
-
-document.getElementById("stop").addEventListener("click", pararAnimacion)
-
-function moverTranviaAuto() {
-    tranvia = document.getElementById("tranvia")
-    tranvia.style.animation = "mover 10s ease"
+function moverTranvia(parada) {
+    let posicion;
+    posHome = false;
+    switch (parada) {
+        case 1:
+            paradaDestino = 1;
+            posicion = 42;
+            break;
+        case 2:
+            paradaDestino = 2;
+            posicion = 250;
+            break;
+        case 3:
+            paradaDestino = 3;
+            posicion = 450;
+            break;
+        case 4:
+            paradaDestino = 4;
+            posicion = 650;
+            break;
+        case 5:
+            paradaDestino = 5;
+            posicion = 850;
+            break;
+    }
+    let segundos = Math.abs(paradaDestino - paradaActual) / 4;
+    imgTranvia.style.transition = `transform ${segundos}s ease`; // ease
+    imgTranvia.style.transform = `translateX(${posicion}%)`;
+    paradaActual = paradaDestino;
 }
 
+document.getElementById("menu").addEventListener("click", mostrarLista);
 
-document.getElementById("menu").addEventListener("click", mostrarLista)
-document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
+document.getElementById("stop").addEventListener("click", pararAnimacion);
 
+async function moverTranviaAuto() {
+    if (interval) {
+        return
+    }
+    interval = true
+    do {
+        if (posHome) {
+            moverTranvia(1);
+        } else if (direcionDerecha) {
+            moverTranvia(paradaActual + 1);
+            if (paradaActual === 5) {
+                direcionDerecha = false;
+            }
+        } else {
+            moverTranvia(paradaActual - 1);
+            if (paradaActual === 1) {
+                direcionDerecha = true;
+            }
+        }
+        await esperar(2000)
+    } while (interval)
+}
+
+function esperar(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+document.getElementById("menu").addEventListener("click", mostrarLista);
+botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-    let posi = imgTranvia.getBoundingClientRect().left - (imgTranvia.offsetWidth)
-    imgTranvia.style.transition = `transform 0s linear` // ease
+    let posi = imgTranvia.getBoundingClientRect().left - imgTranvia.offsetWidth;
+    imgTranvia.style.transition = `transform 0s linear`; // ease
     imgTranvia.style.transform = `translate(${posi}px, 0)`;
-    imgTranvia.style.animationPlayState = "paused";
+    interval = false
 }
 
 // primero hace falta la comunicacion con el servidor
@@ -71,33 +99,32 @@ botonMarcha.addEventListener("click", () => {
 })
 */
 
-let href = window.location.href
+let href = window.location.href;
 botonMarcha.addEventListener("click", async () => {
-    await postVariable("RESET", 1, true)
-    postVariable("RESET", 0, false)
-    await postVariable("MARTXA", 1, true)
-    postVariable("MARTXA", 0, false)
+    await postVariable("RESET", 1, true);
+    postVariable("RESET", 0, false);
+    await postVariable("MARTXA", 1, true);
+    postVariable("MARTXA", 0, false);
     let interval = setInterval(async () => {
-        let ET0 = await (await fetch('ET0.html')).text()
+        let ET0 = await (await fetch("ET0.html")).text();
         if (ET0 === 1) {
-            await postVariable("INICIO", 1, true)
-            postVariable("INICIO", 0, false)
-            clearInterval(interval)
+            await postVariable("INICIO", 1, true);
+            postVariable("INICIO", 0, false);
+            clearInterval(interval);
         }
-    }, 100)
-})
+    }, 100);
+});
 
 async function postVariable(variable, valor, espera) {
     if (espera) {
         await fetch(href, {
             method: "post",
-            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
-        })
+            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`,
+        });
     } else {
         fetch(href, {
             method: "post",
-            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`
-        })
+            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`,
+        });
     }
 }
-
