@@ -225,20 +225,44 @@ footer {
 }
 
 @keyframes mover {
-    20%{
+    10% {
         transform: translateX(42%);
     }
-    40%{
+
+    20% {
         transform: translateX(250%);
     }
-    60%{
+
+    30% {
         transform: translateX(450%);
     }
-    80%{
+
+    40% {
         transform: translateX(650%);
     }
-    100%{
+
+    50% {
         transform: translateX(850%);
+    }
+
+    60% {
+        transform: translateX(650%);
+    }
+
+    70% {
+        transform: translateX(450%);
+    }
+
+    80% {
+        transform: translateX(250%);
+    }
+
+    90% {
+        transform: translateX(42%);
+    }
+
+    100% {
+        transform: translateX(0%);
     }
 }
 
