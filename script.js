@@ -31,45 +31,42 @@ function mostrarLista() {
 
 function moverTranvia(parada) {
     let posicion;
+    // llega a la parada como par sumar ???
+    // cuanto pasa por encia hay que sumar ??? o solo cuando para
     switch (parada) {
         case 1:
             paradaDestino = 1;
-            posicion = 42;
-            contParadas[0]++
-            contParadasSesion[0]++
+            posicion = 50;
             direcionDerecha = true;
             break;
         case 2:
             paradaDestino = 2;
             posicion = 250;
-            contParadas[1]++
-            contParadasSesion[1]++
             break;
         case 3:
             paradaDestino = 3;
             posicion = 450;
-            contParadas[2]++
-            contParadasSesion[2]++
             break;
         case 4:
             paradaDestino = 4;
             posicion = 650;
-            contParadas[3]++
-            contParadasSesion[3]++
             break;
         case 5:
             paradaDestino = 5;
             posicion = 850;
-            contParadas[4]++
-            contParadasSesion[4]++
             direcionDerecha = false;
             break;
     }
     let segundos = Math.abs(paradaDestino - paradaActual) / 4;
-    if (posHome) {
-        segundos = 1 // lo que tarde home -> uno
-        posHome = false
-    }
+    mover(posicion, segundos, parada)
+}
+
+function mover(posicion, segundos, parada) {
+    // poner transicion correctar ne modo no automacio de home -> parada1
+    contParadas[parada - 1]++ 
+    contParadasSesion[parada - 1]++
+    sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion)) 
+    localStorage.setItem("contParadas", JSON.stringify(contParadas))
     imgTranvia.style.transition = `transform ${segundos}s ease`; // ease
     imgTranvia.style.transform = `translateX(${posicion}%)`;
     paradaActual = paradaDestino;
@@ -90,7 +87,8 @@ async function moverTranviaAuto() {
 
 function opcinesMoverTranviaAuto() {
     if (posHome) {
-         moverTranvia(1);
+        posHome = false
+        mover(50, 1, 1)
      } else if (direcionDerecha) {
          moverTranvia(paradaActual + 1);
      } else {
