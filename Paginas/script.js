@@ -21,15 +21,9 @@ let graficaSesion = new Chart(grafica1, {
     },
 });
 
-<<<<<<< HEAD
-var graficaSesion = document.getElementById("Global").getContext("2d");
-var grafico = new Chart(graficaSesion, {
-    type: "bar",
-=======
 let grafica2 = document.getElementById("Global").getContext("2d");
 let graficaGlobal = new Chart(grafica2, {
     type: "line",
->>>>>>> ab28064677d8a413ff32b10e223b8d0f12b91cf5
     data: {
         labels: ["parada 1", "parada 2", "parada 3", "parada 4", "parada 5"],
         datasets: [
