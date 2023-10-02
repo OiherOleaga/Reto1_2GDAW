@@ -304,18 +304,15 @@ footer {
 }
 
 @media screen and (max-width:1250px) {
-<<<<<<< HEAD
-    main {
-        flex-wrap: wrap;
+    <<<<<<< HEAD main {
+        t flex-wrap: wrap;
     }
 
     .controles {
         margin-top: 5em;
     }
 
-=======
->>>>>>> ab28064677d8a413ff32b10e223b8d0f12b91cf5
-    .graficos {
+    =======>>>>>>>ab28064677d8a413ff32b10e223b8d0f12b91cf5 .graficos {
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -332,8 +329,7 @@ footer {
         flex-wrap: wrap;
     }
 
-<<<<<<< HEAD
-    .botones {
+    <<<<<<< HEAD .botones {
         width: 90%;
     }
 
@@ -341,14 +337,13 @@ footer {
         margin-top: 5em;
     }
 
-=======
->>>>>>> ab28064677d8a413ff32b10e223b8d0f12b91cf5
-    .graficos {
+    =======>>>>>>>ab28064677d8a413ff32b10e223b8d0f12b91cf5 .graficos {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-    .animacion{
+
+    .animacion {
         margin-right: 0%;
     }
 

@@ -180,16 +180,68 @@ const viaRect = via.getBoundingClientRect();
 const anchoTotalVia = viaRect.width;
 
 
+botonIzq.addEventListener('touchstart', (event) => {
+    isMoving = true;
+    touchId = event.touches[0].identifier;
+    moverimagenIzq();
+});
+
+botonIzq.addEventListener('touchend', () => {
+    isMoving = false;
+    touchId = null;
+});
+
+botonDer.addEventListener('touchstart', (event) => {
+    isMoving = true;
+    touchId = event.touches[0].identifier;
+    moverimagenDer();
+});
+
+botonDer.addEventListener('touchend', () => {
+    isMoving = false;
+    touchId = null;
+});
+
+document.addEventListener('touchmove', (event) => {
+    if (isMoving && touchId !== null) {
+        const touch = Array.from(event.touches).find((t) => t.identifier === touchId);
+        if (touch) {
+            event.preventDefault(); // Evita el desplazamiento de la página en dispositivos móviles
+            // Calcula la posición del toque y realiza la acción correspondiente
+            const posX = touch.clientX;
+            const viaRect = via.getBoundingClientRect();
+            const viaAncho = viaRect.width;
+            const porcentaje = (posX - viaRect.left) / viaAncho * 100;
+            if (porcentaje >= 0 && porcentaje <= 100) {
+                imgTranvia.style.transform = `translateX(${porcentaje}%)`;
+            }
+        }
+    }
+});
+
+document.addEventListener('touchend', () => {
+    isMoving = false;
+    touchId = null;
+});
+
 
 botonIzq.addEventListener('mousedown', () => {
     isMoving = true;
     moverimagenIzq();
+});
+botonIzq.addEventListener('mousemove', () => {
+    isMoving = false;
 });
 
 botonDer.addEventListener('mousedown', () => {
     isMoving = true;
     moverimagenDer();
 });
+botonDer.addEventListener('mousemove', () => {
+    isMoving = false;
+});
+
+
 
 document.addEventListener('mouseup', () => {
     isMoving = false;
