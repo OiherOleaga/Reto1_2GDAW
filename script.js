@@ -8,7 +8,6 @@ let direcionDerecha = true;
 let interval
 let intervalActivo = false
 
-
 function calcularPorcentajeTranviaEnVia() {
     const via = document.querySelector('.vias');
     const viaRect = via.getBoundingClientRect();
@@ -38,8 +37,14 @@ localStorage.setItem("contParadas", JSON.stringify(contParadas))
 
 for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
-        // hacer que pare al auto matico cuando se le de a una para ??? 
-        moverTranvia(parseInt(parada.id[parada.id.length - 1]));
+        let numParada = parseInt(parada.id[parada.id.length - 1])
+        postVariable("MANUAL", 0, false)
+        postVariable("ELEGIR_PARADA", 1, true)
+            .then(async () => {
+                await postVariable(`B${numParada}`, 1, true)
+                postVariable(`B${numParada}`, 0, false)
+            })
+        moverTranvia(numParada);
     });
 }
 
@@ -122,7 +127,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-
+    postVariable("STOP", 1, false)
     let posi = calcularPorcentajeTranviaEnVia();
     console.log(posi);
     //imgTranvia.style.transition = 'none';
@@ -134,38 +139,8 @@ document.getElementById("menu").addEventListener("click", mostrarLista)
 document.getElementById("stop").addEventListener("click", pararAnimacion)
 document.getElementById("menu").addEventListener("click", mostrarLista)
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto)
-
-let href = window.location.href;
-botonMarcha.addEventListener("click", async () => {
-    await postVariable("RESET", 1, true);
-    postVariable("RESET", 0, false);
-    await postVariable("MARTXA", 1, true);
-    postVariable("MARTXA", 0, false);
-    let interval = setInterval(async () => {
-        let ET0 = await (await fetch("ET0.html")).text();
-        if (ET0 === 1) {
-            await postVariable("INICIO", 1, true);
-            postVariable("INICIO", 0, false);
-            clearInterval(interval);
-        }
-    }, 100);
-});
-
-async function postVariable(variable, valor, espera) {
-    if (espera) {
-        await fetch(href, {
-            method: "post",
-            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`,
-        });
-    } else {
-        fetch(href, {
-            method: "post",
-            body: `%22Tabla+de+variables+est%C3%A1ndar%22.${variable}=${valor}`,
-        });
-    }
-}
+let toogle = document.getElementById("switch")
 function mostrarManual() {
-    toogle = document.getElementById("switch")
     manual = document.getElementById("manual")
     automatico = document.getElementById("automatico")
     if (toogle.checked) {
@@ -175,5 +150,49 @@ function mostrarManual() {
         automatico.style.display = "flex"
         manual.style.display = "none"
     }
+    postVariable("MANUAL", (toogle.checked)? 1 : 0, false)
 }
-document.getElementById("switch").addEventListener("change", mostrarManual)
+toogle.addEventListener("change", mostrarManual)
+
+const nombreBD = '"WEB"'
+let href = window.location.href;
+ponerEnHome()
+async function ponerEnHome() {
+    await postVariable("RESET", 1, true);
+    postVariable("RESET", 0, false);
+    await postVariable("MARTXA", 1, true);
+    postVariable("MARTXA", 0, false);
+    await postVariable("MANUAL", (toogle.checked)? 1 : 0, true)
+    postVariable("ELEGIR_PARADA", 0, false)
+}
+
+botonMarcha.addEventListener("click", async () => {
+    if (toggle.checked) {
+        // modo automaticao
+    } else {
+        postVariable("ELEGIR_PARADA", 0, false)
+        let interval = setInterval(async () => {
+            let ET0 = await (await fetch("ET0.html")).text();
+            if (ET0 === 1) {
+                await postVariable("INICIO", 1, true);
+                postVariable("INICIO", 0, false);
+                clearInterval(interval);
+            }
+        }, 100);
+    }
+});
+
+async function postVariable(variable, valor, espera) {
+    if (espera) {
+        await fetch(href, {
+            method: "post",
+            body: `${nombreBD}.${variable}=${valor}`,
+        });
+    } else {
+        fetch(href, {
+            method: "post",
+            body: `${nombreBD}.${variable}=${valor}`,
+        });
+    }
+}
+
