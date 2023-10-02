@@ -44,7 +44,6 @@ body {
     flex-direction: column;
     justify-content: center;
     max-height: 100vh;
-
 }
 
 main {
@@ -54,6 +53,7 @@ main {
     height: 100vh;
     margin-left: 5%;
     margin-right: 5%;
+    margin-bottom: 39px;
 }
 
 .vias {
@@ -304,38 +304,15 @@ footer {
 }
 
 @media screen and (max-width:1250px) {
-    main {
-        flex-wrap: wrap;
-    }
-
-    .animacion{
-        margin-right: 0%;
-    }
-
-    .controles {
-        margin-top: 5em;
-        margin-bottom: 3em;
-    }
-
-    .animacion {
-        margin-top: 2%;
-    }
-
-
     .graficos {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
 
-
     .grafico {
         width: 80%;
         height: 50%;
-    }
-
-    .botones {
-        margin-bottom: 3em;
     }
 }
 
@@ -344,11 +321,6 @@ footer {
         flex-wrap: wrap;
     }
 
-    .controles {
-        margin-top: 5em;
-        margin-bottom: 3em;
-    }
-
     .graficos {
         flex-direction: column;
         justify-content: center;
@@ -362,10 +334,6 @@ footer {
         width: 80%;
         height: 50%;
     }
-
-    .botones {
-        margin-bottom: 3em;
-    }
 }
 
 .switch {
@@ -373,7 +341,7 @@ footer {
     display: flex;
     width: 60px;
     height: 34px;
-    margin-bottom: 5em;
+    margin-bottom: 3em;
 }
 
 .switch input {
