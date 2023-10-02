@@ -17,21 +17,21 @@ var chart = new Chart(graficaGlobal, {
     }
 });
 
-        var graficaGlobal = document.getElementById("Global").getContext("2d");
-        var grafico = new Chart(graficaGlobal, {
-            type: "line",
-            data: {
-                labels: ["parada 1", "parada 2", "parada 3", "parada 4", "parada 5"],
-                datasets: [
-                    {
-                        label: "Paradas totales",
-                        backgroundColor: "#c2d345",
-                        borderColor: "#007f3b",
-                        data: [contParadasSesion[0], contParadasSesion[1], contParadasSesion[2], contParadasSesion[3], contParadasSesion[4]],
-                    }
-                ]
-            },
-        });
+var graficaSesion = document.getElementById("Global").getContext("2d");
+var grafico = new Chart(graficaSesion, {
+    type: "line",
+    data: {
+        labels: ["parada 1", "parada 2", "parada 3", "parada 4", "parada 5"],
+        datasets: [
+            {
+                label: "Paradas sesion",
+                backgroundColor: "#c2d345",
+                borderColor: "#007f3b",
+                data: [contParadasSesion[0], contParadasSesion[1], contParadasSesion[2], contParadasSesion[3], contParadasSesion[4]],
+            }
+        ]
+    },
+});
 
 function mostrarLista() {
     lista = document.getElementById("estadisticas");
