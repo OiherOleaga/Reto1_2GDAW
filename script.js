@@ -8,6 +8,28 @@ let direcionDerecha = true;
 let interval
 let intervalActivo = false
 
+
+function calcularPorcentajeTranviaEnVia() {
+    const via = document.querySelector('.vias');
+    const viaRect = via.getBoundingClientRect();
+    const tranviaRect = imgTranvia.getBoundingClientRect();
+
+    // Calcular la posición relativa del tranvía dentro de la vía en píxeles
+    const posicionRelativaEnPixeles = tranviaRect.left - viaRect.left;
+
+    // Calcular el ancho total de la vía en píxeles
+    const anchoTotalVia = viaRect.width;
+
+    // Calcular el porcentaje en el que se encuentra el tranvía en la vía
+    const porcentaje = (posicionRelativaEnPixeles / anchoTotalVia) * 1000;
+
+    return porcentaje
+}
+
+// Ejemplo de uso
+
+
+
 let contParadasSesion = JSON.parse(sessionStorage.getItem("contParadas")) ?? [0, 0, 0, 0, 0]
 sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion))
 
@@ -31,8 +53,6 @@ function mostrarLista() {
 
 function moverTranvia(parada) {
     let posicion;
-    // llega a la parada como par sumar ???
-    // cuanto pasa por encia hay que sumar ??? o solo cuando para
     switch (parada) {
         case 1:
             paradaDestino = 1;
@@ -62,7 +82,6 @@ function moverTranvia(parada) {
 }
 
 function mover(posicion, segundos, parada) {
-    // poner transicion correctar ne modo no automacio de home -> parada1
     posHome = false
     contParadas[parada - 1]++
     contParadasSesion[parada - 1]++
@@ -100,9 +119,11 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-    let posi = getComputedStyle(imgTranvia).transform;
-    imgTranvia.style.transition = 'none';
-    imgTranvia.style.transform = posi;
+
+    let posi = calcularPorcentajeTranviaEnVia();
+    console.log(posi);
+    //imgTranvia.style.transition = 'none';
+    imgTranvia.style.transform = `translateX(${posi}%   )`;
     clearInterval(interval);
     intervalActivo = false;
 }
