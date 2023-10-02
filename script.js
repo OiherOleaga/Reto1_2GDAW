@@ -1,5 +1,3 @@
-let imgTranvia = document.querySelector("#tranvia");
-let divParadas = document.querySelector(".paradas");
 let botonMarcha = document.querySelector("#marcha");
 let paradaActual = 0; // el que se reciba del servidor
 let paradaDestino = 1;
@@ -33,10 +31,10 @@ localStorage.setItem("contParadas", JSON.stringify(contParadas));
 for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
         let numParada = parseInt(parada.id[parada.id.length - 1]);
-        postVariable("MANUAL", 0, false);
-        postVariable("ELEGIR_PARADA", 1, true).then(async () => {
-            await postVariable(`B${numParada}`, 1, true);
-            postVariable(`B${numParada}`, 0, false);
+        postVariable("MANU/AUTO", 0)
+        postVariableWait("B.A/R", 1).then(async () => {
+            await postVariableWait(`B${numParada}`, 1);
+            postVariable(`B${numParada}`, 0);
         });
         moverTranvia(numParada);
     });
@@ -120,7 +118,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-    postVariable("STOP", 1, false);
+    postVariable("B.PAUSA", 1);
     let posi = calcularPorcentajeTranviaEnVia();
     console.log(posi);
     //imgTranvia.style.transition = 'none';
@@ -143,7 +141,7 @@ function mostrarManual() {
         automatico.style.display = "flex";
         manual.style.display = "none";
     }
-    postVariable("MANUAL", toggle.checked ? 1 : 0, false);
+    postVariable("MANU/AUTO", toggle.checked ? 1 : 0)
 }
 toggle.addEventListener("change", mostrarManual);
 
@@ -151,42 +149,42 @@ const nombreBD = '"WEB"';
 let href = window.location.href;
 ponerEnHome();
 async function ponerEnHome() {
-    await postVariable("RESET", 1, true);
-    postVariable("RESET", 0, false);
-    await postVariable("MARTXA", 1, true);
-    postVariable("MARTXA", 0, false);
-    await postVariable("MANUAL", toggle.checked ? 1 : 0, true);
-    postVariable("ELEGIR_PARADA", 0, false);
+    // poner boton reset ??? 
+    await postVariableWait("RESET", 1);
+    postVariable("RESET", 0);
+    await postVariableWait("MARTXA", 1);
+    postVariable("MARTXA", 0) 
+    await postVariableWait("MANU/AUTO", toggle.checked ? 1 : 0)
+    postVariable("B.A/R", 0)
 }
 
 botonMarcha.addEventListener("click", async () => {
-    if (toggle.checked) {
-        // modo automaticao
-    } else {
-        postVariable("ELEGIR_PARADA", 0, false);
-        let interval = setInterval(async () => {
-            let ET0 = await (await fetch("ET0.html")).text();
-            if (ET0 === 1) {
-                await postVariable("INICIO", 1, true);
-                postVariable("INICIO", 0, false);
-                clearInterval(interval);
-            }
-        }, 100);
-    }
+    // saber cuando tiene que dejar de buscar 
+    postVariable("B.A/R", 0)
+    let interval = setInterval(async () => {
+        let ET3 = parseInt(await (await fetch("ET3.html")).text());
+        //let numParada = parseInt(await (await fetch("numParada.html")).text());
+        console.log(ET3)
+        if (ET3 === 0 /*|| numParada !== 0*/) { // saber si esta en el home o si esta en alguna otra parada
+            await postVariableWait("INICIO", 1)
+            postVariable("INICIO", 0);
+            clearInterval(interval);
+        }
+    }, 100);
 });
 
-async function postVariable(variable, valor, espera) {
-    if (espera) {
-        await fetch(href, {
-            method: "post",
-            body: `${nombreBD}.${variable}=${valor}`,
-        });
-    } else {
-        fetch(href, {
-            method: "post",
-            body: `${nombreBD}.${variable}=${valor}`,
-        });
-    }
+async function postVariableWait(variable, valor) {
+    await fetch(href, {
+        method: "post",
+        body: `${nombreBD}.${variable}=${valor}`,
+    });
+}
+
+function postVariable(variable, valor) {
+    fetch(href, {
+        method: "post",
+        body: `${nombreBD}.${variable}=${valor}`,
+    });
 }
 
 document.getElementById("switch").addEventListener("change", mostrarManual);
@@ -199,27 +197,30 @@ const viaRect = via.getBoundingClientRect();
 const anchoTotalVia = viaRect.width;
 
 botonIzq.addEventListener("touchstart", (event) => {
+    postVariable("BOTON_PATRAS", 1)
     isMoving = true;
     touchId = event.touches[0].identifier;
     moverimagenIzq();
 });
 
 botonIzq.addEventListener("touchend", () => {
+    postVariable("BOTON_PATRAS", 0)
     isMoving = false;
     touchId = null;
 });
 
 botonDer.addEventListener("touchstart", (event) => {
+    postVariable("BOTON_PALANTE", 1)
     isMoving = true;
     touchId = event.touches[0].identifier;
     moverimagenDer();
 });
 
 botonDer.addEventListener("touchend", () => {
+    postVariable("BOTON_PALANTE", 0)
     isMoving = false;
     touchId = null;
 });
-
 document.addEventListener("touchmove", (event) => {
     if (isMoving && touchId !== null) {
         const touch = Array.from(event.touches).find(
