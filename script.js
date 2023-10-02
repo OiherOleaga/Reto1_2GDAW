@@ -132,20 +132,20 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("stop").addEventListener("click", pararAnimacion);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
-let toogle = document.getElementById("switch");
+let toggle = document.getElementById("switch");
 function mostrarManual() {
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
-    if (toogle.checked) {
+    if (toggle.checked) {
         automatico.style.display = "none";
         manual.style.display = "flex";
     } else {
         automatico.style.display = "flex";
         manual.style.display = "none";
     }
-    postVariable("MANUAL", toogle.checked ? 1 : 0, false);
+    postVariable("MANUAL", toggle.checked ? 1 : 0, false);
 }
-toogle.addEventListener("change", mostrarManual);
+toggle.addEventListener("change", mostrarManual);
 
 const nombreBD = '"WEB"';
 let href = window.location.href;
@@ -155,7 +155,7 @@ async function ponerEnHome() {
     postVariable("RESET", 0, false);
     await postVariable("MARTXA", 1, true);
     postVariable("MARTXA", 0, false);
-    await postVariable("MANUAL", toogle.checked ? 1 : 0, true);
+    await postVariable("MANUAL", toggle.checked ? 1 : 0, true);
     postVariable("ELEGIR_PARADA", 0, false);
 }
 
