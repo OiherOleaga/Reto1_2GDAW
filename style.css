@@ -304,17 +304,6 @@ footer {
 }
 
 @media screen and (max-width:1250px) {
-<<<<<<< HEAD
-    main {
-        flex-wrap: wrap;
-    }
-
-    .controles {
-        margin-top: 5em;
-    }
-
-=======
->>>>>>> ab28064677d8a413ff32b10e223b8d0f12b91cf5
     .graficos {
         flex-direction: column;
         justify-content: center;
@@ -332,17 +321,6 @@ footer {
         flex-wrap: wrap;
     }
 
-<<<<<<< HEAD
-    .botones {
-        width: 90%;
-    }
-
-    .controles {
-        margin-top: 5em;
-    }
-
-=======
->>>>>>> ab28064677d8a413ff32b10e223b8d0f12b91cf5
     .graficos {
         flex-direction: column;
         justify-content: center;
