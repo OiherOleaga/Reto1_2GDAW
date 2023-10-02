@@ -8,10 +8,10 @@ let direcionDerecha = true;
 let interval
 let intervalActivo = false
 
-let contParadasSesion = JSON.parse(sessionStorage.getItem("contParadas")) ?? [0,0,0,0,0]
-sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion)) 
+let contParadasSesion = JSON.parse(sessionStorage.getItem("contParadas")) ?? [0, 0, 0, 0, 0]
+sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion))
 
-let contParadas = JSON.parse(localStorage.getItem("contParadas")) ?? [0,0,0,0,0]
+let contParadas = JSON.parse(localStorage.getItem("contParadas")) ?? [0, 0, 0, 0, 0]
 localStorage.setItem("contParadas", JSON.stringify(contParadas))
 
 for (let parada of divParadas.children) {
@@ -64,9 +64,9 @@ function moverTranvia(parada) {
 function mover(posicion, segundos, parada) {
     // poner transicion correctar ne modo no automacio de home -> parada1
     posHome = false
-    contParadas[parada - 1]++ 
+    contParadas[parada - 1]++
     contParadasSesion[parada - 1]++
-    sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion)) 
+    sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion))
     localStorage.setItem("contParadas", JSON.stringify(contParadas))
     imgTranvia.style.transition = `transform ${segundos}s ease`; // ease
     imgTranvia.style.transform = `translateX(${posicion}%)`;
@@ -83,28 +83,28 @@ async function moverTranviaAuto() {
     }
     intervalActivo = true
     opcinesMoverTranviaAuto()
-    interval = setInterval(opcinesMoverTranviaAuto,2000) 
+    interval = setInterval(opcinesMoverTranviaAuto, 2000)
 }
 
 function opcinesMoverTranviaAuto() {
     if (posHome) {
         mover(50, 1, 1)
-     } else if (direcionDerecha) {
-         moverTranvia(paradaActual + 1);
-     } else {
-         moverTranvia(paradaActual - 1);
-     }
+    } else if (direcionDerecha) {
+        moverTranvia(paradaActual + 1);
+    } else {
+        moverTranvia(paradaActual - 1);
+    }
 }
 
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-    let posi = imgTranvia.getBoundingClientRect().left - imgTranvia.offsetWidth;
-    imgTranvia.style.transition = `transform 0s linear`; // ease
-    imgTranvia.style.transform = `translate(${posi}px, 0)`;
-    clearInterval(interval)
-    intervalActivo = false
+    let posi = getComputedStyle(imgTranvia).transform;
+    imgTranvia.style.transition = 'none';
+    imgTranvia.style.transform = posi;
+    clearInterval(interval);
+    intervalActivo = false;
 }
 document.getElementById("menu").addEventListener("click", mostrarLista)
 document.getElementById("stop").addEventListener("click", pararAnimacion)
