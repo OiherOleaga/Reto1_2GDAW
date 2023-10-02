@@ -164,3 +164,16 @@ async function postVariable(variable, valor, espera) {
         });
     }
 }
+function mostrarManual() {
+    toogle = document.getElementById("switch")
+    manual = document.getElementById("manual")
+    automatico = document.getElementById("automatico")
+    if (toogle.checked) {
+        automatico.style.display = "none"
+        manual.style.display = "flex"
+    } else {
+        automatico.style.display = "flex"
+        manual.style.display = "none"
+    }
+}
+document.getElementById("switch").addEventListener("change", mostrarManual)
