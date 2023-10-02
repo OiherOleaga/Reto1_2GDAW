@@ -19,7 +19,7 @@ var chart = new Chart(graficaGlobal, {
 
 var graficaSesion = document.getElementById("Global").getContext("2d");
 var grafico = new Chart(graficaSesion, {
-    type: "line",
+    type: "bar",
     data: {
         labels: ["parada 1", "parada 2", "parada 3", "parada 4", "parada 5"],
         datasets: [

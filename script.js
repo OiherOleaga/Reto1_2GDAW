@@ -13,16 +13,9 @@ function calcularPorcentajeTranviaEnVia() {
     const via = document.querySelector('.vias');
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
-
-    // Calcular la posición relativa del tranvía dentro de la vía en píxeles
     const posicionRelativaEnPixeles = tranviaRect.left - viaRect.left;
-
-    // Calcular el ancho total de la vía en píxeles
     const anchoTotalVia = viaRect.width;
-
-    // Calcular el porcentaje en el que se encuentra el tranvía en la vía
     const porcentaje = (posicionRelativaEnPixeles / anchoTotalVia) * 1000;
-
     return porcentaje
 }
 
@@ -174,3 +167,56 @@ function mostrarManual() {
     }
 }
 document.getElementById("switch").addEventListener("change", mostrarManual)
+
+
+const botonIzq = document.getElementById('izquierda');
+const botonDer = document.getElementById('derecha');
+let isMoving = false;
+const via = document.querySelector('.vias');
+const viaRect = via.getBoundingClientRect();
+const anchoTotalVia = viaRect.width;
+
+
+
+botonIzq.addEventListener('mousedown', () => {
+    isMoving = true;
+    moverimagenIzq();
+});
+
+botonDer.addEventListener('mousedown', () => {
+    isMoving = true;
+    moverimagenDer();
+});
+
+document.addEventListener('mouseup', () => {
+    isMoving = false;
+});
+
+function moverimagenIzq() {
+    if (isMoving) {
+        let posi = calcularPorcentajeTranviaEnVia();
+        posi = posi - 4;
+        if (posi > 0) {
+            imgTranvia.style.transform = `translateX(${posi}%)`;
+            requestAnimationFrame(moverimagenIzq);
+        }
+        else {
+            alert("a donde vas makinote")
+        }
+
+    }
+}
+
+function moverimagenDer() {
+    if (isMoving) {
+        let posi = calcularPorcentajeTranviaEnVia();
+        posi = posi + 4;
+        if (posi < 902) {
+            imgTranvia.style.transform = `translateX(${posi}%)`;
+            requestAnimationFrame(moverimagenDer);
+        }
+        else {
+            alert("pero bueno KNEKRIN")
+        }
+    }
+}

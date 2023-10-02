@@ -121,7 +121,9 @@ main {
 }
 
 #stop,
-#marcha,#izquierda,#derecha {
+#marcha,
+#izquierda,
+#derecha {
     background: none;
     border: none;
     width: 20%;
@@ -132,7 +134,9 @@ main {
 
 
 #stop img,
-#marcha img, #izquierda img, #derecha img {
+#marcha img,
+#izquierda img,
+#derecha img {
     width: 100%;
 }
 
@@ -142,12 +146,13 @@ main {
     animation: reducir .3s;
 }
 
-#automatico, #manual{
+#automatico,
+#manual {
     display: flex;
     justify-content: space-around;
 }
 
-#manual{
+#manual {
     display: none;
 }
 
@@ -158,11 +163,12 @@ main {
     align-items: center;
 }
 
-#automatico, #manual{
+#automatico,
+#manual {
     width: 100%;
 }
 
-.botones{
+.botones {
     display: flex;
     flex-direction: row;
     border: 1;
@@ -300,8 +306,8 @@ footer {
     main {
         flex-wrap: wrap;
     }
-    
-    .controles{
+
+    .controles {
         margin-top: 5em;
     }
 
@@ -327,11 +333,11 @@ footer {
         flex-wrap: wrap;
     }
 
-    .botones{
+    .botones {
         width: 90%;
     }
-    
-    .controles{
+
+    .controles {
         margin-top: 5em;
     }
 
@@ -410,4 +416,12 @@ input:checked+.slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+
+@keyframes moverIzq {
+
+    10% {
+        translate: 10px;
+    }
+
 }
