@@ -164,7 +164,6 @@ main {
 
 .botones{
     display: flex;
-    width: 90%;
     flex-direction: row;
     border: 1;
     border: 2px solid black;
@@ -301,6 +300,10 @@ footer {
     main {
         flex-wrap: wrap;
     }
+    
+    .controles{
+        margin-top: 5em;
+    }
 
     .graficos {
         flex-direction: column;
@@ -322,6 +325,14 @@ footer {
 @media screen and (max-width:880px) {
     main {
         flex-wrap: wrap;
+    }
+
+    .botones{
+        width: 90%;
+    }
+    
+    .controles{
+        margin-top: 5em;
     }
 
     .graficos {
