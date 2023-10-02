@@ -1,7 +1,7 @@
 let imgTranvia = document.querySelector("#tranvia");
 let divParadas = document.querySelector(".paradas");
 let botonMarcha = document.querySelector("#marcha");
-let paradaActual = 1; // el que se reciba del servidor
+let paradaActual = 0; // el que se reciba del servidor
 let paradaDestino = 1;
 let posHome = true;
 let direcionDerecha = true;
@@ -53,6 +53,9 @@ function mostrarLista() {
 
 function moverTranvia(parada) {
     let posicion;
+    if (paradaActual == parada) {
+        return;
+    }
     switch (parada) {
         case 1:
             paradaDestino = 1;
