@@ -121,7 +121,9 @@ main {
 }
 
 #stop,
-#marcha,#izquierda,#derecha {
+#marcha,
+#izquierda,
+#derecha {
     background: none;
     border: none;
     width: 20%;
@@ -132,7 +134,9 @@ main {
 
 
 #stop img,
-#marcha img, #izquierda img, #derecha img {
+#marcha img,
+#izquierda img,
+#derecha img {
     width: 100%;
 }
 
@@ -142,12 +146,13 @@ main {
     animation: reducir .3s;
 }
 
-#automatico, #manual{
+#automatico,
+#manual {
     display: flex;
     justify-content: space-around;
 }
 
-#manual{
+#manual {
     display: none;
 }
 
@@ -158,12 +163,14 @@ main {
     align-items: center;
 }
 
-#automatico, #manual{
+#automatico,
+#manual {
     width: 100%;
 }
 
-.botones{
+.botones {
     display: flex;
+    width: 100%;
     flex-direction: row;
     border: 1;
     border: 2px solid black;
@@ -300,10 +307,20 @@ footer {
     main {
         flex-wrap: wrap;
     }
-    
-    .controles{
-        margin-top: 5em;
+
+    .animacion{
+        margin-right: 0%;
     }
+
+    .controles {
+        margin-top: 5em;
+        margin-bottom: 3em;
+    }
+
+    .animacion {
+        margin-top: 2%;
+    }
+
 
     .graficos {
         flex-direction: column;
@@ -327,12 +344,9 @@ footer {
         flex-wrap: wrap;
     }
 
-    .botones{
-        width: 90%;
-    }
-    
-    .controles{
+    .controles {
         margin-top: 5em;
+        margin-bottom: 3em;
     }
 
     .graficos {
@@ -340,7 +354,9 @@ footer {
         justify-content: center;
         align-items: center;
     }
-
+    .animacion{
+        margin-right: 0%;
+    }
 
     .grafico {
         width: 80%;
