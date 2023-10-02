@@ -44,7 +44,6 @@ body {
     flex-direction: column;
     justify-content: center;
     max-height: 100vh;
-
 }
 
 main {
@@ -54,6 +53,7 @@ main {
     height: 100vh;
     margin-left: 5%;
     margin-right: 5%;
+    margin-bottom: 39px;
 }
 
 .vias {
@@ -170,6 +170,7 @@ main {
 
 .botones {
     display: flex;
+    width: 100%;
     flex-direction: row;
     border: 1;
     border: 2px solid black;
@@ -303,6 +304,7 @@ footer {
 }
 
 @media screen and (max-width:1250px) {
+<<<<<<< HEAD
     main {
         flex-wrap: wrap;
     }
@@ -311,20 +313,17 @@ footer {
         margin-top: 5em;
     }
 
+=======
+>>>>>>> ab28064677d8a413ff32b10e223b8d0f12b91cf5
     .graficos {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
 
-
     .grafico {
         width: 80%;
         height: 50%;
-    }
-
-    .botones {
-        margin-bottom: 3em;
     }
 }
 
@@ -333,6 +332,7 @@ footer {
         flex-wrap: wrap;
     }
 
+<<<<<<< HEAD
     .botones {
         width: 90%;
     }
@@ -341,20 +341,20 @@ footer {
         margin-top: 5em;
     }
 
+=======
+>>>>>>> ab28064677d8a413ff32b10e223b8d0f12b91cf5
     .graficos {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-
+    .animacion{
+        margin-right: 0%;
+    }
 
     .grafico {
         width: 80%;
         height: 50%;
-    }
-
-    .botones {
-        margin-bottom: 3em;
     }
 }
 
@@ -363,7 +363,7 @@ footer {
     display: flex;
     width: 60px;
     height: 34px;
-    margin-bottom: 5em;
+    margin-bottom: 3em;
 }
 
 .switch input {
