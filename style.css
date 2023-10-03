@@ -50,7 +50,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 87.2vh;
+    height: 88.8vh;
     margin-left: 5%;
     margin-right: 5%;
 }
@@ -247,8 +247,6 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
-    padding: 1em;
-
 }
 
 /*-----------ANIMACIONES Y MEDIA------------*/
@@ -334,7 +332,6 @@ footer {
 @media screen and (max-width:880px) {
     main {
         flex-wrap: wrap;
-        height: 790px;
 
     }
 
