@@ -39,21 +39,20 @@ a {
 /*---------------CONTENIDO----------------*/
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
     display: flex;
     flex-direction: column;
     justify-content: center;
     max-height: 100vh;
+
 }
 
 main {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 87.2vh;
     margin-left: 5%;
     margin-right: 5%;
-    margin-bottom: 39px;
 }
 
 .vias {
@@ -249,6 +248,7 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
+    padding: 1em;
 }
 
 /*-----------ANIMACIONES Y MEDIA------------*/
@@ -334,6 +334,7 @@ footer {
 @media screen and (max-width:880px) {
     main {
         flex-wrap: wrap;
+        height: 730px;
     }
 
     .graficos {
@@ -357,7 +358,7 @@ footer {
     display: flex;
     width: 60px;
     height: 34px;
-    margin-bottom: 3em;
+    margin-bottom: 2em;
 }
 
 .switch input {
