@@ -7,12 +7,14 @@ let posHome = true;
 let direcionDerecha = true;
 let interval;
 let intervalActivo = false;
+let posi;
 
 function calcularPorcentajeTranviaEnVia() {
     const via = document.querySelector(".vias");
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
     const posicionRelativaEnPixeles = tranviaRect.left - viaRect.left;
+    console.log("posicion pixelees" + posicionRelativaEnPixeles);
     const anchoTotalVia = viaRect.width;
     const porcentaje = (posicionRelativaEnPixeles / anchoTotalVia) * 1000;
     return porcentaje;
@@ -77,7 +79,9 @@ function moverTranvia(parada) {
             posicion = 850;
             direcionDerecha = false;
             break;
+
     }
+
     let segundos = Math.abs(paradaDestino - paradaActual) / 4;
     mover(posicion, segundos, parada);
 }
@@ -90,6 +94,7 @@ function mover(posicion, segundos, parada) {
     localStorage.setItem("contParadas", JSON.stringify(contParadas));
     imgTranvia.style.transition = `transform ${segundos}s ease`; // ease
     imgTranvia.style.transform = `translateX(${posicion}%)`;
+    console.log(posicion);
     paradaActual = paradaDestino;
 }
 
@@ -154,7 +159,7 @@ async function ponerEnHome() {
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
-    postVariable("MARTXA", 0) 
+    postVariable("MARTXA", 0)
     await postVariableWait("MANU/AUTO", toggle.checked ? 1 : 0)
     postVariable("B_A/R", 0)
 }
@@ -274,22 +279,28 @@ document.addEventListener("mouseup", () => {
 
 function moverimagenIzq() {
     if (isMoving) {
-        let posi = calcularPorcentajeTranviaEnVia();
+        posi = calcularPorcentajeTranviaEnVia();
+        console.log(posi);
         posi = posi - 4;
         if (posi > 0) {
             imgTranvia.style.transform = `translateX(${posi}%)`;
             requestAnimationFrame(moverimagenIzq);
+
         }
     }
 }
 
 function moverimagenDer() {
     if (isMoving) {
-        let posi = calcularPorcentajeTranviaEnVia();
+        posi = calcularPorcentajeTranviaEnVia();
+        posi = Math.round(posi);
+        console.log("antes de sumar " + posi);
         posi = posi + 4;
+        console.log("despues de sumar " + posi);
         if (posi < 902) {
             imgTranvia.style.transform = `translateX(${posi}%)`;
             requestAnimationFrame(moverimagenDer);
         }
     }
 }
+
