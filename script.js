@@ -34,7 +34,7 @@ for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
         let numParada = parseInt(parada.id[parada.id.length - 1]);
         postVariable("MANU/AUTO", 0)
-        postVariableWait("B. A/R", 1).then(async () => {
+        postVariableWait("B_A/R", 1).then(async () => {
             await postVariableWait(`B${numParada}`, 1);
             postVariable(`B${numParada}`, 0);
         });
@@ -120,7 +120,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-    postVariable("B. PAUSA", 1);
+    postVariable("B_PAUSA", 0);
     let posi = calcularPorcentajeTranviaEnVia();
     console.log(posi);
     //imgTranvia.style.transition = 'none';
@@ -156,12 +156,12 @@ async function ponerEnHome() {
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0) 
     await postVariableWait("MANU/AUTO", toggle.checked ? 1 : 0)
-    postVariable("B. A/R", 0)
+    postVariable("B_A/R", 0)
 }
 
 botonMarcha.addEventListener("click", async () => {
     // saber cuando tiene que dejar de buscar 
-    postVariable("B. A/R", 0)
+    postVariable("B_A/R", 0)
     let interval = setInterval(async () => {
         let ET3 = parseInt(await (await fetch("ET3.html")).text());
         //let numParada = parseInt(await (await fetch("numParada.html")).text());
@@ -247,22 +247,28 @@ document.addEventListener("touchend", () => {
 });
 
 botonIzq.addEventListener("mousedown", () => {
+    postVariable("BOTON_PATRAS", 1)
     isMoving = true;
     moverimagenIzq();
 });
 botonIzq.addEventListener("mousemove", () => {
+    postVariable("BOTON_PATRAS", 0)
     isMoving = false;
 });
 
 botonDer.addEventListener("mousedown", () => {
+    postVariable("BOTON_PALANTE", 1)
     isMoving = true;
     moverimagenDer();
 });
 botonDer.addEventListener("mousemove", () => {
+    postVariable("BOTON_PALANTE", 0)
     isMoving = false;
 });
 
 document.addEventListener("mouseup", () => {
+    postVariable("BOTON_PATRAS", 0)
+    postVariable("BOTON_PALANTE", 0)
     isMoving = false;
 });
 
