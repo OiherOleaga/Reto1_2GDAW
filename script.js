@@ -173,6 +173,7 @@ function reset() {
     imgTranvia.style.transform = 'translateX(0%)'
     direcionDerecha = true
     posHome = true
+    clearInterval(interval)
 }
 document.getElementById("reset").addEventListener("click", reset)
 
