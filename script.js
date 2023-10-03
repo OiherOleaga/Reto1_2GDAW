@@ -155,14 +155,24 @@ toggle.addEventListener("change", mostrarManual);
 let href = window.location.href;
 ponerEnHome();
 async function ponerEnHome() {
-    // poner boton reset ??? 
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
     await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
     postVariable("B_A_R", 0)
+
 }
+document.getElementById("reset").addEventListener("click", ponerEnHome)
+function reset() {
+    paradaActual = 0
+    paradaDestino=1
+    imgTranvia.style.transform = 'translateX(0%)'
+    direcionDerecha = true
+    posHome = true
+}
+document.getElementById("reset").addEventListener("click", reset)
+
 
 botonMarcha.addEventListener("click", async () => {
     // saber cuando tiene que dejar de buscar 

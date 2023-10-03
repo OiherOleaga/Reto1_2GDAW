@@ -141,8 +141,6 @@ main {
     width: 15%;
 }
 
-
-
 #stop img,
 #marcha img,
 #izquierda img,
@@ -151,7 +149,7 @@ main {
 }
 
 #stop:focus,
-#marcha:focus {
+#marcha:focus,#reset:focus {
     border-radius: 50%;
     animation: reducir .3s;
 }
