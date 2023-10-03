@@ -35,8 +35,8 @@ localStorage.setItem("contParadas", JSON.stringify(contParadas));
 for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
         let numParada = parseInt(parada.id[parada.id.length - 1]);
-        postVariable("MANU/AUTO", 0)
-        postVariableWait("B_A/R", 1).then(async () => {
+        postVariable("MANU_AUTO", 0)
+        postVariableWait("B_A_R", 1).then(async () => {
             await postVariableWait(`B${numParada}`, 1);
             postVariable(`B${numParada}`, 0);
         });
@@ -148,7 +148,7 @@ function mostrarManual() {
         automatico.style.display = "flex";
         manual.style.display = "none";
     }
-    postVariable("MANU/AUTO", toggle.checked ? 1 : 0)
+    postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
 }
 toggle.addEventListener("change", mostrarManual);
 
@@ -160,13 +160,13 @@ async function ponerEnHome() {
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
-    await postVariableWait("MANU/AUTO", toggle.checked ? 1 : 0)
-    postVariable("B_A/R", 0)
+    await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
+    postVariable("B_A_R", 0)
 }
 
 botonMarcha.addEventListener("click", async () => {
     // saber cuando tiene que dejar de buscar 
-    postVariable("B_A/R", 0)
+    postVariable("B_A_R", 0)
     let interval = setInterval(async () => {
         let ET3 = parseInt(await (await fetch("ET3.html")).text());
         //let numParada = parseInt(await (await fetch("numParada.html")).text());
