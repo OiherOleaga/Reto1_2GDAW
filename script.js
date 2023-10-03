@@ -36,7 +36,7 @@ for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
         let numParada = parseInt(parada.id[parada.id.length - 1]);
         postVariable("MANU/AUTO", 0)
-        postVariableWait("B.A/R", 1).then(async () => {
+        postVariableWait("B. A/R", 1).then(async () => {
             await postVariableWait(`B${numParada}`, 1);
             postVariable(`B${numParada}`, 0);
         });
@@ -125,7 +125,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-    postVariable("B.PAUSA", 1);
+    postVariable("B. PAUSA", 1);
     let posi = calcularPorcentajeTranviaEnVia();
     console.log(posi);
     //imgTranvia.style.transition = 'none';
@@ -152,7 +152,6 @@ function mostrarManual() {
 }
 toggle.addEventListener("change", mostrarManual);
 
-const nombreBD = '"WEB"';
 let href = window.location.href;
 ponerEnHome();
 async function ponerEnHome() {
@@ -162,12 +161,12 @@ async function ponerEnHome() {
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
     await postVariableWait("MANU/AUTO", toggle.checked ? 1 : 0)
-    postVariable("B.A/R", 0)
+    postVariable("B. A/R", 0)
 }
 
 botonMarcha.addEventListener("click", async () => {
     // saber cuando tiene que dejar de buscar 
-    postVariable("B.A/R", 0)
+    postVariable("B. A/R", 0)
     let interval = setInterval(async () => {
         let ET3 = parseInt(await (await fetch("ET3.html")).text());
         //let numParada = parseInt(await (await fetch("numParada.html")).text());
@@ -183,14 +182,14 @@ botonMarcha.addEventListener("click", async () => {
 async function postVariableWait(variable, valor) {
     await fetch(href, {
         method: "post",
-        body: `${nombreBD}.${variable}=${valor}`,
+        body: `"WEB".${variable}=${valor}`,
     });
 }
 
 function postVariable(variable, valor) {
     fetch(href, {
         method: "post",
-        body: `${nombreBD}.${variable}=${valor}`,
+        body: `"WEB".${variable}=${valor}`,
     });
 }
 
