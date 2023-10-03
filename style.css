@@ -131,12 +131,23 @@ main {
     height: 20%;
 }
 
+#reset{
+    background:none;
+    border:none;
+    width: 100%;
+    cursor:pointer;
+}
+
+#reset img{
+    width: 15%;
+}
+
 
 
 #stop img,
 #marcha img,
 #izquierda img,
-#derecha img {
+#derecha img{
     width: 100%;
 }
 
@@ -155,6 +166,11 @@ main {
 #manual {
     display: none;
 }
+#reset{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .controles {
     display: flex;
@@ -169,13 +185,12 @@ main {
 }
 
 .botones {
-    display: flex;
     width: 90%;
-    flex-direction: row;
     border: 1;
     border: 2px solid black;
     box-shadow: 5px 5px 10px gray;
-    padding: 3em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 
