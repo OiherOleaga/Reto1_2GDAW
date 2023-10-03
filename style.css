@@ -169,15 +169,23 @@ main {
     align-items: center;
 }
 
-.controles {
+.controles{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+.divSwitch{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+    margin-bottom: 10px;
+}
+
 #automatico,
-#manual {
+#manual{
     width: 100%;
 }
 
@@ -356,7 +364,6 @@ footer {
     display: flex;
     width: 60px;
     height: 34px;
-    margin-bottom: 2em;
 }
 
 .switch input {
