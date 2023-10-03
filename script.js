@@ -1,6 +1,7 @@
 let imgTranvia = document.querySelector("#tranvia")
 let divParadas = document.querySelector(".paradas")
 let botonMarcha = document.querySelector("#marcha")
+let toggle = document.getElementById("switch");
 let paradaActual = 0; // el que se reciba del servidor
 let paradaDestino = 1;
 let posHome = true;
@@ -35,7 +36,8 @@ localStorage.setItem("contParadas", JSON.stringify(contParadas));
 for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
         let numParada = parseInt(parada.id[parada.id.length - 1]);
-        postVariable("MANU_AUTO", 0)
+        if (toggle.checked) toggle.click()
+
         postVariableWait("B_A_R", 1).then(async () => {
             await postVariableWait(`B${numParada}`, 1);
             postVariable(`B${numParada}`, 0);
@@ -125,7 +127,9 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function pararAnimacion() {
-    postVariable("B_PAUSA", 0);
+    postVariableWait("B_PAUSA", 1).then(() => {
+        postVariable("B_PAUSA", 0);
+    })
     let posi = calcularPorcentajeTranviaEnVia();
     console.log(posi);
     //imgTranvia.style.transition = 'none';
@@ -137,7 +141,6 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("stop").addEventListener("click", pararAnimacion);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
-let toggle = document.getElementById("switch");
 function mostrarManual() {
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
@@ -247,6 +250,8 @@ document.addEventListener("touchmove", (event) => {
 });
 
 document.addEventListener("touchend", () => {
+    postVariable("BOTON_PATRAS", 0)
+    postVariable("BOTON_PALANTE", 0)
     isMoving = false;
     touchId = null;
 });
