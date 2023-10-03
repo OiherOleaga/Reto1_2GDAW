@@ -188,6 +188,7 @@ main {
     box-shadow: 5px 5px 10px gray;
     padding-top: 1em;
     padding-bottom: 1em;
+
 }
 
 
@@ -247,6 +248,7 @@ footer {
     bottom: 0;
     width: 100%;
     padding: 1em;
+
 }
 
 /*-----------ANIMACIONES Y MEDIA------------*/
@@ -332,7 +334,8 @@ footer {
 @media screen and (max-width:880px) {
     main {
         flex-wrap: wrap;
-        height: 730px;
+        height: 790px;
+
     }
 
     .graficos {
