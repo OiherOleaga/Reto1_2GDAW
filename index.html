@@ -1,0 +1,88 @@
+<!-- AWP_In_Variable Name='"WEB".RESET'-->
+<!-- AWP_In_Variable Name='"WEB".MARTXA'-->
+<!-- AWP_In_Variable Name='"WEB".INICIO'-->
+
+<!-- AWP_In_Variable Name='"WEB".MANU_AUTO'-->
+<!-- AWP_In_Variable Name='"WEB".B_A_R'-->
+
+<!-- AWP_In_Variable Name='"WEB".BOTON_PALANTE'-->
+<!-- AWP_In_Variable Name='"WEB".BOTON_PATRAS'-->
+<!-- AWP_In_Variable Name='"WEB".B_PAUSA'-->
+
+<!-- AWP_In_Variable Name='"WEB".B1'-->
+<!-- AWP_In_Variable Name='"WEB".B2'-->
+<!-- AWP_In_Variable Name='"WEB".B3'-->
+<!-- AWP_In_Variable Name='"WEB".B4'-->
+<!-- AWP_In_Variable Name='"WEB".B5'-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control del Tranvía - Vitoria-Gasteiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="imagenes/euskotren.png">
+</head>
+
+<body>
+    <header>
+        <div class="euskotren">
+            <button id="menu"><img src="imagenes/menu.png"></button>
+            <ul id="lista">
+                <li id="estadisticas"><a href="Paginas/estadisticas.html">ESTADISTICAS</a></li>
+            </ul>
+            <img src="imagenes/euskotren.png" alt="imagen">
+            <h1>EUSKOTREN</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="animacion">
+            <div class="paradas">
+                <button id="parada1" class="parada"><img src="imagenes/parada.png" alt="imagen parada"></button>
+                <button id="parada2" class="parada"><img src="imagenes/parada.png" alt="imagen parada"></button>
+                <button id="parada3" class="parada"><img src="imagenes/parada.png" alt="imagen parada"></button>
+                <button id="parada4" class="parada"><img src="imagenes/parada.png" alt="imagen parada"></button>
+                <button id="parada5" class="parada"><img src="imagenes/parada.png" alt="imagen parada"></button>
+            </div>
+            <div id="divTranvia">
+                <img src="imagenes/TRANVIA.png" alt="imagen tranvia" id="tranvia">
+            </div>
+            <div class="vias">
+            </div>
+        </div>
+        <div class="controles">
+            <div class="divSwitch">
+                <p>Automatico</p>
+                <label class="switch">
+                    <input id="switch" type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <p>Manual</p>
+            </div>
+            <div class="botones">
+                <div id="automatico">
+                    <button id="stop"><img src="imagenes/stop.png" alt="imagen"></button>
+                    <button id="marcha"><img src="imagenes/avanzar.png" alt="imagen"></button>
+                </div>
+                <div id="manual">
+                    <button id="izquierda"><img src="imagenes/izquierda.png" alt="imagen"></button>
+                    <button id="derecha"><img src="imagenes/derecha.png" alt="imagen"></button>
+                </div>
+                <div id="reset">
+                    <button id="reset"><img src="imagenes/reset.png" alt="reset"></button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; EUSKOTREN 2023</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
