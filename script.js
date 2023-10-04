@@ -158,7 +158,7 @@ document.getElementById("stop").addEventListener("mouseup", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-    if (event.key === " " && !espacioPresionado) {
+    if (event.key === "s" && !espacioPresionado) {
         postVariable("B_PAUSA", 1);
         if (direcionDerecha) {
             paradaActual--;
@@ -173,7 +173,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
-    if (event.key === " ") {
+    if (event.key === "s") {
         espacioPresionado = false
         postVariable("B_PAUSA", 0);
         if (modoAutomatico) {
@@ -240,15 +240,15 @@ document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 function mostrarManual() {
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
-    switchAuto=document.getElementById("switchAuto");
+    switchAuto = document.getElementById("switchAuto");
     if (toggle.checked) {
         automatico.style.display = "none";
         manual.style.display = "flex";
-        switchAuto.style.display="none"
+        switchAuto.style.display = "none"
     } else {
         automatico.style.display = "flex";
         manual.style.display = "none";
-        switchAuto.style.display="flex"
+        switchAuto.style.display = "flex"
 
     }
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
