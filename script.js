@@ -166,18 +166,16 @@ async function ponerEnHome() {
     postVariable("MARTXA", 0)
     await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
     postVariable("B_A_R", 0)
-
-}
-document.getElementById("reset").addEventListener("click", ponerEnHome)
-function reset() {
     paradaActual = 0
     paradaDestino = 1
     imgTranvia.style.transform = 'translateX(0%)'
     direcionDerecha = true
     posHome = true
     clearInterval(interval)
+
 }
-document.getElementById("reset").addEventListener("click", reset)
+document.getElementById("reset").addEventListener("click", ponerEnHome)
+
 
 
 botonMarcha.addEventListener("click", async () => {
