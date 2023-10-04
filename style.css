@@ -147,9 +147,9 @@ main {
     width: 100%;
 }
 
-#stop:focus,
-#marcha:focus,
-#reset:focus {
+#stop:active,
+#marcha:active,
+#reset:active {
     border-radius: 50%;
     animation: reducir .3s;
 }

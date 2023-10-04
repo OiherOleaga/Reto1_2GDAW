@@ -9,6 +9,11 @@ let direcionDerecha = true;
 let interval;
 let intervalActivo = false;
 let posi;
+let modoAutomatico = false;
+let modoClick = false;
+let posicion;
+let espacioPresionado = false;
+
 
 function calcularPorcentajeTranviaEnVia() {
     const via = document.querySelector(".vias");
@@ -54,7 +59,7 @@ function mostrarLista() {
 }
 
 function moverTranvia(parada) {
-    let posicion;
+    modoClick = true
     if (paradaActual == parada) {
         return;
     }
@@ -104,6 +109,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 
 
 async function moverTranviaAuto() {
+    modoAutomatico = true;
     if (intervalActivo) {
         return;
     }
@@ -135,8 +141,37 @@ document.getElementById("stop").addEventListener("mousedown", (event) => {
 
 document.getElementById("stop").addEventListener("mouseup", (event) => {
     postVariable("B_PAUSA", 0);
-    moverTranviaAuto();
+    if (modoAutomatico) {
+        moverTranviaAuto();
+    } else if (modoClick) {
+        imgTranvia.style.transform = `translateX(${posicion}%)`;
+    }
     intervalActivo = false;
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === " " && !espacioPresionado) {
+        console.log("hola")
+        postVariable("B_PAUSA", 1);
+        let posi = calcularPorcentajeTranviaEnVia();
+        imgTranvia.style.transform = `translateX(${posi}%)`;
+        clearInterval(interval);
+        intervalActivo = false;
+        espacioPresionado = true;
+    }
+});
+
+document.addEventListener("keyup", (event) => {
+    if (event.key === " ") {
+        espacioPresionado = false
+        postVariable("B_PAUSA", 0);
+        if (modoAutomatico) {
+            moverTranviaAuto();
+        } else if (modoClick) {
+            imgTranvia.style.transform = `translateX(${posicion}%)`;
+        }
+        intervalActivo = false;
+    }
 });
 
 
@@ -158,7 +193,18 @@ function mostrarManual() {
 toggle.addEventListener("change", mostrarManual);
 
 let href = window.location.href;
-ponerEnHome();
+document.addEventListener("keydown", (event) => {
+    if (event.key === "r") {
+        postVariableWait("RESET", 1);
+        postVariable("RESET", 0);
+        postVariableWait("MARTXA", 1);
+        postVariable("MARTXA", 0)
+        postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
+        postVariable("B_A_R", 0)
+        location.reload();
+    }
+});
+
 async function ponerEnHome() {
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
@@ -166,13 +212,7 @@ async function ponerEnHome() {
     postVariable("MARTXA", 0)
     await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
     postVariable("B_A_R", 0)
-    paradaActual = 0
-    paradaDestino = 1
-    imgTranvia.style.transform = 'translateX(0%)'
-    direcionDerecha = true
-    posHome = true
-    clearInterval(interval)
-
+    location.reload();
 }
 document.getElementById("reset").addEventListener("click", ponerEnHome)
 
@@ -301,7 +341,6 @@ function moverimagenIzq() {
         if (posi > 0) {
             imgTranvia.style.transform = `translateX(${posi}%)`;
             requestAnimationFrame(moverimagenIzq);
-
         }
     }
 }
