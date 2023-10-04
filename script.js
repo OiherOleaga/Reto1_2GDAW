@@ -138,6 +138,11 @@ botonMarcha.addEventListener("click", moverTranviaAuto);
 document.getElementById("stop").addEventListener("mousedown", (event) => {
     postVariable("B_PAUSA", 1);
     pararTranvia()
+    if (direcionDerecha) {
+        paradaActual--;
+    } else {
+        paradaActual++;
+    }
     clearInterval(interval);
     intervalActivo = false;
 });
@@ -156,7 +161,13 @@ document.addEventListener("keydown", (event) => {
     if (event.key === " " && !espacioPresionado) {
         console.log("hola")
         postVariable("B_PAUSA", 1);
+        if (direcionDerecha) {
+            paradaActual--;
+        } else {
+            paradaActual++;
+        }
         let posi = calcularPorcentajeTranviaEnVia();
+
         imgTranvia.style.transform = `translateX(${posi}%)`;
         clearInterval(interval);
         intervalActivo = false;
@@ -228,17 +239,18 @@ function reload() {
 
 botonMarcha.addEventListener("click", async () => {
     // saber cuando tiene que dejar de buscar 
-    postVariable("B_A_R", 0)
-    let interval = setInterval(async () => {
+    /*postVariable("B_A_R", 0)
+    let interval = setInterval(async () => { 
         let ET3 = parseInt(await (await fetch("ET3.html")).text());
         //let numParada = parseInt(await (await fetch("numParada.html")).text());
         console.log(ET3)
-        if (ET3 === 0 /*|| numParada !== 0*/) { // saber si esta en el home o si esta en alguna otra parada
+        if (ET3 === 0) { // saber si esta en el home o si esta en alguna otra parada
             await postVariableWait("INICIO", 1)
             postVariable("INICIO", 0);
             clearInterval(interval);
         }
     }, 100);
+    */
 });
 
 async function postVariableWait(variable, valor) {
