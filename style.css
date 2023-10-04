@@ -181,9 +181,10 @@ main {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 90%;
+    width: 100%;
     margin-bottom: 10px;
 }
+
 
 #automatico,
 #manual {
@@ -394,11 +395,11 @@ footer {
 }
 
 input:checked+.slider {
-    background-color: #4caf4f;
+    background-color: #ccc;
 }
 
 input:focus+.slider {
-    box-shadow: 0 0 1px #4caf4f;
+    box-shadow: 0 0 1px #ccc;
 }
 
 input:checked+.slider:before {

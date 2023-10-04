@@ -135,14 +135,14 @@ function opcinesMoverTranviaAuto() {
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
-document.getElementById("stop").addEventListener("mousedown", (event) => {
+document.getElementById("stop").addEventListener("mousedown", () => {
     postVariable("B_PAUSA", 1);
-    pararTranvia()
+    pararTranvia();
     clearInterval(interval);
     intervalActivo = false;
 });
 
-document.getElementById("stop").addEventListener("mouseup", (event) => {
+document.getElementById("stop").addEventListener("mouseup", () => {
     postVariable("B_PAUSA", 0);
     if (modoAutomatico) {
         moverTranviaAuto();
@@ -154,10 +154,8 @@ document.getElementById("stop").addEventListener("mouseup", (event) => {
 
 document.addEventListener("keydown", (event) => {
     if (event.key === " " && !espacioPresionado) {
-        console.log("hola")
         postVariable("B_PAUSA", 1);
-        let posi = calcularPorcentajeTranviaEnVia();
-        imgTranvia.style.transform = `translateX(${posi}%)`;
+        pararTranvia();
         clearInterval(interval);
         intervalActivo = false;
         espacioPresionado = true;
@@ -208,14 +206,14 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-async  function ponerEnHome() {
+async function ponerEnHome() {
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
     await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
     postVariable("B_A_R", 0)
-    
+
 }
 document.getElementById("reset").addEventListener("click", ponerEnHome);
 document.getElementById("reset").addEventListener("click", reload);
