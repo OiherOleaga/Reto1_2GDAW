@@ -1,7 +1,8 @@
 let imgTranvia = document.querySelector("#tranvia")
 let divParadas = document.querySelector(".paradas")
 let botonMarcha = document.querySelector("#marcha")
-let toggle = document.getElementById("switch");
+let toggle = document.getElementById("switchManual");
+let toggleCiclo = document.getElementById("switchCiclo");
 const via = document.querySelector(".vias");
 let paradaActual = 0; // el que se reciba del servidor
 let paradaDestino = 1;
@@ -238,6 +239,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 function mostrarManual() {
+    localStorage.setItem("manual", "true")
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
@@ -273,9 +275,11 @@ async function ponerEnHome() {
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
-    await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
-    postVariable("B_A_R", 0)
-
+    if (localStorage.getItem("manual") === "true") {
+        toggle.click()
+    } else if (localStorage.getItem("ciclo") === "true") {
+        toggleCiclo.click()
+    }
 }
 document.getElementById("reset").addEventListener("click", ponerEnHome);
 document.getElementById("reset").addEventListener("click", reload);
@@ -316,7 +320,7 @@ function postVariable(variable, valor) {
     });
 }
 
-document.getElementById("switch").addEventListener("change", mostrarManual);
+document.getElementById("switchManual").addEventListener("change", mostrarManual);
 
 const botonIzq = document.getElementById("izquierda");
 const botonDer = document.getElementById("derecha");
