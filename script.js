@@ -102,7 +102,6 @@ function mover(posicion, segundos, parada) {
 
 document.getElementById("menu").addEventListener("click", mostrarLista);
 
-document.getElementById("stop").addEventListener("click", pararAnimacion);
 
 async function moverTranviaAuto() {
     if (intervalActivo) {
@@ -126,19 +125,22 @@ function opcinesMoverTranviaAuto() {
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
-function pararAnimacion() {
-    postVariableWait("B_PAUSA", 1).then(() => {
-        postVariable("B_PAUSA", 0);
-    })
+document.getElementById("stop").addEventListener("mousedown", (event) => {
+    postVariable("B_PAUSA", 1);
     let posi = calcularPorcentajeTranviaEnVia();
-    console.log(posi);
-    //imgTranvia.style.transition = 'none';
-    imgTranvia.style.transform = `translateX(${posi}%   )`;
+    imgTranvia.style.transform = `translateX(${posi}%)`;
     clearInterval(interval);
     intervalActivo = false;
-}
+});
+
+document.getElementById("stop").addEventListener("mouseup", (event) => {
+    postVariable("B_PAUSA", 0);
+    moverTranviaAuto();
+    intervalActivo = false;
+});
+
+
 document.getElementById("menu").addEventListener("click", mostrarLista);
-document.getElementById("stop").addEventListener("click", pararAnimacion);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 function mostrarManual() {
@@ -169,7 +171,7 @@ async function ponerEnHome() {
 document.getElementById("reset").addEventListener("click", ponerEnHome)
 function reset() {
     paradaActual = 0
-    paradaDestino=1
+    paradaDestino = 1
     imgTranvia.style.transform = 'translateX(0%)'
     direcionDerecha = true
     posHome = true
