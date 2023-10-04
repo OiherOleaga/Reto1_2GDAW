@@ -208,53 +208,6 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") {
-        let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)
-        postVariable("BOTON_PALANTE", 0)
-        postVariable("BOTON_PATRAS", 1)
-        imgTranvia.style.transition = `transform ${segundos}s linear`;
-        imgTranvia.style.transform = `translateX(0%)`;
-    }
-});
-
-document.addEventListener("keyup", (event) => {
-    if (event.key === "ArrowLeft") {
-        postVariable("BOTON_PATRAS", 0)
-        pararTranvia()
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") {
-        let segundos = (segundosManual - (segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)))
-        postVariable("BOTON_PATRAS", 0)
-        postVariable("BOTON_PALANTE", 1)
-
-        imgTranvia.style.transition = `transform ${segundos}s linear`;
-        imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
-    }
-});
-
-document.addEventListener("keyup", (event) => {
-    if (event.key === "ArrowRight") {
-        postVariable("BOTON_PALANTE", 0)
-        pararTranvia()
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRigth") {
-        postVariableWait("RESET", 1);
-        postVariable("RESET", 0);
-        postVariableWait("MARTXA", 1);
-        postVariable("MARTXA", 0)
-        postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
-        postVariable("B_A_R", 0)
-        location.reload();
-    }
-});
-
 async function ponerEnHome() {
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
@@ -262,10 +215,15 @@ async function ponerEnHome() {
     postVariable("MARTXA", 0)
     await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
     postVariable("B_A_R", 0)
+
+}
+document.getElementById("reset").addEventListener("click", ponerEnHome);
+document.getElementById("reset").addEventListener("click", reload);
+
+
+function reload() {
     location.reload();
 }
-document.getElementById("reset").addEventListener("click", ponerEnHome)
-
 
 
 botonMarcha.addEventListener("click", async () => {
