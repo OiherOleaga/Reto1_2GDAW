@@ -147,6 +147,11 @@ main {
     width: 100%;
 }
 
+#stop:hover,
+#marcha:hover {
+    cursor: not-allowed;
+}
+
 #stop:active,
 #marcha:active,
 #reset:active {
