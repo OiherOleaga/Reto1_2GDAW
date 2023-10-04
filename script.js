@@ -414,3 +414,4 @@ function moverimagenDer() {
     imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
 }
 
+document.getElementById("")
