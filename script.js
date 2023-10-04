@@ -4,17 +4,18 @@ let botonMarcha = document.querySelector("#marcha")
 let toggle = document.getElementById("switchManual");
 let toggleCiclo = document.getElementById("switchCiclo");
 const via = document.querySelector(".vias");
-let paradaActual = 0; // el que se reciba del servidor
+let paginaCargada = false
+let paradaActual = 0; 
 let paradaDestino = 1;
-let posHome = true;
+let keyAnterior
 let direcionDerecha = true;
 let interval;
 let intervalActivo = false;
 let posi;
+const href = window.location.href
 let modoAutomatico = false;
 let modoClick = false;
 let posicion;
-let espacioPresionado = false;
 
 
 function calcularPorcentajeTranviaEnVia() {
@@ -45,15 +46,16 @@ localStorage.setItem("contParadas", JSON.stringify(contParadas));
 
 for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
-        let numParada = parseInt(parada.id[parada.id.length - 1]);
-        if (toggle.checked) toggle.click()
-
-        postVariableWait("B_A_R", 1).then(async () => {
-            await postVariableWait(`B${numParada}`, 1);
-            postVariable(`B${numParada}`, 0);
-        });
-        moverTranvia(numParada);
+        moverEligiendo(parseInt(parada.id[parada.id.length - 1]))
     });
+}
+
+function moverEligiendo(numParada) {
+    if (!toggleCiclo.checked && !toggle.checked) {
+        postVariableWait(`B${numParada}`, 1)
+            .then(() => postVariable(`B${numParada}`, 0));
+        moverTranvia(numParada);
+    }
 }
 
 function mostrarLista() {
@@ -95,11 +97,6 @@ function moverTranvia(parada) {
     }
 
     let segundos = Math.abs(paradaDestino - paradaActual) / 4;
-    mover(posicion, segundos, parada);
-}
-
-function mover(posicion, segundos, parada) {
-    posHome = false;
     contParadas[parada - 1]++;
     contParadasSesion[parada - 1]++;
     sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion));
@@ -110,23 +107,27 @@ function mover(posicion, segundos, parada) {
     paradaActual = paradaDestino;
 }
 
+
 document.getElementById("menu").addEventListener("click", mostrarLista);
 
 
-async function moverTranviaAuto() {
+function moverTranviaAuto() {
+    if (toggle.checked || !toggleCiclo.checked) {
+        return
+    }
     modoAutomatico = true;
     if (intervalActivo) {
         return;
     }
+    postVariableWait("INICIO", 1)
+        .then(() => postVariable("INICIO", 0))
     intervalActivo = true;
     opcinesMoverTranviaAuto();
     interval = setInterval(opcinesMoverTranviaAuto, 2000);
 }
 
 function opcinesMoverTranviaAuto() {
-    if (posHome) {
-        mover(50, 1, 1);
-    } else if (direcionDerecha) {
+    if (direcionDerecha) {
         moverTranvia(paradaActual + 1);
     } else {
         moverTranvia(paradaActual - 1);
@@ -136,7 +137,8 @@ function opcinesMoverTranviaAuto() {
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
-document.getElementById("stop").addEventListener("mousedown", () => {
+document.getElementById("stop").addEventListener("mousedown", parar);
+function parar() {
     postVariable("B_PAUSA", 1);
     if (direcionDerecha) {
         paradaActual--;
@@ -146,9 +148,11 @@ document.getElementById("stop").addEventListener("mousedown", () => {
     pararTranvia();
     clearInterval(interval);
     intervalActivo = false;
-});
+}
 
-document.getElementById("stop").addEventListener("mouseup", () => {
+document.getElementById("stop").addEventListener("mouseup", dejarDeParar);
+
+function dejarDeParar() {
     postVariable("B_PAUSA", 0);
     if (modoAutomatico) {
         moverTranviaAuto();
@@ -156,90 +160,65 @@ document.getElementById("stop").addEventListener("mouseup", () => {
         imgTranvia.style.transform = `translateX(${posicion}%)`;
     }
     intervalActivo = false;
-});
+}
 
 document.addEventListener("keydown", (event) => {
-    if (event.key === "s" && !espacioPresionado) {
-        postVariable("B_PAUSA", 1);
-        if (direcionDerecha) {
-            paradaActual--;
-        } else {
-            paradaActual++;
-        }
-        pararTranvia();
-        clearInterval(interval);
-        intervalActivo = false;
-        espacioPresionado = true;
-    }
+    switch(event.key) {
+        case keyAnterior:
+            break
+        case "s":
+            parar()
+            break
+        case "ArrowLeft":
+            moverimagenIzq();
+            break
+        case "ArrowRight":
+            moverimagenDer();
+            break
+        case "r":
+            location.reload();
+        case "1":
+            moverEligiendo(1) 
+            break
+        case "2":
+            moverEligiendo(2) 
+            break
+        case "3":
+            moverEligiendo(3) 
+            break
+        case "4":
+            moverEligiendo(4) 
+            break
+        case "5":
+            moverEligiendo(5) 
+            break
+    }           
+    keyAnterior = event.key
 });
 
 document.addEventListener("keyup", (event) => {
-    if (event.key === "s") {
-        espacioPresionado = false
-        postVariable("B_PAUSA", 0);
-        if (modoAutomatico) {
-            moverTranviaAuto();
-        } else if (modoClick) {
-            imgTranvia.style.transform = `translateX(${posicion}%)`;
-        }
-        intervalActivo = false;
-    }
+    if (keyAnterior === event.key) 
+        keyAnterior = "patata"
+    switch(event.key) {
+        case "s":
+            dejarDeParar()
+            break
+        case "ArrowLeft":
+            pararTranvia()
+            postVariable("BOTON_PATRAS", 0)
+            break;
+        case "ArrowRight":
+            pararTranvia()
+            postVariable("BOTON_PALANTE", 0)
+            break;
+}
 });
-
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") {
-        let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)
-        postVariable("BOTON_PALANTE", 0)
-        postVariable("BOTON_PATRAS", 1)
-        imgTranvia.style.transition = `transform ${segundos}s linear`;
-        imgTranvia.style.transform = `translateX(0%)`;
-    }
-});
-
-document.addEventListener("keyup", (event) => {
-    if (event.key === "ArrowLeft") {
-        postVariable("BOTON_PATRAS", 0)
-        pararTranvia()
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") {
-        let segundos = (segundosManual - (segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)))
-        postVariable("BOTON_PATRAS", 0)
-        postVariable("BOTON_PALANTE", 1)
-
-        imgTranvia.style.transition = `transform ${segundos}s linear`;
-        imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
-    }
-});
-
-document.addEventListener("keyup", (event) => {
-    if (event.key === "ArrowRight") {
-        postVariable("BOTON_PALANTE", 0)
-        pararTranvia()
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRigth") {
-        postVariableWait("RESET", 1);
-        postVariable("RESET", 0);
-        postVariableWait("MARTXA", 1);
-        postVariable("MARTXA", 0)
-        postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
-        postVariable("B_A_R", 0)
-        location.reload();
-    }
-});
-
 
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 function mostrarManual() {
-    localStorage.setItem("manual", "true")
+    localStorage.setItem("manual", toggle.checked)
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
@@ -254,57 +233,45 @@ function mostrarManual() {
 
     }
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
+    if (paginaCargada)
+        location.reload()
 }
 toggle.addEventListener("change", mostrarManual);
 
-let href = window.location.href;
-document.addEventListener("keydown", (event) => {
-    if (event.key === "r") {
-        postVariableWait("RESET", 1);
-        postVariable("RESET", 0);
-        postVariableWait("MARTXA", 1);
-        postVariable("MARTXA", 0)
-        postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
-        postVariable("B_A_R", 0)
-        location.reload();
-    }
-});
+toggleCiclo.addEventListener("change", () => {
+    localStorage.setItem("ciclo", toggleCiclo.checked)
+    postVariable("B_A_R", toggleCiclo.checked ? 0 : 1)
+    if (paginaCargada)
+        location.reload()
+})
 
+ponerEnHome()
 async function ponerEnHome() {
+    if (localStorage.getItem("manual") === "true") {
+        toggle.click()
+    } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
+        toggleCiclo.click() 
+    }
+    paginaCargada = true
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
-    if (localStorage.getItem("manual") === "true") {
-        toggle.click()
-    } else if (localStorage.getItem("ciclo") === "true") {
-        toggleCiclo.click()
-    }
 }
-document.getElementById("reset").addEventListener("click", ponerEnHome);
-document.getElementById("reset").addEventListener("click", reload);
-
-
-function reload() {
+document.getElementById("reset").addEventListener("click", () => {
     location.reload();
+});
+
+
+async function esperarHome() {
+    let home
+    // sacar pantalla/mensaje de espera
+    do {
+        home = parseInt(await (await fetch("HOME.html")).text());
+    } while (!home)
+    // quitar pantalla
 }
 
-
-botonMarcha.addEventListener("click", async () => {
-    // saber cuando tiene que dejar de buscar 
-    /*postVariable("B_A_R", 0)
-    let interval = setInterval(async () => { 
-        let ET3 = parseInt(await (await fetch("ET3.html")).text());
-        //let numParada = parseInt(await (await fetch("numParada.html")).text());
-        console.log(ET3)
-        if (ET3 === 0) { // saber si esta en el home o si esta en alguna otra parada
-            await postVariableWait("INICIO", 1)
-            postVariable("INICIO", 0);
-            clearInterval(interval);
-        }
-    }, 100);
-    */
-});
 
 async function postVariableWait(variable, valor) {
     await fetch(href, {
@@ -328,7 +295,6 @@ const viaRect = via.getBoundingClientRect();
 const anchoTotalVia = viaRect.width;
 
 botonIzq.addEventListener("touchstart", (event) => {
-    postVariable("BOTON_PATRAS", 1)
     touchId = event.touches[0].identifier;
     moverimagenIzq();
 });
@@ -340,8 +306,6 @@ botonIzq.addEventListener("touchend", () => {
 });
 
 botonDer.addEventListener("touchstart", (event) => {
-    postVariable("BOTON_PALANTE", 1)
-    pararTranvia()
     touchId = event.touches[0].identifier;
     moverimagenDer();
 });
@@ -377,27 +341,25 @@ document.addEventListener("touchend", () => {
     touchId = null;
 });
 let segundosManual = 3
-botonIzq.addEventListener("mousedown", () => {
-    postVariable("BOTON_PATRAS", 1)
-    moverimagenIzq();
-});
+botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
     pararTranvia()
 });
 
-botonDer.addEventListener("mousedown", () => {
-    postVariable("BOTON_PALANTE", 1)
-    moverimagenDer();
-});
+botonDer.addEventListener("mousedown", moverimagenDer);
 botonDer.addEventListener("mousemove", () => {
     postVariable("BOTON_PALANTE", 0)
     pararTranvia()
 });
 
-document.addEventListener("mouseup", () => {
-    postVariable("BOTON_PATRAS", 0)
+botonDer.addEventListener("mouseup", () => {
     postVariable("BOTON_PALANTE", 0)
+    pararTranvia()
+});
+
+botonIzq.addEventListener("mouseup", () => {
+    postVariable("BOTON_PATRAS", 0)
     pararTranvia()
 });
 
@@ -407,15 +369,22 @@ function pararTranvia() {
 }
 
 function moverimagenIzq() {
-    let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)
-    imgTranvia.style.transition = `transform ${segundos}s linear`;
-    imgTranvia.style.transform = `translateX(0%)`;
+    if (toggle.checked) {
+        postVariable("BOTON_PATRAS", 1)
+        postVariable("BOTON_PALANTE", 0)
+        let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)
+        imgTranvia.style.transition = `transform ${segundos}s linear`;
+        imgTranvia.style.transform = `translateX(0%)`;
+    }
 }
 
 function moverimagenDer() {
-    let segundos = (segundosManual - (segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)))
-    imgTranvia.style.transition = `transform ${segundos}s linear`;
-    imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
+    if (toggle.checked) {
+        postVariable("BOTON_PALANTE", 1)
+        postVariable("BOTON_PATRAS", 0)
+        let segundos = (segundosManual - (segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)))
+        imgTranvia.style.transition = `transform ${segundos}s linear`;
+        imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
+    }
 }
 
-document.getElementById("")
