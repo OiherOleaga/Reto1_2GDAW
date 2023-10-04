@@ -208,17 +208,22 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-async function ponerEnHome() {
+async  function ponerEnHome() {
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
     await postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0)
     postVariable("B_A_R", 0)
+    
+}
+document.getElementById("reset").addEventListener("click", ponerEnHome);
+document.getElementById("reset").addEventListener("click", reload);
+
+
+function reload() {
     location.reload();
 }
-document.getElementById("reset").addEventListener("click", ponerEnHome)
-
 
 
 botonMarcha.addEventListener("click", async () => {
