@@ -230,12 +230,16 @@ document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 function mostrarManual() {
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
+    switchAuto=document.getElementById("switchAuto");
     if (toggle.checked) {
         automatico.style.display = "none";
         manual.style.display = "flex";
+        switchAuto.style.display="none"
     } else {
         automatico.style.display = "flex";
         manual.style.display = "none";
+        switchAuto.style.display="flex"
+
     }
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
 }
