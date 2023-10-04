@@ -2,6 +2,7 @@ let imgTranvia = document.querySelector("#tranvia")
 let divParadas = document.querySelector(".paradas")
 let botonMarcha = document.querySelector("#marcha")
 let toggle = document.getElementById("switch");
+const via = document.querySelector(".vias");
 let paradaActual = 0; // el que se reciba del servidor
 let paradaDestino = 1;
 let posHome = true;
@@ -11,7 +12,6 @@ let intervalActivo = false;
 let posi;
 
 function calcularPorcentajeTranviaEnVia() {
-    const via = document.querySelector(".vias");
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
     const posicionRelativaEnPixeles = tranviaRect.left - viaRect.left;
@@ -19,6 +19,10 @@ function calcularPorcentajeTranviaEnVia() {
     const anchoTotalVia = viaRect.width;
     const porcentaje = (posicionRelativaEnPixeles / anchoTotalVia) * 1000;
     return porcentaje;
+}
+
+function calcularWidthTranviaPorcentaje() {
+    return (imgTranvia.getBoundingClientRect().width  / via.getBoundingClientRect().width) * 1000
 }
 
 // Ejemplo de uso
@@ -130,10 +134,7 @@ function pararAnimacion() {
     postVariableWait("B_PAUSA", 1).then(() => {
         postVariable("B_PAUSA", 0);
     })
-    let posi = calcularPorcentajeTranviaEnVia();
-    console.log(posi);
-    //imgTranvia.style.transition = 'none';
-    imgTranvia.style.transform = `translateX(${posi}%   )`;
+    pararTranvia()
     clearInterval(interval);
     intervalActivo = false;
 }
@@ -209,34 +210,31 @@ document.getElementById("switch").addEventListener("change", mostrarManual);
 
 const botonIzq = document.getElementById("izquierda");
 const botonDer = document.getElementById("derecha");
-let isMoving = false;
-const via = document.querySelector(".vias");
 const viaRect = via.getBoundingClientRect();
 const anchoTotalVia = viaRect.width;
 
 botonIzq.addEventListener("touchstart", (event) => {
     postVariable("BOTON_PATRAS", 1)
-    isMoving = true;
     touchId = event.touches[0].identifier;
     moverimagenIzq();
 });
 
 botonIzq.addEventListener("touchend", () => {
     postVariable("BOTON_PATRAS", 0)
-    isMoving = false;
+    pararTranvia()
     touchId = null;
 });
 
 botonDer.addEventListener("touchstart", (event) => {
     postVariable("BOTON_PALANTE", 1)
-    isMoving = true;
+    pararTranvia()
     touchId = event.touches[0].identifier;
     moverimagenDer();
 });
 
 botonDer.addEventListener("touchend", () => {
     postVariable("BOTON_PALANTE", 0)
-    isMoving = false;
+    pararTranvia()
     touchId = null;
 });
 document.addEventListener("touchmove", (event) => {
@@ -261,60 +259,48 @@ document.addEventListener("touchmove", (event) => {
 document.addEventListener("touchend", () => {
     postVariable("BOTON_PATRAS", 0)
     postVariable("BOTON_PALANTE", 0)
-    isMoving = false;
+    pararTranvia()
     touchId = null;
 });
-
+let segundosManual = 3
 botonIzq.addEventListener("mousedown", () => {
     postVariable("BOTON_PATRAS", 1)
-    isMoving = true;
     moverimagenIzq();
 });
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
-    isMoving = false;
+    pararTranvia()
 });
 
 botonDer.addEventListener("mousedown", () => {
     postVariable("BOTON_PALANTE", 1)
-    isMoving = true;
     moverimagenDer();
 });
 botonDer.addEventListener("mousemove", () => {
     postVariable("BOTON_PALANTE", 0)
-    isMoving = false;
+    pararTranvia()
 });
 
 document.addEventListener("mouseup", () => {
     postVariable("BOTON_PATRAS", 0)
     postVariable("BOTON_PALANTE", 0)
-    isMoving = false;
+    pararTranvia()
 });
 
-function moverimagenIzq() {
-    if (isMoving) {
-        posi = calcularPorcentajeTranviaEnVia();
-        console.log(posi);
-        posi = posi - 4;
-        if (posi > 0) {
-            imgTranvia.style.transform = `translateX(${posi}%)`;
-            requestAnimationFrame(moverimagenIzq);
+function pararTranvia() {
+    let posi = calcularPorcentajeTranviaEnVia();
+    imgTranvia.style.transform = `translateX(${posi}%)`;
+}
 
-        }
-    }
+function moverimagenIzq() {
+    let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000)
+    imgTranvia.style.transition = `transform ${segundos}s linear`; 
+    imgTranvia.style.transform = `translateX(0%)`;
 }
 
 function moverimagenDer() {
-    if (isMoving) {
-        posi = calcularPorcentajeTranviaEnVia();
-        posi = Math.round(posi);
-        console.log("antes de sumar " + posi);
-        posi = posi + 4;
-        console.log("despues de sumar " + posi);
-        if (posi < 902) {
-            imgTranvia.style.transform = `translateX(${posi}%)`;
-            requestAnimationFrame(moverimagenDer);
-        }
-    }
+    let segundos = (segundosManual - (segundosManual * (calcularPorcentajeTranviaEnVia()/ 1000)))
+    imgTranvia.style.transition = `transform ${segundos}s linear`; 
+    imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`; 
 }
 
