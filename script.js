@@ -122,11 +122,11 @@ function moverTranviaAuto() {
     postVariableWait("INICIO", 1)
         .then(() => postVariable("INICIO", 0))
     intervalActivo = true;
-    opcinesMoverTranviaAuto();
-    interval = setInterval(opcinesMoverTranviaAuto, 2000);
+    opcionesMoverTranviaAuto();
+    interval = setInterval(opcionesMoverTranviaAuto, 2000);
 }
 
-function opcinesMoverTranviaAuto() {
+function opcionesMoverTranviaAuto() {
     if (direcionDerecha) {
         moverTranvia(paradaActual + 1);
     } else {
@@ -266,6 +266,7 @@ toggleCiclo.addEventListener("change", async () => {
 })
 
 ponerEnHome()
+/*
 async function ponerEnHome() {
     if (localStorage.getItem("manual") === "true") {
         toggle.click()
@@ -280,7 +281,7 @@ async function ponerEnHome() {
     postVariable("MARTXA", 0)
 }
 
-
+*/
 document.getElementById("reset").addEventListener("click", async () => {
     Location.reload;
 });
