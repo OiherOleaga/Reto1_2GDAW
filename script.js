@@ -175,17 +175,17 @@ function dejarDeParar() {
 }
 
 document.addEventListener("keydown", (event) => {
-    switch (event.key) {
-        case keyAnterior:
-            break
-        case "s":
-            parar()
-            break
+    switch(event.key) {
         case "ArrowLeft":
             moverimagenIzq();
             break
         case "ArrowRight":
             moverimagenDer();
+            break
+        case keyAnterior:
+            break
+        case "s":
+            parar()
             break
         case "r":
             location.reload();
@@ -274,6 +274,7 @@ toggleCiclo.addEventListener("change", async () => {
 })
 
 ponerEnHome()
+esperarHome()
 async function ponerEnHome() {
     if (localStorage.getItem("manual") === "true") {
         toggle.click()
@@ -285,6 +286,7 @@ async function ponerEnHome() {
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
+    await esperarHome()
 }
 
 
@@ -294,12 +296,16 @@ document.getElementById("reset").addEventListener("click", async () => {
 
 
 async function esperarHome() {
+    let divEspera = document.querySelector("#espera")
+    divEspera.setAttribute("style", "display: flex;")
+    let main = document.querySelector("main")
+    main.setAttribute("style", "visibility: hidden")
     let home
-    // sacar pantalla/mensaje de espera
     do {
         home = parseInt(await (await fetch("HOME.html")).text());
     } while (!home)
-    // quitar pantalla
+    divEspera.setAttribute("style", "display: none;")
+    main.setAttribute("style", "visibility: visible")
 }
 
 

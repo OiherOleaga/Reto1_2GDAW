@@ -252,6 +252,18 @@ main {
     align-items: center;
 }
 
+#espera {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 50%;
+    height: 40%;
+    background: grey;
+    left: 25%;
+    top: 30%;
+}
+
 /*-----------FOOTER------------*/
 footer {
     background-color: #007f3b;
@@ -351,7 +363,9 @@ footer {
         justify-content: center;
         align-items: center;
     }
-
+    #espera {
+        padding: 10px;
+    }
     .animacion {
         margin-right: 0%;
     }
