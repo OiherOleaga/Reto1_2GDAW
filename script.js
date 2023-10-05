@@ -135,6 +135,18 @@ function opcinesMoverTranviaAuto() {
     }
 }
 
+document.getElementById("switchCiclo").addEventListener("change", cambiarPointer)
+function cambiarPointer() {
+    let stop = document.getElementById("stop");
+    let marcha = document.getElementById("marcha")
+    stop.style.cursor = "pointer"
+    stop.style.backgroundColor = "white"
+    marcha.style.backgroundColor = "white"
+    marcha.style.cursor = "pointer"
+
+
+}
+
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
@@ -183,7 +195,8 @@ document.addEventListener("keydown", (event) => {
             break
         case "2":
             moverEligiendo(2)
-            breakf
+
+            break
         case "3":
             moverEligiendo(3)
             break
@@ -218,7 +231,9 @@ document.addEventListener("keyup", (event) => {
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
+
 async function mostrarManual() {
+
     localStorage.setItem("manual", toggle.checked)
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
@@ -403,3 +418,4 @@ function moverimagenDer() {
         imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
     }
 }
+
