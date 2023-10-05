@@ -141,9 +141,7 @@ function cambiarPointer() {
     let marcha = document.getElementById("marcha")
     if (document.getElementById("switchCiclo").checked) {
         marcha.style.cursor = "pointer"
-        stop.style.cursor="pointer"
-    }else{
-        stop.style.cursor = "pointer"
+    } else {
         marcha.style.cursor = "not-allowed"
     }
 }
