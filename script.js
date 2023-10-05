@@ -18,7 +18,6 @@ let modoClick = false;
 let posicion;
 
 
-
 function calcularPorcentajeTranviaEnVia() {
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
@@ -232,8 +231,6 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 
 async function mostrarManual() {
-
-    localStorage.setItem("manual", toggle.checked)
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
@@ -247,12 +244,10 @@ async function mostrarManual() {
         switchAuto.style.display = "flex"
 
     }
+    localStorage.setItem("manual", toggle.checked)
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
     if (paginaCargada)
-        ponerEnHome();
-    irHome();
-    await esperarHome();
-    location.reload;
+        location.reload;
 
 }
 toggle.addEventListener("change", mostrarManual);
@@ -267,14 +262,10 @@ toggleCiclo.addEventListener("change", async () => {
     localStorage.setItem("ciclo", toggleCiclo.checked)
     postVariable("B_A_R", toggleCiclo.checked ? 0 : 1)
     if (paginaCargada)
-        ponerEnHome();
-    irHome();
-    await esperarHome();
-    location.reload();
+        location.reload();
 })
 
 ponerEnHome()
-esperarHome()
 async function ponerEnHome() {
     if (localStorage.getItem("manual") === "true") {
         toggle.click()
@@ -282,11 +273,11 @@ async function ponerEnHome() {
         toggleCiclo.click()
     }
     paginaCargada = true
+    esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
-    await esperarHome()
 }
 
 
