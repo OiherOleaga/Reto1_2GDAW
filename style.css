@@ -123,6 +123,7 @@ main {
 #izquierda,
 #derecha {
     background: none;
+    cursor: pointer;
     border: none;
     width: 20%;
     height: 20%;
@@ -131,7 +132,6 @@ main {
 #stop:hover,
 #marcha:hover {
     border-radius: 100%;
-    background-color: grey;
     cursor: not-allowed;
 }
 

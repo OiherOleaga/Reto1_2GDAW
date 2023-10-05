@@ -139,12 +139,13 @@ document.getElementById("switchCiclo").addEventListener("change", cambiarPointer
 function cambiarPointer() {
     let stop = document.getElementById("stop");
     let marcha = document.getElementById("marcha")
-    stop.style.cursor = "pointer"
-    stop.style.backgroundColor = "white"
-    marcha.style.backgroundColor = "white"
-    marcha.style.cursor = "pointer"
-
-
+    if (document.getElementById("switchCiclo").checked) {
+        marcha.style.cursor = "pointer"
+        stop.style.cursor="pointer"
+    }else{
+        stop.style.cursor = "pointer"
+        marcha.style.cursor = "not-allowed"
+    }
 }
 
 document.getElementById("menu").addEventListener("click", mostrarLista);
@@ -253,7 +254,7 @@ async function mostrarManual() {
         ponerEnHome();
     irHome();
     await esperarHome();
-    Location.reload;
+    location.reload;
 
 }
 toggle.addEventListener("change", mostrarManual);
@@ -290,7 +291,7 @@ async function ponerEnHome() {
 
 
 document.getElementById("reset").addEventListener("click", async () => {
-    location.reload;
+    Location.reload;
 });
 
 
