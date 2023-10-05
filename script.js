@@ -18,7 +18,6 @@ let modoClick = false;
 let posicion;
 
 
-
 function calcularPorcentajeTranviaEnVia() {
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
