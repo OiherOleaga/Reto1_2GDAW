@@ -188,6 +188,7 @@ document.addEventListener("keydown", (event) => {
             break
         case "r":
             location.reload();
+			break
         case "1":
             moverEligiendo(1)
             break
@@ -247,7 +248,7 @@ async function mostrarManual() {
     localStorage.setItem("manual", toggle.checked)
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
     if (paginaCargada)
-        location.reload;
+        location.reload();
 
 }
 toggle.addEventListener("change", mostrarManual);
@@ -268,17 +269,21 @@ toggleCiclo.addEventListener("change", async () => {
 ponerEnHome()
 /*
 async function ponerEnHome() {
-    if (localStorage.getItem("manual") === "true") {
-        toggle.click()
-    } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
-        toggleCiclo.click()
-    }
-    paginaCargada = true
+	setTimeout(() => {
+        if (localStorage.getItem("manual") === "true") {
+            toggle.click()
+        } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
+            toggleCiclo.click()
+        } 
+		paginaCargada = true
+    }, 1000)
+    
     esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
+     
 }
 
 */
