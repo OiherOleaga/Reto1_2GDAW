@@ -413,4 +413,11 @@ function moverimagenDer() {
     imgTranvia.style.transition = `transform ${segundos}s linear`;
     imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
 }
-
+document.getElementById("switchAuto").addEventListener("change", cambiarPointer)
+function cambiarPointer() {
+    stop=document.getElementById("stop")
+    flecha=document.getElementById("marcha")
+    if (document.getElementById("switchAuto").checked) {
+        stop.style.pointer=cursor
+    }
+}
