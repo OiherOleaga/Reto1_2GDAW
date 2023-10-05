@@ -5,7 +5,7 @@ let toggle = document.getElementById("switchManual");
 let toggleCiclo = document.getElementById("switchCiclo");
 const via = document.querySelector(".vias");
 let paginaCargada = false
-let paradaActual = 0; 
+let paradaActual = 0;
 let paradaDestino = 1;
 let keyAnterior
 let direcionDerecha = true;
@@ -16,6 +16,7 @@ const href = window.location.href
 let modoAutomatico = false;
 let modoClick = false;
 let posicion;
+
 
 
 function calcularPorcentajeTranviaEnVia() {
@@ -134,6 +135,18 @@ function opcinesMoverTranviaAuto() {
     }
 }
 
+document.getElementById("switchCiclo").addEventListener("change", cambiarPointer)
+function cambiarPointer() {
+    let stop = document.getElementById("stop");
+    let marcha = document.getElementById("marcha")
+    stop.style.cursor = "pointer"
+    stop.style.backgroundColor = "white"
+    marcha.style.backgroundColor = "white"
+    marcha.style.cursor = "pointer"
+
+
+}
+
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
@@ -178,28 +191,29 @@ document.addEventListener("keydown", (event) => {
         case "r":
             location.reload();
         case "1":
-            moverEligiendo(1) 
+            moverEligiendo(1)
             break
         case "2":
-            moverEligiendo(2) 
+            moverEligiendo(2)
+
             break
         case "3":
-            moverEligiendo(3) 
+            moverEligiendo(3)
             break
         case "4":
-            moverEligiendo(4) 
+            moverEligiendo(4)
             break
         case "5":
-            moverEligiendo(5) 
+            moverEligiendo(5)
             break
-    }           
+    }
     keyAnterior = event.key
 });
 
 document.addEventListener("keyup", (event) => {
-    if (keyAnterior === event.key) 
+    if (keyAnterior === event.key)
         keyAnterior = "patata"
-    switch(event.key) {
+    switch (event.key) {
         case "s":
             dejarDeParar()
             break
@@ -211,13 +225,15 @@ document.addEventListener("keyup", (event) => {
             pararTranvia()
             postVariable("BOTON_PALANTE", 0)
             break;
-}
+    }
 });
 
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
-function mostrarManual() {
+
+async function mostrarManual() {
+
     localStorage.setItem("manual", toggle.checked)
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
@@ -234,15 +250,28 @@ function mostrarManual() {
     }
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
     if (paginaCargada)
-        location.reload()
+        ponerEnHome();
+    irHome();
+    await esperarHome();
+    Location.reload;
+
 }
 toggle.addEventListener("change", mostrarManual);
 
-toggleCiclo.addEventListener("change", () => {
+async function irHome() {
+    let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000);
+    imgTranvia.style.transition = `transform ${segundos}s linear`;
+    imgTranvia.style.transform = `translateX(0%)`;
+}
+
+toggleCiclo.addEventListener("change", async () => {
     localStorage.setItem("ciclo", toggleCiclo.checked)
     postVariable("B_A_R", toggleCiclo.checked ? 0 : 1)
     if (paginaCargada)
-        location.reload()
+        ponerEnHome();
+    irHome();
+    await esperarHome();
+    location.reload();
 })
 
 ponerEnHome()
@@ -251,7 +280,7 @@ async function ponerEnHome() {
     if (localStorage.getItem("manual") === "true") {
         toggle.click()
     } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
-        toggleCiclo.click() 
+        toggleCiclo.click()
     }
     paginaCargada = true
     await postVariableWait("RESET", 1);
@@ -260,8 +289,10 @@ async function ponerEnHome() {
     postVariable("MARTXA", 0)
     await esperarHome()
 }
-document.getElementById("reset").addEventListener("click", () => {
-    location.reload();
+
+
+document.getElementById("reset").addEventListener("click", async () => {
+    location.reload;
 });
 
 

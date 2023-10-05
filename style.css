@@ -125,8 +125,14 @@ main {
     background: none;
     border: none;
     width: 20%;
-    cursor: pointer;
     height: 20%;
+}
+
+#stop:hover,
+#marcha:hover {
+    border-radius: 100%;
+    background-color: grey;
+    cursor: not-allowed;
 }
 
 #reset {
@@ -145,11 +151,6 @@ main {
 #izquierda img,
 #derecha img {
     width: 100%;
-}
-
-#stop:hover,
-#marcha:hover {
-    cursor: not-allowed;
 }
 
 #stop:active,
