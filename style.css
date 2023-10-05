@@ -129,7 +129,6 @@ main {
     height: 20%;
 }
 
-#stop:hover,
 #marcha:hover {
     border-radius: 100%;
     cursor: not-allowed;
