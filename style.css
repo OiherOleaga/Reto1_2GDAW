@@ -215,10 +215,11 @@ main {
     margin-bottom: 20px;
     border-radius: 10px;
     width: 80%;
-    height: auto;
+    height: 90%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
 }
 
 .titulo h1 {
@@ -231,22 +232,20 @@ main {
 
 .graficos {
     display: flex;
-    justify-content: space-around;
+    gap: 20px;
     width: 100%;
-    height: 90%;
+    height: 700px;
 }
 
 .grafico {
-    width: 45%;
     background-color: #fff;
     padding: 1em;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
     margin-bottom: 20px;
-}
-
-.grafico {
+    height: 80%;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -350,13 +349,17 @@ footer {
 
     .grafico {
         width: 80%;
-        height: 50%;
     }
 }
 
 @media screen and (max-width:768px) {
     main {
         flex-wrap: wrap;
+    }
+
+    .estadisticas {
+        width: 100%;
+        height: 90%;
     }
 
     .graficos {
@@ -374,8 +377,8 @@ footer {
     }
 
     .grafico {
-        width: 80%;
-        height: 50%;
+        width: 100%;
+        height: 40%;
     }
 }
 
