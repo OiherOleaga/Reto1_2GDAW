@@ -16,6 +16,7 @@ const href = window.location.href
 let modoAutomatico = false;
 let modoClick = false;
 let posicion;
+let cargadoHome = false
 
 
 function calcularPorcentajeTranviaEnVia() {
@@ -174,6 +175,9 @@ function dejarDeParar() {
 }
 
 document.addEventListener("keydown", (event) => {
+    if (!cargadoHome) {
+        return
+    }
     switch(event.key) {
         case "ArrowLeft":
             moverimagenIzq();
@@ -210,6 +214,9 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
+    if (!cargadoHome) {
+        return
+    }
     if (keyAnterior === event.key)
         keyAnterior = "patata"
     switch (event.key) {
@@ -275,21 +282,19 @@ async function ponerEnHome() {
             toggleCiclo.click()
         } 
 		paginaCargada = true
-    }, 1000)
+    }, 100)
     
     esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
-     
 }
 
 
 document.getElementById("reset").addEventListener("click", async () => {
-    Location.reload;
+    location.reload();
 });
-
 
 async function esperarHome() {
     let divEspera = document.querySelector("#espera")
@@ -300,6 +305,7 @@ async function esperarHome() {
     do {
         home = parseInt(await (await fetch("HOME.html")).text());
     } while (!home)
+    cargadoHome = true
     divEspera.setAttribute("style", "display: none;")
     main.setAttribute("style", "visibility: visible")
 }
@@ -372,7 +378,7 @@ document.addEventListener("touchend", () => {
     pararTranvia()
     touchId = null;
 });
-let segundosManual = 3
+let segundosManual = 4
 botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
