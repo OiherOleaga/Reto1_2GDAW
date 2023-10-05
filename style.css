@@ -256,12 +256,13 @@ main {
     display: none;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     position: absolute;
     width: 50%;
-    height: 40%;
-    background: grey;
+    height: 50%;
+    background: white;
     left: 25%;
-    top: 30%;
+    top: 25%;
 }
 
 /*-----------FOOTER------------*/
@@ -363,9 +364,11 @@ footer {
         justify-content: center;
         align-items: center;
     }
+
     #espera {
-        padding: 10px;
+        text-align: center;
     }
+
     .animacion {
         margin-right: 0%;
     }
@@ -441,4 +444,31 @@ input:checked+.slider:before {
         translate: 10px;
     }
 
+}
+
+#cargar {
+    width: 50px;
+    position: relative;
+    /* Debes establecer una posición relativa o absoluta para controlar left/right */
+    animation: mover 2s infinite;
+}
+
+#espera p {
+    font-size: 1.5em;
+    padding-bottom: 1em;
+}
+
+@keyframes mover {
+    0% {
+        left: -10%;
+    }
+
+    50% {
+        left: 10%;
+        /* Mueve el elemento hacia la derecha al 100% de la posición inicial */
+    }
+
+    100% {
+        left: -10%;
+    }
 }
