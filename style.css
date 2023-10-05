@@ -460,15 +460,15 @@ input:checked+.slider:before {
 
 @keyframes mover {
     0% {
-        left: -10%;
+        left: -20px;
     }
 
     50% {
-        left: 10%;
+        left: 20px;
         /* Mueve el elemento hacia la derecha al 100% de la posición inicial */
     }
 
     100% {
-        left: -10%;
+        left: -20px;
     }
 }
