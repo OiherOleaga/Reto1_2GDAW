@@ -128,7 +128,7 @@ function moverTranviaAuto() {
         .then(() => postVariable("INICIO", 0))
     intervalActivo = true;
     opcionesMoverTranviaAuto();
-    interval = setInterval(opcionesMoverTranviaAuto, 2200);
+    interval = setInterval(opcionesMoverTranviaAuto, 2500);
 }
 
 function opcionesMoverTranviaAuto() {
