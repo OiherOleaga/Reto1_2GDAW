@@ -450,4 +450,8 @@ function moverimagenDer() {
         imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
     }
 }
-
+leerModos()
+async function leerModos() {
+    let modos = await (await fetch("modos.html")).json()
+    console.log(modos)
+}
