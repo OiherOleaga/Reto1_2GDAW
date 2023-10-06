@@ -1,23 +1,23 @@
-// Selección de elementos HTML
-let imgTranvia = document.querySelector("#tranvia");
-let divParadas = document.querySelector(".paradas");
-let botonMarcha = document.querySelector("#marcha");
-let toggle = document.getElementById("switchManual");
-let toggleCiclo = document.getElementById("switchCiclo");
-const via = document.querySelector(".vias");
-let paginaCargada = false;
-let paradaActual = 0;
-let paradaDestino = 1;
-let keyAnterior;
-let direcionDerecha = true;
-let interval;
-let intervalActivo = false;
-let posi;
-const href = window.location.href;
-let modoAutomatico = false;
-let modoClick = false;
-let posicion;
-let cargadoHome = false;
+// Selecciona elementos del DOM por su ID o clase y almacénalos en variables
+let imgTranvia = document.querySelector("#tranvia"); // Elemento de imagen del tranvía
+let divParadas = document.querySelector(".paradas"); // Contenedor de las paradas
+let botonMarcha = document.querySelector("#marcha"); // Botón de marcha
+let toggle = document.getElementById("switchManual"); // Interruptor para el modo manual/automático
+let toggleCiclo = document.getElementById("switchCiclo"); // Interruptor para habilitar/deshabilitar el ciclo
+const via = document.querySelector(".vias"); // Elemento de la vía
+let paginaCargada = false; // Variable para controlar si la página se ha cargado
+let paradaActual = 0; // Número de parada actual del tranvía
+let paradaDestino = 1; // Número de parada de destino del tranvía
+let keyAnterior; // Almacena la tecla anterior presionada
+let direcionDerecha = true; // Indica la dirección del movimiento del tranvía
+let interval; // Variable para el intervalo de tiempo
+let intervalActivo = false; // Indica si el intervalo de tiempo está activo
+let posi; // Almacena la posición actual
+const href = window.location.href; // URL actual
+let modoAutomatico = false; // Indica si el tranvía está en modo automático
+let modoClick = false; // Indica si se ha hecho clic en el tranvía
+let posicion; // Almacena la posición del tranvía
+let cargadoHome = false; // Indica si la página se ha cargado completamente
 
 // Función para calcular el porcentaje de la posición del tranvía en la vía
 function calcularPorcentajeTranviaEnVia() {
