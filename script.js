@@ -72,10 +72,14 @@ function moverTranvia(parada) {
         return;
     }
     switch (parada) {
+        case 0: 
+            paradaDestino = 0
+            posicion = 0
+            direcionDerecha = true;
+            break
         case 1:
             paradaDestino = 1;
             posicion = 50;
-            direcionDerecha = true;
             break;
         case 2:
             paradaDestino = 2;
@@ -124,7 +128,7 @@ function moverTranviaAuto() {
         .then(() => postVariable("INICIO", 0))
     intervalActivo = true;
     opcionesMoverTranviaAuto();
-    interval = setInterval(opcionesMoverTranviaAuto, 2500);
+    interval = setInterval(opcionesMoverTranviaAuto, 2200);
 }
 
 function opcionesMoverTranviaAuto() {
@@ -299,20 +303,18 @@ toggleCiclo.addEventListener("change", async () => {
 
 ponerEnHome()
 async function ponerEnHome() {
-    setTimeout(() => {
-        if (localStorage.getItem("manual") === "true") {
-            toggle.click()
-        } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
-            toggleCiclo.click()
-        }
-        paginaCargada = true
-    }, 100)
-
     esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
+
+    if (localStorage.getItem("manual") === "true") {
+        toggle.click()
+    } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
+        toggleCiclo.click()
+    }
+    paginaCargada = true
 }
 
 document.getElementById("reset").addEventListener("click", async () => {
@@ -406,7 +408,7 @@ botonDer.addEventListener("touchend", () => {
     pararTranvia()
     touchId = null;
 });
-let segundosManual = 4
+let segundosManual = 3.7
 botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
