@@ -97,7 +97,7 @@ function moverTranvia(parada) {
 
     }
 
-    let segundos = Math.abs(paradaDestino - paradaActual) / 4;
+    let segundos = Math.abs(paradaDestino - paradaActual) / 2.8;
     contParadas[parada - 1]++;
     contParadasSesion[parada - 1]++;
     sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion));
@@ -124,7 +124,7 @@ function moverTranviaAuto() {
         .then(() => postVariable("INICIO", 0))
     intervalActivo = true;
     opcionesMoverTranviaAuto();
-    interval = setInterval(opcionesMoverTranviaAuto, 2000);
+    interval = setInterval(opcionesMoverTranviaAuto, 2500);
 }
 
 function opcionesMoverTranviaAuto() {
@@ -137,12 +137,18 @@ function opcionesMoverTranviaAuto() {
 
 document.getElementById("switchCiclo").addEventListener("change", cambiarPointer)
 function cambiarPointer() {
-    let stop = document.getElementById("stop");
+    let paradas =document.getElementsByClassName("parada")
     let marcha = document.getElementById("marcha")
     if (document.getElementById("switchCiclo").checked) {
         marcha.style.cursor = "pointer"
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor="red"
+        }
     } else {
         marcha.style.cursor = "not-allowed"
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor=" "
+        }
     }
 }
 
@@ -162,6 +168,18 @@ function parar() {
     intervalActivo = false;
 }
 
+document.getElementById("stop").addEventListener("touchstart", (event) => {
+    parar()
+});
+
+document.getElementById("stop").addEventListener("touchend", () => {
+    dejarDeParar()
+});
+document.getElementById("stop").addEventListener("touchmove", () => {
+    dejarDeParar()
+});
+document.getElementById("stop").addEventListener("mousemove", dejarDeParar);
+
 document.getElementById("stop").addEventListener("mouseup", dejarDeParar);
 
 function dejarDeParar() {
@@ -178,7 +196,7 @@ document.addEventListener("keydown", (event) => {
     if (!cargadoHome) {
         return
     }
-    switch(event.key) {
+    switch (event.key) {
         case "ArrowLeft":
             moverimagenIzq();
             break
@@ -192,7 +210,7 @@ document.addEventListener("keydown", (event) => {
             break
         case "r":
             location.reload();
-			break
+            break
         case "1":
             moverEligiendo(1)
             break
@@ -239,6 +257,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 
 async function mostrarManual() {
+    let paradas =document.getElementsByClassName("parada")
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
@@ -246,11 +265,16 @@ async function mostrarManual() {
         automatico.style.display = "none";
         manual.style.display = "flex";
         switchAuto.style.display = "none"
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor="red"
+        }
     } else {
         automatico.style.display = "flex";
         manual.style.display = "none";
         switchAuto.style.display = "flex"
-
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor="";
+        }
     }
     localStorage.setItem("manual", toggle.checked)
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
@@ -274,17 +298,16 @@ toggleCiclo.addEventListener("change", async () => {
 })
 
 ponerEnHome()
-/*
 async function ponerEnHome() {
-	setTimeout(() => {
+    setTimeout(() => {
         if (localStorage.getItem("manual") === "true") {
             toggle.click()
         } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
             toggleCiclo.click()
-        } 
-		paginaCargada = true
+        }
+        paginaCargada = true
     }, 100)
-    
+
     esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
@@ -292,7 +315,6 @@ async function ponerEnHome() {
     postVariable("MARTXA", 0)
 }
 
-*/
 document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
 });
