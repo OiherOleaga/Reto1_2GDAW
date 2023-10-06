@@ -277,6 +277,7 @@ async function mostrarManual() {
     }
     localStorage.setItem("manual", toggle.checked)
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
+    leerDireccionManual()
     if (paginaCargada)
         location.reload();
 
@@ -298,18 +299,21 @@ toggleCiclo.addEventListener("change", async () => {
 
 ponerEnHome()
 async function ponerEnHome() {
-    //esperarHome()
+    setTimeout(() => {
+        if (localStorage.getItem("manual") === "true") {
+            toggle.click()
+        } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
+            toggleCiclo.click()
+        }
+        paginaCargada = true
+    }, 100)
+
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
 
-    if (localStorage.getItem("manual") === "true") {
-        toggle.click()
-    } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
-        toggleCiclo.click()
-    }
-    paginaCargada = true
+    esperarHome()
 }
 
 document.getElementById("reset").addEventListener("click", async () => {
@@ -323,11 +327,13 @@ async function esperarHome() {
     main.setAttribute("style", "visibility: hidden")
     let home
     do {
-        home = parseInt(await (await fetch("HOME.html")).text());
+        home = parseInt(await getVariable("HOME.html"));
     } while (!home)
     cargadoHome = true
     divEspera.setAttribute("style", "display: none;")
     main.setAttribute("style", "visibility: visible")
+
+    leerModos()
 }
 
 
@@ -450,8 +456,39 @@ function moverimagenDer() {
         imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
     }
 }
-leerModos()
+
+async function getVariablesJson(archivo) {
+    return JSON.parse(await getVariable(archivo))
+}
+
+async function getVariable(archivo) {
+    return await (await fetch(archivo)).text()
+}
+
 async function leerModos() {
-    let modos = await (await fetch("modos.html")).json()
-    console.log(modos)
+    while (true) {
+        let modos = await getVariablesJson("modos.html")
+
+        if (modos.manual !== (toggle.checked ? 1 : 0)) {
+            toggle.click()
+        }
+        
+        if (modos.ciclo !== (toggle.checked ? 0 : 1)) {
+            toggleCiclo.click()
+        }
+    }
+}
+
+async function leerDireccionManual() {
+    while (toggle.checked) {
+        let direccion = await getVariablesJson("direccionManual.html")
+
+        if (direccion.palante) {
+            moverimagenDer()
+        }
+
+        if (direccion.patras) {
+            moverimagenIzq()
+        }
+    }
 }
