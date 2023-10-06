@@ -5,6 +5,9 @@ let botonMarcha = document.querySelector("#marcha"); // Botón de marcha
 let toggle = document.getElementById("switchManual"); // Interruptor para el modo manual/automático
 let toggleCiclo = document.getElementById("switchCiclo"); // Interruptor para habilitar/deshabilitar el ciclo
 const via = document.querySelector(".vias"); // Elemento de la vía
+const href = window.location.href; // URL actual
+
+/*--------Variable de control--------*/
 let paginaCargada = false; // Variable para controlar si la página se ha cargado
 let paradaActual = 0; // Número de parada actual del tranvía
 let paradaDestino = 1; // Número de parada de destino del tranvía
@@ -13,7 +16,6 @@ let direcionDerecha = true; // Indica la dirección del movimiento del tranvía
 let interval; // Variable para el intervalo de tiempo
 let intervalActivo = false; // Indica si el intervalo de tiempo está activo
 let posi; // Almacena la posición actual
-const href = window.location.href; // URL actual
 let modoAutomatico = false; // Indica si el tranvía está en modo automático
 let modoClick = false; // Indica si se ha hecho clic en el tranvía
 let posicion; // Almacena la posición del tranvía
