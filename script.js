@@ -181,7 +181,6 @@ stop.addEventListener("touchstart", parar);
 stop.addEventListener("touchend", dejarDeParar)
 stop.addEventListener("touchmove", dejarDeParar)
 
-
 function dejarDeParar() {
     postVariable("B_PAUSA", 0);
     if (modoAutomatico) {
@@ -404,7 +403,7 @@ botonDer.addEventListener("touchend", () => {
     pararTranvia()
     touchId = null;
 });
-let segundosManual = 4.34
+let segundosManual = 4.7
 botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
