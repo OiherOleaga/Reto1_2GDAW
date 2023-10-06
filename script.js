@@ -373,8 +373,13 @@ document.addEventListener("touchmove", (event) => {
     }
 });
 
-document.addEventListener("touchend", () => {
+botonIzq.addEventListener("touchend", () => {
     postVariable("BOTON_PATRAS", 0)
+    pararTranvia()
+    touchId = null;
+});
+
+botonDer.addEventListener("touchend", () => {
     postVariable("BOTON_PALANTE", 0)
     pararTranvia()
     touchId = null;
