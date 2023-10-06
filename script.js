@@ -7,7 +7,6 @@ let toggleCiclo = document.getElementById("switchCiclo"); // Interruptor para ha
 const via = document.querySelector(".vias"); // Elemento de la vía
 const href = window.location.href; // URL actual
 
-/*--------Variable de control--------*/
 let paginaCargada = false; // Variable para controlar si la página se ha cargado
 let paradaActual = 0; // Número de parada actual del tranvía
 let paradaDestino = 1; // Número de parada de destino del tranvía
