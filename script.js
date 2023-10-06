@@ -492,3 +492,27 @@ async function leerDireccionManual() {
         }
     }
 }
+
+async function leerParadaParadas() {
+    while (!toggle.checked && !toggleCiclo.checked) {
+        let paradas = getVariablesJson("paradaParada.html")
+
+        for (let i = 0; i < paradas; i++) {
+            if (paradas[i]) {
+                moverTranvia(paradas[i])
+            }
+        }
+    }
+        
+}
+/*
+async function leerParadaCiclo() {
+    while (!toggle.checked && toggleCiclo.checked) {
+        let paradas = getVariablesJson("paradaCilco.html")         
+        
+        if (paradas.) {
+
+        }
+    }
+}
+*/
