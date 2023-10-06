@@ -159,7 +159,6 @@ function cambiarPointer() {
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
-document.getElementById("stop").addEventListener("mousedown", parar);
 function parar() {
     postVariable("B_PAUSA", 1);
     if (direcionDerecha) {
@@ -172,19 +171,16 @@ function parar() {
     intervalActivo = false;
 }
 
-document.getElementById("stop").addEventListener("touchstart", (event) => {
-    parar()
-});
+let stop = document.getElementById("stop")
 
-document.getElementById("stop").addEventListener("touchend", () => {
-    dejarDeParar()
-});
-document.getElementById("stop").addEventListener("touchmove", () => {
-    dejarDeParar()
-});
-document.getElementById("stop").addEventListener("mousemove", dejarDeParar);
+stop.addEventListener("mousedown", parar)
+stop.addEventListener("mousemove", dejarDeParar);
+stop.addEventListener("mouseup", dejarDeParar);
 
-document.getElementById("stop").addEventListener("mouseup", dejarDeParar);
+stop.addEventListener("touchstart", parar);
+stop.addEventListener("touchend", dejarDeParar)
+stop.addEventListener("touchmove", dejarDeParar)
+
 
 function dejarDeParar() {
     postVariable("B_PAUSA", 0);
@@ -193,7 +189,7 @@ function dejarDeParar() {
     } else if (modoClick) {
         imgTranvia.style.transform = `translateX(${posicion}%)`;
     }
-    intervalActivo = false;
+    intervalActivo = true;
 }
 
 document.addEventListener("keydown", (event) => {
