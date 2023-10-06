@@ -97,7 +97,7 @@ function moverTranvia(parada) {
 
     }
 
-    let segundos = Math.abs(paradaDestino - paradaActual) / 4;
+    let segundos = Math.abs(paradaDestino - paradaActual) / 2.8;
     contParadas[parada - 1]++;
     contParadasSesion[parada - 1]++;
     sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion));
@@ -124,7 +124,7 @@ function moverTranviaAuto() {
         .then(() => postVariable("INICIO", 0))
     intervalActivo = true;
     opcionesMoverTranviaAuto();
-    interval = setInterval(opcionesMoverTranviaAuto, 2000);
+    interval = setInterval(opcionesMoverTranviaAuto, 2500);
 }
 
 function opcionesMoverTranviaAuto() {
@@ -162,6 +162,18 @@ function parar() {
     intervalActivo = false;
 }
 
+document.getElementById("stop").addEventListener("touchstart", (event) => {
+    parar()
+});
+
+document.getElementById("stop").addEventListener("touchend", () => {
+    dejarDeParar()
+});
+document.getElementById("stop").addEventListener("touchmove", () => {
+    dejarDeParar()
+});
+document.getElementById("stop").addEventListener("mousemove", dejarDeParar);
+
 document.getElementById("stop").addEventListener("mouseup", dejarDeParar);
 
 function dejarDeParar() {
@@ -178,7 +190,7 @@ document.addEventListener("keydown", (event) => {
     if (!cargadoHome) {
         return
     }
-    switch(event.key) {
+    switch (event.key) {
         case "ArrowLeft":
             moverimagenIzq();
             break
@@ -192,7 +204,7 @@ document.addEventListener("keydown", (event) => {
             break
         case "r":
             location.reload();
-			break
+            break
         case "1":
             moverEligiendo(1)
             break
@@ -274,17 +286,17 @@ toggleCiclo.addEventListener("change", async () => {
 })
 
 ponerEnHome()
-/*
+
 async function ponerEnHome() {
-	setTimeout(() => {
+    setTimeout(() => {
         if (localStorage.getItem("manual") === "true") {
             toggle.click()
         } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
             toggleCiclo.click()
-        } 
-		paginaCargada = true
+        }
+        paginaCargada = true
     }, 100)
-    
+
     esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
@@ -292,7 +304,7 @@ async function ponerEnHome() {
     postVariable("MARTXA", 0)
 }
 
-*/
+
 document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
 });
