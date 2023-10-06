@@ -179,10 +179,6 @@ document.getElementById("stop").addEventListener("touchstart", (event) => {
 document.getElementById("stop").addEventListener("touchend", () => {
     dejarDeParar()
 });
-document.getElementById("stop").addEventListener("touchmove", () => {
-    dejarDeParar()
-});
-document.getElementById("stop").addEventListener("mousemove", dejarDeParar);
 
 document.getElementById("stop").addEventListener("mouseup", dejarDeParar);
 
@@ -303,7 +299,7 @@ toggleCiclo.addEventListener("change", async () => {
 
 ponerEnHome()
 async function ponerEnHome() {
-    esperarHome()
+    //esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
