@@ -137,12 +137,18 @@ function opcionesMoverTranviaAuto() {
 
 document.getElementById("switchCiclo").addEventListener("change", cambiarPointer)
 function cambiarPointer() {
-    let stop = document.getElementById("stop");
+    let paradas =document.getElementsByClassName("parada")
     let marcha = document.getElementById("marcha")
     if (document.getElementById("switchCiclo").checked) {
         marcha.style.cursor = "pointer"
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor="red"
+        }
     } else {
         marcha.style.cursor = "not-allowed"
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor=" "
+        }
     }
 }
 
@@ -239,6 +245,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 
 async function mostrarManual() {
+    let paradas =document.getElementsByClassName("parada")
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
@@ -246,11 +253,16 @@ async function mostrarManual() {
         automatico.style.display = "none";
         manual.style.display = "flex";
         switchAuto.style.display = "none"
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor="red"
+        }
     } else {
         automatico.style.display = "flex";
         manual.style.display = "none";
         switchAuto.style.display = "flex"
-
+        for (let parada = 0; parada < paradas.length; parada++) {
+            paradas[parada].style.backgroundColor="";
+        }
     }
     localStorage.setItem("manual", toggle.checked)
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
@@ -272,9 +284,8 @@ toggleCiclo.addEventListener("change", async () => {
     if (paginaCargada)
         location.reload();
 })
-
-ponerEnHome()
 /*
+ponerEnHome()
 async function ponerEnHome() {
 	setTimeout(() => {
         if (localStorage.getItem("manual") === "true") {
@@ -290,8 +301,6 @@ async function ponerEnHome() {
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
-}
-
 */
 document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
