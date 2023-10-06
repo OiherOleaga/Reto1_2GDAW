@@ -308,17 +308,22 @@ toggleCiclo.addEventListener("change", async () => {
 // Función para configurar el tranvía en la posición de inicio
 ponerEnHome()
 async function ponerEnHome() {
+
+    setTimeout(() => {
+        if (localStorage.getItem("manual") === "true") {
+            toggle.click()
+        } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
+            toggleCiclo.click()
+        }
+        paginaCargada = true
+    }, 100)
+
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
 
-    if (localStorage.getItem("manual") === "true") {
-        toggle.click()
-    } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
-        toggleCiclo.click()
-    }
-    paginaCargada = true
+
 }
 
 // Manejo del botón de reset
