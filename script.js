@@ -72,7 +72,7 @@ function moverTranvia(parada) {
         return;
     }
     switch (parada) {
-        case 0: 
+        case 0:
             paradaDestino = 0
             posicion = 0
             direcionDerecha = true;
@@ -141,17 +141,17 @@ function opcionesMoverTranviaAuto() {
 
 document.getElementById("switchCiclo").addEventListener("change", cambiarPointer)
 function cambiarPointer() {
-    let paradas =document.getElementsByClassName("parada")
+    let paradas = document.getElementsByClassName("parada")
     let marcha = document.getElementById("marcha")
     if (document.getElementById("switchCiclo").checked) {
         marcha.style.cursor = "pointer"
         for (let parada = 0; parada < paradas.length; parada++) {
-            paradas[parada].style.backgroundColor="red"
+            paradas[parada].style.backgroundColor = "red"
         }
     } else {
         marcha.style.cursor = "not-allowed"
         for (let parada = 0; parada < paradas.length; parada++) {
-            paradas[parada].style.backgroundColor=" "
+            paradas[parada].style.backgroundColor = " "
         }
     }
 }
@@ -261,7 +261,7 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 
 async function mostrarManual() {
-    let paradas =document.getElementsByClassName("parada")
+    let paradas = document.getElementsByClassName("parada")
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
@@ -270,14 +270,14 @@ async function mostrarManual() {
         manual.style.display = "flex";
         switchAuto.style.display = "none"
         for (let parada = 0; parada < paradas.length; parada++) {
-            paradas[parada].style.backgroundColor="red"
+            paradas[parada].style.backgroundColor = "red"
         }
     } else {
         automatico.style.display = "flex";
         manual.style.display = "none";
         switchAuto.style.display = "flex"
         for (let parada = 0; parada < paradas.length; parada++) {
-            paradas[parada].style.backgroundColor="";
+            paradas[parada].style.backgroundColor = "";
         }
     }
     localStorage.setItem("manual", toggle.checked)
@@ -303,7 +303,7 @@ toggleCiclo.addEventListener("change", async () => {
 
 ponerEnHome()
 async function ponerEnHome() {
-    esperarHome()
+    //esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
@@ -408,7 +408,7 @@ botonDer.addEventListener("touchend", () => {
     pararTranvia()
     touchId = null;
 });
-let segundosManual = 3.7
+let segundosManual = 4.34
 botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
