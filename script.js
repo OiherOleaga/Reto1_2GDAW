@@ -1,24 +1,25 @@
-let imgTranvia = document.querySelector("#tranvia")
-let divParadas = document.querySelector(".paradas")
-let botonMarcha = document.querySelector("#marcha")
+// Selección de elementos HTML
+let imgTranvia = document.querySelector("#tranvia");
+let divParadas = document.querySelector(".paradas");
+let botonMarcha = document.querySelector("#marcha");
 let toggle = document.getElementById("switchManual");
 let toggleCiclo = document.getElementById("switchCiclo");
 const via = document.querySelector(".vias");
-let paginaCargada = false
+let paginaCargada = false;
 let paradaActual = 0;
 let paradaDestino = 1;
-let keyAnterior
+let keyAnterior;
 let direcionDerecha = true;
 let interval;
 let intervalActivo = false;
 let posi;
-const href = window.location.href
+const href = window.location.href;
 let modoAutomatico = false;
 let modoClick = false;
 let posicion;
-let cargadoHome = false
+let cargadoHome = false;
 
-
+// Función para calcular el porcentaje de la posición del tranvía en la vía
 function calcularPorcentajeTranviaEnVia() {
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
@@ -29,28 +30,26 @@ function calcularPorcentajeTranviaEnVia() {
     return porcentaje;
 }
 
+// Función para calcular el ancho del tranvía en porcentaje
 function calcularWidthTranviaPorcentaje() {
-    return (imgTranvia.getBoundingClientRect().width / via.getBoundingClientRect().width) * 1000
+    return (imgTranvia.getBoundingClientRect().width / via.getBoundingClientRect().width) * 1000;
 }
 
-// Ejemplo de uso
-
-let contParadasSesion = JSON.parse(sessionStorage.getItem("contParadas")) ?? [
-    0, 0, 0, 0, 0,
-];
+// Ejemplo de uso de almacenamiento local y de sesión
+let contParadasSesion = JSON.parse(sessionStorage.getItem("contParadas")) ?? [0, 0, 0, 0, 0];
 sessionStorage.setItem("contParadas", JSON.stringify(contParadasSesion));
 
-let contParadas = JSON.parse(localStorage.getItem("contParadas")) ?? [
-    0, 0, 0, 0, 0,
-];
+let contParadas = JSON.parse(localStorage.getItem("contParadas")) ?? [0, 0, 0, 0, 0];
 localStorage.setItem("contParadas", JSON.stringify(contParadas));
 
+// Manejo de eventos de clic en paradas
 for (let parada of divParadas.children) {
     parada.addEventListener("click", () => {
-        moverEligiendo(parseInt(parada.id[parada.id.length - 1]))
+        moverEligiendo(parseInt(parada.id[parada.id.length - 1]));
     });
 }
 
+// Función para mover el tranvía cuando se selecciona una parada
 function moverEligiendo(numParada) {
     if (!toggleCiclo.checked && !toggle.checked) {
         postVariableWait(`B${numParada}`, 1)
@@ -59,6 +58,7 @@ function moverEligiendo(numParada) {
     }
 }
 
+// Función para mostrar la lista de estadísticas
 function mostrarLista() {
     lista = document.getElementById("estadisticas");
     if (lista.style.display === "none" || lista.style.display === "") {
@@ -66,8 +66,9 @@ function mostrarLista() {
     } else lista.style.display = "none";
 }
 
+// Función para mover el tranvía a una parada específica
 function moverTranvia(parada) {
-    modoClick = true
+    modoClick = true;
     if (paradaActual == parada) {
         return;
     }
@@ -112,10 +113,10 @@ function moverTranvia(parada) {
     paradaActual = paradaDestino;
 }
 
-
+// Manejo del menú para mostrar la lista de estadísticas
 document.getElementById("menu").addEventListener("click", mostrarLista);
 
-
+// Función para mover el tranvía automáticamente
 function moverTranviaAuto() {
     if (toggle.checked || !toggleCiclo.checked) {
         return
@@ -131,6 +132,7 @@ function moverTranviaAuto() {
     interval = setInterval(opcionesMoverTranviaAuto, 2500);
 }
 
+// Función para las opciones de movimiento automático del tranvía
 function opcionesMoverTranviaAuto() {
     if (direcionDerecha) {
         moverTranvia(paradaActual + 1);
@@ -139,7 +141,9 @@ function opcionesMoverTranviaAuto() {
     }
 }
 
-document.getElementById("switchCiclo").addEventListener("change", cambiarPointer)
+// Cambiar el cursor y el color de las paradas al cambiar el modo ciclo
+document.getElementById("switchCiclo").addEventListener("change", cambiarPointer);
+
 function cambiarPointer() {
     let paradas = document.getElementsByClassName("parada")
     let marcha = document.getElementById("marcha")
@@ -156,9 +160,11 @@ function cambiarPointer() {
     }
 }
 
+// Manejo del menú para mostrar la lista de estadísticas
 document.getElementById("menu").addEventListener("click", mostrarLista);
 botonMarcha.addEventListener("click", moverTranviaAuto);
 
+// Función para parar el tranvía
 function parar() {
     postVariable("B_PAUSA", 1);
     if (direcionDerecha) {
@@ -191,6 +197,7 @@ function dejarDeParar() {
     intervalActivo = true;
 }
 
+// Manejo de eventos de teclado
 document.addEventListener("keydown", (event) => {
     if (!cargadoHome) {
         return
@@ -251,10 +258,12 @@ document.addEventListener("keyup", (event) => {
     }
 });
 
+// Manejo del menú para mostrar la lista de estadísticas
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 
+// Función para mostrar el modo manual
 async function mostrarManual() {
     let paradas = document.getElementsByClassName("parada")
     manual = document.getElementById("manual");
@@ -279,10 +288,10 @@ async function mostrarManual() {
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
     if (paginaCargada)
         location.reload();
-
 }
 toggle.addEventListener("change", mostrarManual);
 
+// Función para ir a la posición de inicio
 async function irHome() {
     let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000);
     imgTranvia.style.transition = `transform ${segundos}s linear`;
@@ -296,9 +305,9 @@ toggleCiclo.addEventListener("change", async () => {
         location.reload();
 })
 
+// Función para configurar el tranvía en la posición de inicio
 ponerEnHome()
 async function ponerEnHome() {
-    //esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
@@ -312,10 +321,12 @@ async function ponerEnHome() {
     paginaCargada = true
 }
 
+// Manejo del botón de reset
 document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
 });
 
+// Función para esperar la carga de la página HOME
 async function esperarHome() {
     let divEspera = document.querySelector("#espera")
     divEspera.setAttribute("style", "display: flex;")
@@ -330,7 +341,7 @@ async function esperarHome() {
     main.setAttribute("style", "visibility: visible")
 }
 
-
+// Función para enviar una variable al servidor y esperar una respuesta
 async function postVariableWait(variable, valor) {
     await fetch(href, {
         method: "post",
@@ -338,6 +349,7 @@ async function postVariableWait(variable, valor) {
     });
 }
 
+// Función para enviar una variable al servidor
 function postVariable(variable, valor) {
     fetch(href, {
         method: "post",
@@ -345,13 +357,16 @@ function postVariable(variable, valor) {
     });
 }
 
+// Manejo del cambio de modo manual
 document.getElementById("switchManual").addEventListener("change", mostrarManual);
 
+// Selección de elementos HTML adicionales
 const botonIzq = document.getElementById("izquierda");
 const botonDer = document.getElementById("derecha");
 const viaRect = via.getBoundingClientRect();
 const anchoTotalVia = viaRect.width;
 
+// Manejo de eventos táctiles en dispositivos móviles para los botones izquierdo y derecho
 botonIzq.addEventListener("touchstart", (event) => {
     touchId = event.touches[0].identifier;
     moverimagenIzq();
@@ -373,13 +388,16 @@ botonDer.addEventListener("touchend", () => {
     pararTranvia()
     touchId = null;
 });
+
+// Manejo del movimiento táctil en la vía
 document.addEventListener("touchmove", (event) => {
     if (isMoving && touchId !== null) {
         const touch = Array.from(event.touches).find(
             (t) => t.identifier === touchId
         );
         if (touch) {
-            event.preventDefault(); // Evita el desplazamiento de la página en dispositivos móviles
+            event.preventDefault();
+            // Evita el desplazamiento de la página en dispositivos móviles
             // Calcula la posición del toque y realiza la acción correspondiente
             const posX = touch.clientX;
             const viaRect = via.getBoundingClientRect();
@@ -392,6 +410,7 @@ document.addEventListener("touchmove", (event) => {
     }
 });
 
+// Manejo del evento touchend para detener el movimiento
 botonIzq.addEventListener("touchend", () => {
     postVariable("BOTON_PATRAS", 0)
     pararTranvia()
@@ -403,13 +422,17 @@ botonDer.addEventListener("touchend", () => {
     pararTranvia()
     touchId = null;
 });
-let segundosManual = 4.7
+
+let segundosManual = 4.7;
+
+// Manejo del evento mousedown para mover a la izquierda
 botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
     pararTranvia()
 });
 
+// Manejo del evento mousedown para mover a la derecha
 botonDer.addEventListener("mousedown", moverimagenDer);
 botonDer.addEventListener("mousemove", () => {
     postVariable("BOTON_PALANTE", 0)
@@ -426,11 +449,13 @@ botonIzq.addEventListener("mouseup", () => {
     pararTranvia()
 });
 
+// Función para detener el tranvía y colocarlo en la posición actual
 function pararTranvia() {
     let posi = calcularPorcentajeTranviaEnVia();
     imgTranvia.style.transform = `translateX(${posi}%)`;
 }
 
+// Función para mover la imagen del tranvía a la izquierda
 function moverimagenIzq() {
     if (toggle.checked) {
         postVariable("BOTON_PATRAS", 1)
@@ -441,6 +466,7 @@ function moverimagenIzq() {
     }
 }
 
+// Función para mover la imagen del tranvía a la derecha
 function moverimagenDer() {
     if (toggle.checked) {
         postVariable("BOTON_PALANTE", 1)
@@ -450,4 +476,3 @@ function moverimagenDer() {
         imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()}%)`;
     }
 }
-
