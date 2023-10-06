@@ -480,22 +480,34 @@ async function leerModos() {
 }
 
 async function leerDireccionManual() {
+    let palante = false
+    let patras = false
     while (toggle.checked) {
         let direccion = await getVariablesJson("direccionManual.html")
 
         if (direccion.palante) {
             moverimagenDer()
+            palante = true
+        } else if (palante) {
+            postVariable("BOTON_PALANTE", 0)
+            pararTranvia()
+            palante = false
         }
 
         if (direccion.patras) {
             moverimagenIzq()
+            patras = true
+        } else if (patras) {
+            postVariable("BOTON_PATRAS", 0)
+            pararTranvia()
+            patras = false
         }
     }
 }
 
 async function leerParadaParadas() {
     while (!toggle.checked && !toggleCiclo.checked) {
-        let paradas = getVariablesJson("paradaParada.html")
+        let paradas = await getVariablesJson("paradasParada.html")
 
         for (let i = 0; i < paradas; i++) {
             if (paradas[i]) {
@@ -505,14 +517,16 @@ async function leerParadaParadas() {
     }
         
 }
-/*
+
 async function leerParadaCiclo() {
     while (!toggle.checked && toggleCiclo.checked) {
-        let paradas = getVariablesJson("paradaCilco.html")         
+        let paradas = await getVariablesJson("paradasCilco.html")         
         
-        if (paradas.) {
+        for (let i = 0; i < paradas; i++) {
+            if (paradas[i]) {
+                //moverTranviaAuto()
 
+            }
         }
     }
 }
-*/
