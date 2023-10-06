@@ -303,7 +303,7 @@ toggleCiclo.addEventListener("change", async () => {
 
 ponerEnHome()
 async function ponerEnHome() {
-    //esperarHome()
+    esperarHome()
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
@@ -408,7 +408,7 @@ botonDer.addEventListener("touchend", () => {
     pararTranvia()
     touchId = null;
 });
-let segundosManual = 4.34
+let segundosManual = 4.7
 botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
     postVariable("BOTON_PATRAS", 0)
