@@ -81,7 +81,7 @@ main {
 /*-----------Botones y controles-----------*/
 /* Estilos para los botones y controles, incluyendo las animaciones al pasar el mouse y efectos visuales. */
 .parada {
-    transform: scale(.7);
+    scale: .7;
     margin-bottom: 12px;
 }
 
@@ -416,15 +416,15 @@ footer {
     transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background-color: #ccc;
 }
 
-input:focus + .slider {
+input:focus+.slider {
     box-shadow: 0 0 1px #ccc;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     transform: translateX(26px);
 }
 
