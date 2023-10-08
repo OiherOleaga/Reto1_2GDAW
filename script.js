@@ -115,6 +115,28 @@ function moverTranvia(parada) {
 
 document.getElementById("menu").addEventListener("click", mostrarLista);
 
+async function moverTranviaAuto2() {
+    if (toggle.checked || !toggleCiclo.checked) {
+        return
+    }
+    modoAutomatico = true;
+    if (intervalActivo) {
+        return;
+    }
+    postVariableWait("INICIO", 1)
+        .then(() => postVariable("INICIO", 0))
+    intervalActivo = true;
+
+    while (!toggle.checked && toggleCiclo.checked) {
+        let paradas = await getVariablesJson("./variables/paradasCilco.html")         
+        
+        for (let i = 0; i < paradas; i++) {
+            if (paradas[i]) {
+                moverTranvia(i)                            
+            }
+        }
+    }
+}
 
 function moverTranviaAuto() {
     if (toggle.checked || !toggleCiclo.checked) {
@@ -188,7 +210,6 @@ function dejarDeParar() {
     } else if (modoClick) {
         imgTranvia.style.transform = `translateX(${posicion}%)`;
     }
-    intervalActivo = true;
 }
 
 document.addEventListener("keydown", (event) => {
@@ -253,7 +274,6 @@ document.addEventListener("keyup", (event) => {
 
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("menu").addEventListener("click", mostrarLista);
-document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 
 async function mostrarManual() {
     let paradas = document.getElementsByClassName("parada")
@@ -327,7 +347,7 @@ async function esperarHome() {
     main.setAttribute("style", "visibility: hidden")
     let home
     do {
-        home = parseInt(await getVariable("HOME.html"));
+        home = parseInt(await getVariable("./variables/HOME.html"));
     } while (!home)
     cargadoHome = true
     divEspera.setAttribute("style", "display: none;")
@@ -467,7 +487,7 @@ async function getVariable(archivo) {
 
 async function leerModos() {
     while (true) {
-        let modos = await getVariablesJson("modos.html")
+        let modos = await getVariablesJson("./variables/modos.html")
 
         if (modos.manual !== (toggle.checked ? 1 : 0)) {
             toggle.click()
@@ -483,7 +503,7 @@ async function leerDireccionManual() {
     let palante = false
     let patras = false
     while (toggle.checked) {
-        let direccion = await getVariablesJson("direccionManual.html")
+        let direccion = await getVariablesJson("./variables/direccionManual.html")
 
         if (direccion.palante) {
             moverimagenDer()
@@ -506,12 +526,13 @@ async function leerDireccionManual() {
 }
 
 async function leerParadaParadas() {
+    // ver cuando le da a pausa desde el plc
     while (!toggle.checked && !toggleCiclo.checked) {
-        let paradas = await getVariablesJson("paradasParada.html")
+        let paradas = await getVariablesJson("./variables/paradasParada.html")
 
         for (let i = 0; i < paradas; i++) {
             if (paradas[i]) {
-                moverTranvia(paradas[i])
+                moverTranvia(i + 1)
             }
         }
     }
@@ -520,13 +541,10 @@ async function leerParadaParadas() {
 
 async function leerParadaCiclo() {
     while (!toggle.checked && toggleCiclo.checked) {
-        let paradas = await getVariablesJson("paradasCilco.html")         
-        
-        for (let i = 0; i < paradas; i++) {
-            if (paradas[i]) {
-                //moverTranviaAuto()
-
-            }
+        let inicio = await getVariable("./variables/INICIO.html")
+        if (inicio) {
+            moverTranviaAuto()
+            // moverTranviaAuto2()
         }
     }
 }
