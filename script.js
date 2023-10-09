@@ -419,7 +419,7 @@ function mostrarLista() {
 function cambiarPointer() {
     let paradas = document.getElementsByClassName("parada");
     let marcha = document.getElementById("marcha");
-    if (document.getElementById("switchCiclo").checked) {
+    if (toggleCiclo.checked) {
         marcha.style.cursor = "pointer";
         for (let parada = 0; parada < paradas.length; parada++) {
             paradas[parada].style.backgroundColor = "red";
@@ -427,7 +427,7 @@ function cambiarPointer() {
     } else {
         marcha.style.cursor = "not-allowed";
         for (let parada = 0; parada < paradas.length; parada++) {
-            paradas[parada].style.backgroundColor = " ";
+            paradas[parada].style.backgroundColor = "";
         }
     }
 }
@@ -467,7 +467,7 @@ function mostrarManual() {
         manual.style.display = "none";
         switchAuto.style.display = "flex";
         for (let parada = 0; parada < paradas.length; parada++) {
-            paradas[parada].style.backgroundColor = "";
+            paradas[parada].style.backgroundColor = " ";
         }
     }
     localStorage.setItem("manual", toggle.checked);
