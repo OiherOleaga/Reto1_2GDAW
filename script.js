@@ -45,9 +45,6 @@ document.getElementById("switchCiclo")
 document.addEventListener("change", cambiarPointer);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.addEventListener("keyup", (event) => {
-    if (!cargadoHome) {
-        return;
-    }
     if (keyAnterior === event.key) keyAnterior = "patata";
     switch (event.key) {
         case "s":
@@ -68,9 +65,6 @@ document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
 });
 document.addEventListener("keyup", (event) => {
-    if (!cargadoHome) {
-        return;
-    }
     if (keyAnterior === event.key) keyAnterior = "patata";
     switch (event.key) {
         case "s":
@@ -110,9 +104,6 @@ document.addEventListener("touchmove", (event) => {
 });
 // Manejo de eventos de teclado
 document.addEventListener("keydown", (event) => {
-    if (!cargadoHome) {
-        return;
-    }
     switch (event.key) {
         case "ArrowLeft":
             moverimagenIzq();
@@ -432,22 +423,6 @@ function cambiarPointer() {
     }
 }
 
-
-
-function parar() {
-    postVariable("B_PAUSA", 1);
-    if (toggleCiclo.checked) {
-        if (direcionDerecha) {
-            paradaActual--;
-        } else {
-            paradaActual++;
-        }
-    }
-    pararTranvia();
-    clearInterval(interval);
-    intervalActivo = false;
-}
-
 function mostrarManual() {
     let paradas = document.getElementsByClassName("parada");
     manual = document.getElementById("manual");
@@ -507,7 +482,7 @@ async function ponerEnHome() {
         toggleCiclo.click();
     }
 
-    esperarHome();
+    //esperarHome();
 }
 
 document.getElementById("reset").addEventListener("click", async () => {
