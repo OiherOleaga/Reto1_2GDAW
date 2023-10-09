@@ -183,10 +183,12 @@ botonMarcha.addEventListener("click", moverTranviaAuto);
 
 function parar() {
     postVariable("B_PAUSA", 1);
-    if (direcionDerecha) {
-        paradaActual--;
-    } else {
-        paradaActual++;
+    if (toggleCiclo.checked) {
+        if (direcionDerecha) {
+            paradaActual--;
+        } else {
+            paradaActual++;
+        }
     }
     pararTranvia();
     clearInterval(interval);
@@ -275,12 +277,13 @@ document.addEventListener("keyup", (event) => {
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 
-async function mostrarManual() {
+function mostrarManual() {
     let paradas = document.getElementsByClassName("parada")
     manual = document.getElementById("manual");
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
     if (toggle.checked) {
+        leerDireccionManual()
         automatico.style.display = "none";
         manual.style.display = "flex";
         switchAuto.style.display = "none"
@@ -288,6 +291,7 @@ async function mostrarManual() {
             paradas[parada].style.backgroundColor = "red"
         }
     } else {
+        leerPausa()
         automatico.style.display = "flex";
         manual.style.display = "none";
         switchAuto.style.display = "flex"
@@ -297,7 +301,6 @@ async function mostrarManual() {
     }
     localStorage.setItem("manual", toggle.checked)
     postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
-    leerDireccionManual()
     if (paginaCargada)
         location.reload();
 
@@ -310,9 +313,16 @@ async function irHome() {
     imgTranvia.style.transform = `translateX(0%)`;
 }
 
-toggleCiclo.addEventListener("change", async () => {
+toggleCiclo.addEventListener("change", () => {
     localStorage.setItem("ciclo", toggleCiclo.checked)
     postVariable("B_A_R", toggleCiclo.checked ? 0 : 1)
+
+    if (toggleCiclo.checked) {
+        leerParadaCiclo()
+    } else {
+        leerParadaParadas()
+    }
+
     if (paginaCargada)
         location.reload();
 })
@@ -526,7 +536,6 @@ async function leerDireccionManual() {
 }
 
 async function leerParadaParadas() {
-    // ver cuando le da a pausa desde el plc
     while (!toggle.checked && !toggleCiclo.checked) {
         let paradas = await getVariablesJson("./variables/paradasParada.html")
 
@@ -545,6 +554,19 @@ async function leerParadaCiclo() {
         if (inicio) {
             moverTranviaAuto()
             // moverTranviaAuto2()
+        }
+    }
+}
+
+async function leerPausa() {
+    while (!toggle.checked) {
+
+        let pausa = await getVariable("./varibles/B_PAUSA.html") 
+
+        if (parseInt(pausa)) {
+            parar()
+        } else {
+            dejarDeParar()
         }
     }
 }
