@@ -190,12 +190,6 @@ stop.addEventListener("touchend", dejarDeParar);
 stop.addEventListener("touchmove", dejarDeParar);
 toggle.addEventListener("change", mostrarManual);
 
-toggleCiclo.addEventListener("change", async () => {
-    localStorage.setItem("ciclo", toggleCiclo.checked);
-    postVariable("B_A_R", toggleCiclo.checked ? 0 : 1);
-    if (paginaCargada) location.reload();
-});
-toggle.addEventListener("change", mostrarManual);
 
 // Función para configurar el tranvía en la posición de inicio
 ponerEnHome();
@@ -456,7 +450,6 @@ function mostrarManual() {
 
 toggleCiclo.addEventListener("change", () => {
     localStorage.setItem("ciclo", toggleCiclo.checked);
-
     postVariableWait("B_A_R", toggleCiclo.checked ? 0 : 1).then(() => {
         if (paginaCargada) {
             location.reload();
@@ -469,18 +462,6 @@ async function ponerEnHome() {
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0);
-    setTimeout(() => {
-        paginaCargada = true;
-    }, 500);
-
-    if (localStorage.getItem("manual") === "true") {
-        toggle.click();
-    } else if (
-        localStorage.getItem("ciclo") === "true" ||
-        !localStorage.getItem("ciclo")
-    ) {
-        toggleCiclo.click();
-    }
 
     //esperarHome();
 }
@@ -512,6 +493,19 @@ async function esperarHome() {
     else leerPausa();
 
     leerModos();
+
+    if (localStorage.getItem("manual") === "true") {
+        toggle.click();
+    } else if (
+        localStorage.getItem("ciclo") === "true" ||
+        !localStorage.getItem("ciclo")
+    ) {
+        toggleCiclo.click();
+    }
+
+    setTimeout(() => {
+        paginaCargada = true;
+    }, 100);
 }
 
 // --------------- FuncionesParaComunicarseConElServidor ----------------------
