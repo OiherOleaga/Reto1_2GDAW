@@ -503,7 +503,7 @@ async function leerModos() {
             toggle.click()
         }
         
-        if (modos.ciclo !== (toggle.checked ? 0 : 1)) {
+        if (modos.ciclo !== (toggleCiclo.checked ? 0 : 1)) {
             toggleCiclo.click()
         }
     }
