@@ -44,22 +44,6 @@ document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("switchCiclo")
 document.addEventListener("change", cambiarPointer);
 document.getElementById("menu").addEventListener("click", mostrarLista);
-document.addEventListener("keyup", (event) => {
-    if (keyAnterior === event.key) keyAnterior = "patata";
-    switch (event.key) {
-        case "s":
-            dejarDeParar();
-            break;
-        case "ArrowLeft":
-            pararTranvia();
-            postVariable("BOTON_PATRAS", 0);
-            break;
-        case "ArrowRight":
-            pararTranvia();
-            postVariable("BOTON_PALANTE", 0);
-            break;
-    }
-});
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
 document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
@@ -138,7 +122,6 @@ document.addEventListener("keydown", (event) => {
     }
     keyAnterior = event.key;
 });
-botonMarcha.addEventListener("click", moverTranviaAuto);
 // Manejo de eventos táctiles en dispositivos móviles para los botones izquierdo y derecho
 botonIzq.addEventListener("touchstart", (event) => {
     touchId = event.touches[0].identifier;
@@ -183,7 +166,7 @@ botonIzq.addEventListener("mouseup", () => {
 });
 
 stop.addEventListener("mousedown", parar);
-stop.addEventListener("mousemove", dejarDeParar);
+//stop.addEventListener("mousemove", dejarDeParar);
 stop.addEventListener("mouseup", dejarDeParar);
 stop.addEventListener("touchstart", parar);
 stop.addEventListener("touchend", dejarDeParar);
@@ -261,7 +244,6 @@ function moverTranvia(parada) {
 }
 
 // Función para mover el tranvía automáticamente
-
 async function moverTranviaAuto2() {
     if (toggle.checked || !toggleCiclo.checked) {
         return;
@@ -289,9 +271,6 @@ function moverTranviaAuto() {
         return;
     }
     modoAutomatico = true;
-    if (intervalActivo) {
-        return;
-    }
     postVariableWait("INICIO", 1).then(() => postVariable("INICIO", 0));
     intervalActivo = true;
     opcionesMoverTranviaAuto();
@@ -607,19 +586,17 @@ async function leerParadaCiclo() {
         if (parseInt(inicio)) {
             moverTranviaAuto();
 
-            // moverTranviaAuto2()
+            //moverTranviaAuto2()
         }
     }
 }
 
 async function leerPausa() {
-    while (!toggle.checked) {
         let pausa = await getVariable("./variables/B_PAUSA.html");
-
         if (parseInt(pausa)) {
             parar();
         } else {
             dejarDeParar();
         }
-    }
 }
+
