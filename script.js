@@ -37,23 +37,12 @@ localStorage.setItem("contParadas", JSON.stringify(contParadas)); // Ejemplo de 
 let stop = document.getElementById("stop"); // define la variable stop como el elemento stop
 
 // -------------------------------------------EventListeners-----------------------------------------------
-function calcularPorcentajeTranviaEnVia() {
-    const viaRect = via.getBoundingClientRect();
-    const tranviaRect = imgTranvia.getBoundingClientRect();
-    const posicionRelativaEnPixeles = tranviaRect.left - viaRect.left;
-    const anchoTotalVia = viaRect.width;
-    const porcentaje = (posicionRelativaEnPixeles / anchoTotalVia) * 1000;
-    return porcentaje;
-}
+
 
 // Manejo del menú para mostrar la lista de estadísticas
 document.getElementById("menu").addEventListener("click", mostrarLista);
-// Cambiar el cursor y el color de las paradas al cambiar el modo ciclo
-document
-    .getElementById("switchCiclo")
-    .addEventListener("change", cambiarPointer);
-
-// Manejo del menú para mostrar la lista de estadísticas
+document.getElementById("switchCiclo")
+document.addEventListener("change", cambiarPointer);
 document.getElementById("menu").addEventListener("click", mostrarLista);
 document.addEventListener("keyup", (event) => {
     if (!cargadoHome) {
@@ -74,18 +63,31 @@ document.addEventListener("keyup", (event) => {
             break;
     }
 });
-// Manejo del menú para mostrar la lista de estadísticas
-document.getElementById("menu").addEventListener("click", mostrarLista);
-document.getElementById("menu").addEventListener("click", mostrarLista);
 document.getElementById("marcha").addEventListener("click", moverTranviaAuto);
-// Manejo del botón de reset
 document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
 });
+document.addEventListener("keyup", (event) => {
+    if (!cargadoHome) {
+        return;
+    }
+    if (keyAnterior === event.key) keyAnterior = "patata";
+    switch (event.key) {
+        case "s":
+            dejarDeParar();
+            break;
+        case "ArrowLeft":
+            pararTranvia();
+            postVariable("BOTON_PATRAS", 0);
+            break;
+        case "ArrowRight":
+            pararTranvia();
+            postVariable("BOTON_PALANTE", 0);
+            break;
+    }
+});
 // Manejo del cambio de modo manual
-document
-    .getElementById("switchManual")
-    .addEventListener("change", mostrarManual);
+document.addEventListener("change", mostrarManual);
 // Manejo del movimiento táctil en la vía
 document.addEventListener("touchmove", (event) => {
     if (isMoving && touchId !== null) {
@@ -145,18 +147,13 @@ document.addEventListener("keydown", (event) => {
     }
     keyAnterior = event.key;
 });
-
 botonMarcha.addEventListener("click", moverTranviaAuto);
 // Manejo de eventos táctiles en dispositivos móviles para los botones izquierdo y derecho
 botonIzq.addEventListener("touchstart", (event) => {
     touchId = event.touches[0].identifier;
     moverimagenIzq();
 });
-botonIzq.addEventListener("touchend", () => {
-    postVariable("BOTON_PATRAS", 0);
-    pararTranvia();
-    touchId = null;
-});
+
 botonDer.addEventListener("touchstart", (event) => {
     touchId = event.touches[0].identifier;
     moverimagenDer();
@@ -172,11 +169,7 @@ botonIzq.addEventListener("touchend", () => {
     pararTranvia();
     touchId = null;
 });
-botonDer.addEventListener("touchend", () => {
-    postVariable("BOTON_PALANTE", 0);
-    pararTranvia();
-    touchId = null;
-});
+
 // Manejo del evento mousedown para mover a la izquierda
 botonIzq.addEventListener("mousedown", moverimagenIzq);
 botonIzq.addEventListener("mousemove", () => {
@@ -204,6 +197,7 @@ stop.addEventListener("mouseup", dejarDeParar);
 stop.addEventListener("touchstart", parar);
 stop.addEventListener("touchend", dejarDeParar);
 stop.addEventListener("touchmove", dejarDeParar);
+toggle.addEventListener("change", mostrarManual);
 
 toggleCiclo.addEventListener("change", async () => {
     localStorage.setItem("ciclo", toggleCiclo.checked);
@@ -282,8 +276,6 @@ function moverTranvia(parada) {
 }
 
 // Función para mover el tranvía automáticamente
-
-document.getElementById("menu").addEventListener("click", mostrarLista);
 
 async function moverTranviaAuto2() {
     if (toggle.checked || !toggleCiclo.checked) {
@@ -388,9 +380,8 @@ function moverimagenDer() {
             segundosManual -
             segundosManual * (calcularPorcentajeTranviaEnVia() / 1000);
         imgTranvia.style.transition = `transform ${segundos}s linear`;
-        imgTranvia.style.transform = `translateX(${
-            1000 - calcularWidthTranviaPorcentaje()
-        }%)`;
+        imgTranvia.style.transform = `translateX(${1000 - calcularWidthTranviaPorcentaje()
+            }%)`;
     }
 }
 
@@ -401,7 +392,6 @@ function calcularPorcentajeTranviaEnVia() {
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
     const posicionRelativaEnPixeles = tranviaRect.left - viaRect.left;
-    console.log("posicion pixelees" + posicionRelativaEnPixeles);
     const anchoTotalVia = viaRect.width;
     const porcentaje = (posicionRelativaEnPixeles / anchoTotalVia) * 1000;
     return porcentaje;
@@ -442,9 +432,7 @@ function cambiarPointer() {
     }
 }
 
-// Función para mostrar el modo manual
-document.getElementById("menu").addEventListener("click", mostrarLista);
-botonMarcha.addEventListener("click", moverTranviaAuto);
+
 
 function parar() {
     postVariable("B_PAUSA", 1);
@@ -459,85 +447,6 @@ function parar() {
     clearInterval(interval);
     intervalActivo = false;
 }
-
-stop.addEventListener("mousedown", parar);
-stop.addEventListener("mousemove", dejarDeParar);
-stop.addEventListener("mouseup", dejarDeParar);
-
-stop.addEventListener("touchstart", parar);
-stop.addEventListener("touchend", dejarDeParar);
-stop.addEventListener("touchmove", dejarDeParar);
-
-function dejarDeParar() {
-    postVariable("B_PAUSA", 0);
-    if (modoAutomatico) {
-        moverTranviaAuto();
-    } else if (modoClick) {
-        imgTranvia.style.transform = `translateX(${posicion}%)`;
-    }
-}
-
-document.addEventListener("keydown", (event) => {
-    if (!cargadoHome) {
-        return;
-    }
-    switch (event.key) {
-        case "ArrowLeft":
-            moverimagenIzq();
-            break;
-        case "ArrowRight":
-            moverimagenDer();
-            break;
-        case keyAnterior:
-            break;
-        case "s":
-            parar();
-            break;
-        case "r":
-            location.reload();
-            break;
-        case "1":
-            moverEligiendo(1);
-            break;
-        case "2":
-            moverEligiendo(2);
-
-            break;
-        case "3":
-            moverEligiendo(3);
-            break;
-        case "4":
-            moverEligiendo(4);
-            break;
-        case "5":
-            moverEligiendo(5);
-            break;
-    }
-    keyAnterior = event.key;
-});
-
-document.addEventListener("keyup", (event) => {
-    if (!cargadoHome) {
-        return;
-    }
-    if (keyAnterior === event.key) keyAnterior = "patata";
-    switch (event.key) {
-        case "s":
-            dejarDeParar();
-            break;
-        case "ArrowLeft":
-            pararTranvia();
-            postVariable("BOTON_PATRAS", 0);
-            break;
-        case "ArrowRight":
-            pararTranvia();
-            postVariable("BOTON_PALANTE", 0);
-            break;
-    }
-});
-
-document.getElementById("menu").addEventListener("click", mostrarLista);
-document.getElementById("menu").addEventListener("click", mostrarLista);
 
 function mostrarManual() {
     let paradas = document.getElementsByClassName("parada");
@@ -566,13 +475,9 @@ function mostrarManual() {
         if (paginaCargada) location.reload();
     });
 }
-toggle.addEventListener("change", mostrarManual);
 
-async function irHome() {
-    let segundos = segundosManual * (calcularPorcentajeTranviaEnVia() / 1000);
-    imgTranvia.style.transition = `transform ${segundos}s linear`;
-    imgTranvia.style.transform = `translateX(0%)`;
-}
+
+
 
 toggleCiclo.addEventListener("change", () => {
     localStorage.setItem("ciclo", toggleCiclo.checked);
@@ -650,7 +555,7 @@ function postVariable(variable, valor) {
         body: `"WEB".${variable}=${valor}`,
     });
 }
-
+// ------------------------------Funciones para leer del plc ---------------------
 async function getVariablesJson(archivo) {
     return JSON.parse(await getVariable(archivo));
 }
@@ -662,6 +567,8 @@ let modoAnterior = {
     manual: 10,
     ciclo: 10,
 };
+
+// ------------------------------------Funciones para leer los datos ---------------
 async function leerModos() {
     while (true) {
         let modos = await getVariablesJson("./variables/modos.html");
