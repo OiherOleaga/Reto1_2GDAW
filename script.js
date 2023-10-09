@@ -442,7 +442,7 @@ async function ponerEnHome() {
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0);
 
-    //esperarHome();
+    esperarHome();
 }
 
 document.getElementById("reset").addEventListener("click", async () => {
