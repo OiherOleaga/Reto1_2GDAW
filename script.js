@@ -23,7 +23,6 @@ function calcularPorcentajeTranviaEnVia() {
     const viaRect = via.getBoundingClientRect();
     const tranviaRect = imgTranvia.getBoundingClientRect();
     const posicionRelativaEnPixeles = tranviaRect.left - viaRect.left;
-    console.log("posicion pixelees" + posicionRelativaEnPixeles);
     const anchoTotalVia = viaRect.width;
     const porcentaje = (posicionRelativaEnPixeles / anchoTotalVia) * 1000;
     return porcentaje;
@@ -128,9 +127,9 @@ async function moverTranviaAuto2() {
     intervalActivo = true;
 
     while (!toggle.checked && toggleCiclo.checked) {
-        let paradas = await getVariablesJson("./variables/paradasCilco.html")         
+        let paradas = await getVariablesJson("./variables/paradasCiclo.html")         
         
-        for (let i = 0; i < paradas; i++) {
+        for (let i = 0; i < paradas.length; i++) {
             if (paradas[i]) {
                 moverTranvia(i)                            
             }
@@ -300,9 +299,11 @@ function mostrarManual() {
         }
     }
     localStorage.setItem("manual", toggle.checked)
-    postVariable("MANU_AUTO", toggle.checked ? 1 : 0)
-    if (paginaCargada)
-        location.reload();
+    postVariableWait("MANU_AUTO", toggle.checked ? 1 : 0).then(() => {
+		if (paginaCargada)
+			location.reload();
+	})
+    
 
 }
 toggle.addEventListener("change", mostrarManual);
@@ -315,35 +316,34 @@ async function irHome() {
 
 toggleCiclo.addEventListener("change", () => {
     localStorage.setItem("ciclo", toggleCiclo.checked)
-    postVariable("B_A_R", toggleCiclo.checked ? 0 : 1)
 
-    if (toggleCiclo.checked) {
-        leerParadaCiclo()
-    } else {
-        leerParadaParadas()
-    }
-
-    if (paginaCargada)
-        location.reload();
+    
+	postVariableWait("B_A_R", toggleCiclo.checked ? 0 : 1).then(() => {
+		if (paginaCargada) {
+			location.reload();
+		}
+	})
+	
 })
 
 ponerEnHome()
 async function ponerEnHome() {
-    setTimeout(() => {
-        if (localStorage.getItem("manual") === "true") {
-            toggle.click()
-        } else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
-            toggleCiclo.click()
-        }
-        paginaCargada = true
-    }, 100)
 
     await postVariableWait("RESET", 1);
     postVariable("RESET", 0);
     await postVariableWait("MARTXA", 1);
     postVariable("MARTXA", 0)
+	setTimeout(() => {
+		paginaCargada = true
+    }, 500)
+	
+	if (localStorage.getItem("manual") === "true") {
+		toggle.click()
+	} else if (localStorage.getItem("ciclo") === "true" || !localStorage.getItem("ciclo")) {
+		toggleCiclo.click()
+	}
 
-    esperarHome()
+	esperarHome()
 }
 
 document.getElementById("reset").addEventListener("click", async () => {
@@ -362,8 +362,20 @@ async function esperarHome() {
     cargadoHome = true
     divEspera.setAttribute("style", "display: none;")
     main.setAttribute("style", "visibility: visible")
+	
+	if (toggleCiclo.checked) {	
+        leerParadaCiclo()
+    } else {
+        leerParadaParadas()
+    }
+	if (toggle.checked)
+        leerDireccionManual()
+    else 
+        leerPausa()
 
     leerModos()
+	
+	
 }
 
 
@@ -494,18 +506,22 @@ async function getVariablesJson(archivo) {
 async function getVariable(archivo) {
     return await (await fetch(archivo)).text()
 }
-
+let modoAnterior = {
+	manual: 10,
+	ciclo: 10
+}
 async function leerModos() {
     while (true) {
         let modos = await getVariablesJson("./variables/modos.html")
-
-        if (modos.manual !== (toggle.checked ? 1 : 0)) {
+		
+        if (modos.manual !== (toggle.checked ? 1 : 0) && modoAnterior.manual !== modos.manual) {
             toggle.click()
         }
         
-        if (modos.ciclo !== (toggleCiclo.checked ? 0 : 1)) {
+        if (modos.ciclo !== (toggleCiclo.checked ? 0 : 1) && modoAnterior.ciclo !== modos.ciclo) {
             toggleCiclo.click()
         }
+		modoAnterior = modos
     }
 }
 
@@ -538,8 +554,9 @@ async function leerDireccionManual() {
 async function leerParadaParadas() {
     while (!toggle.checked && !toggleCiclo.checked) {
         let paradas = await getVariablesJson("./variables/paradasParada.html")
-
-        for (let i = 0; i < paradas; i++) {
+		
+		console.log(typeof(paradas[0]))
+        for (let i = 0; i < paradas.length; i++) {
             if (paradas[i]) {
                 moverTranvia(i + 1)
             }
@@ -551,9 +568,11 @@ async function leerParadaParadas() {
 async function leerParadaCiclo() {
     while (!toggle.checked && toggleCiclo.checked) {
         let inicio = await getVariable("./variables/INICIO.html")
-        if (inicio) {
-            moverTranviaAuto()
-            // moverTranviaAuto2()
+		
+        if (parseInt(inicio)) {
+			moverTranviaAuto()
+             
+			// moverTranviaAuto2()
         }
     }
 }
@@ -561,7 +580,7 @@ async function leerParadaCiclo() {
 async function leerPausa() {
     while (!toggle.checked) {
 
-        let pausa = await getVariable("./varibles/B_PAUSA.html") 
+        let pausa = await getVariable("./variables/B_PAUSA.html") 
 
         if (parseInt(pausa)) {
             parar()
