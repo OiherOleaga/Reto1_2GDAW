@@ -9,3 +9,4 @@ tecla ("r"): para resetear la pagina cuando sea necesario, esto enviara al tranv
 
 
 https://github.com/OiherOleaga/Reto1_2GDAW.git
+Reto 1 de 2GDAW.
