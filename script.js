@@ -49,6 +49,9 @@ document.getElementById("reset").addEventListener("click", async () => {
     location.reload();
 });
 document.addEventListener("keyup", (event) => {
+	if (!cargadoHome) {
+		return
+	}
     if (keyAnterior === event.key) keyAnterior = "patata";
     switch (event.key) {
         case "s":
@@ -88,6 +91,10 @@ document.addEventListener("touchmove", (event) => {
 });
 // Manejo de eventos de teclado
 document.addEventListener("keydown", (event) => {
+	
+	if (!cargadoHome) {
+		return
+	}
     switch (event.key) {
         case "ArrowLeft":
             moverimagenIzq();
@@ -271,6 +278,9 @@ function moverTranviaAuto() {
         return;
     }
     modoAutomatico = true;
+	if (intervalActivo) {
+		return;
+	}
     postVariableWait("INICIO", 1).then(() => postVariable("INICIO", 0));
     intervalActivo = true;
     opcionesMoverTranviaAuto();
@@ -402,7 +412,6 @@ function mostrarManual() {
     automatico = document.getElementById("automatico");
     switchAuto = document.getElementById("switchAuto");
     if (toggle.checked) {
-        leerDireccionManual();
         automatico.style.display = "none";
         manual.style.display = "flex";
         switchAuto.style.display = "none";
@@ -410,7 +419,6 @@ function mostrarManual() {
             paradas[parada].style.backgroundColor = "red";
         }
     } else {
-        leerPausa();
         automatico.style.display = "flex";
         manual.style.display = "none";
         switchAuto.style.display = "flex";
@@ -462,18 +470,8 @@ async function esperarHome() {
     cargadoHome = true;
     divEspera.setAttribute("style", "display: none;");
     main.setAttribute("style", "visibility: visible");
-
-    if (toggleCiclo.checked) {
-        leerParadaCiclo();
-    } else {
-        leerParadaParadas();
-    }
-    if (toggle.checked) leerDireccionManual();
-    else leerPausa();
-
-    leerModos();
-
-    if (localStorage.getItem("manual") === "true") {
+	
+	if (localStorage.getItem("manual") === "true") {
         toggle.click();
     } else if (
         localStorage.getItem("ciclo") === "true" ||
@@ -481,10 +479,19 @@ async function esperarHome() {
     ) {
         toggleCiclo.click();
     }
+	
+    if (toggleCiclo.checked) {
+        leerParadaCiclo();
+    } else {
+        leerParadaParadas();
+    }
+    if (toggle.checked) leerDireccionManual();
+
+    leerModos();
 
     setTimeout(() => {
         paginaCargada = true;
-    }, 100);
+    }, 500);
 }
 
 // --------------- FuncionesParaComunicarseConElServidor ----------------------
@@ -534,6 +541,7 @@ async function leerModos() {
         ) {
             toggleCiclo.click();
         }
+		
         modoAnterior = modos;
     }
 }
@@ -591,12 +599,5 @@ async function leerParadaCiclo() {
     }
 }
 
-async function leerPausa() {
-        let pausa = await getVariable("./variables/B_PAUSA.html");
-        if (parseInt(pausa)) {
-            parar();
-        } else {
-            dejarDeParar();
-        }
-}
+
 
